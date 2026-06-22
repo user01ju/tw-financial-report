@@ -1,0 +1,4 @@
+# 統一行尾為 LF，避免 Windows 本地與 Linux(GitHub Actions) 互推產生整批假 diff
+* text=auto eol=lf
+*.json text eol=lf
+*.py text eol=lf
