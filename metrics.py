@@ -201,6 +201,20 @@ def prev_month(m):
     return f"{y}-{mo:02d}"
 
 
+def load_sectors():
+    """CMoney 子類股(互斥)：code -> {sector, sector_parent}。"""
+    path = os.path.join(config.DATA_DIR, "sectors", "categories.json")
+    if not os.path.exists(path):
+        return {}
+    with open(path, encoding="utf-8") as f:
+        cats = json.load(f)
+    m = {}
+    for c in cats:
+        for s in c.get("stocks", []):
+            m[str(s["id"])] = {"sector": c["name"], "sector_parent": c["parent"]}
+    return m
+
+
 def company_codes():
     codes = set()
     for sub in ("income_statement", "balance_sheet", "monthly_revenue"):
@@ -216,6 +230,7 @@ def company_codes():
 def main():
     codes = sys.argv[1:] or company_codes()
     master = load(os.path.join(config.DATA_DIR, "companies.json"))
+    sectors = load_sectors()
     latest = {}
     latest_monthly = {}
     for i, code in enumerate(codes, 1):
@@ -233,22 +248,21 @@ def main():
         mo = monthly_metrics(code)
         if not q and not mo:
             continue
+        sec = sectors.get(code, {})
+        meta = {"name": master.get(code, {}).get("name"),
+                "industry": master.get(code, {}).get("industry"),
+                "sector": sec.get("sector"),
+                "sector_parent": sec.get("sector_parent")}
         dump(
             os.path.join(config.DATA_DIR, "fundamentals", f"{code}.json"),
-            {"code": code, "name": master.get(code, {}).get("name"),
-             "industry": master.get(code, {}).get("industry"),
-             "quarterly": q, "monthly": mo},
+            {"code": code, **meta, "quarterly": q, "monthly": mo},
         )
         if q:
             lp = max(q, key=q_tuple)
-            latest[code] = {"name": master.get(code, {}).get("name"),
-                            "industry": master.get(code, {}).get("industry"),
-                            "period": lp, **q[lp]}
+            latest[code] = {**meta, "period": lp, **q[lp]}
         if mo:
             lm = max(mo)
-            latest_monthly[code] = {"name": master.get(code, {}).get("name"),
-                                    "industry": master.get(code, {}).get("industry"),
-                                    "month": lm, **mo[lm]}
+            latest_monthly[code] = {**meta, "month": lm, **mo[lm]}
     dump(os.path.join(config.DATA_DIR, "fundamentals", "_latest.json"), latest)
     dump(os.path.join(config.DATA_DIR, "fundamentals", "_latest_monthly.json"), latest_monthly)
     print(f"完成 {len(codes)} 檔，季橫斷面 {len(latest)}、月橫斷面 {len(latest_monthly)} -> data/fundamentals/")

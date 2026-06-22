@@ -60,6 +60,12 @@ export default function Company() {
           <div className="bigcode">{d.code}</div>
           <div className="big">{d.name}</div>
         </div>
+        {d.sector_parent && <span className="chip" style={{ marginBottom: 6 }}>{d.sector_parent}</span>}
+        {d.sector && (
+          <Link to={`/?sector=${encodeURIComponent(d.sector)}`} className="chip" style={{ marginBottom: 6, color: "var(--amber)", borderColor: "var(--amber-deep)" }}>
+            {d.sector}
+          </Link>
+        )}
         {d.industry && <span className="chip" style={{ marginBottom: 6 }}>{d.industry}</span>}
         <span className="chip" style={{ marginBottom: 6 }}>最新 {last.p || "—"}</span>
       </div>

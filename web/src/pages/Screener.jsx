@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { getLatest, getValuation } from "../lib/data.js";
 import { fmtPct, fmtNum, fmtMoneyK, signClass } from "../lib/format.js";
@@ -20,10 +20,11 @@ const COLS = [
 
 export default function Screener() {
   const nav = useNavigate();
+  const [params] = useSearchParams();
   const [rows, setRows] = useState(null);
   const [err, setErr] = useState(null);
   const [q, setQ] = useState("");
-  const [ind, setInd] = useState("");
+  const [ind, setInd] = useState(params.get("sector") || "");
   const [minRoe, setMinRoe] = useState("");
   const [maxDebt, setMaxDebt] = useState("");
   const [minYoy, setMinYoy] = useState("");
@@ -40,9 +41,16 @@ export default function Screener() {
       .catch((e) => setErr(String(e)));
   }, []);
 
-  const industries = useMemo(() => {
-    if (!rows) return [];
-    return [...new Set(rows.map((r) => r.industry).filter(Boolean))].sort();
+  // CMoney 子類股，依大分類(parent)分組供 optgroup
+  const sectorsByParent = useMemo(() => {
+    if (!rows) return {};
+    const m = {};
+    rows.forEach((r) => {
+      if (r.sector) (m[r.sector_parent || "其他"] ||= new Set()).add(r.sector);
+    });
+    return Object.fromEntries(
+      Object.entries(m).map(([p, s]) => [p, [...s].sort()])
+    );
   }, [rows]);
 
   const view = useMemo(() => {
@@ -53,7 +61,7 @@ export default function Screener() {
     const my = minYoy === "" ? null : +minYoy;
     const mp = maxPe === "" ? null : +maxPe;
     let out = rows.filter((r) => {
-      if (ind && r.industry !== ind) return false;
+      if (ind && r.sector !== ind) return false;
       if (qq && !r.code.includes(qq) && !(r.name || "").includes(qq)) return false;
       if (mr != null && !(r.roe_ttm >= mr)) return false;
       if (md != null && !(r.debt_ratio <= md)) return false;
@@ -102,11 +110,15 @@ export default function Screener() {
           <input type="text" value={q} onChange={(e) => setQ(e.target.value)} placeholder="2330 / 台積電" />
         </div>
         <div className="field">
-          <label>產業別</label>
+          <label>子類股 (CMoney)</label>
           <select value={ind} onChange={(e) => setInd(e.target.value)}>
             <option value="">全部</option>
-            {industries.map((i) => (
-              <option key={i} value={i}>{i}</option>
+            {Object.entries(sectorsByParent).map(([p, arr]) => (
+              <optgroup key={p} label={p}>
+                {arr.map((s) => (
+                  <option key={s} value={s}>{s}</option>
+                ))}
+              </optgroup>
             ))}
           </select>
         </div>
@@ -154,7 +166,7 @@ export default function Screener() {
                   <td className="l"><span className="code">{r.code}</span></td>
                   <td className="l">
                     <span className="cname">{r.name}</span>{" "}
-                    <span className="cind">{r.industry}</span>
+                    <span className="cind">{r.sector || r.industry}</span>
                   </td>
                   {COLS.map((c) => (
                     <td key={c.key} className={`num ${c.color ? signClass(r[c.key]) : ""}`}>
