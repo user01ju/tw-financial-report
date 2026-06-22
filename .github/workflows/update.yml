@@ -1,0 +1,49 @@
+name: update-financial-data
+
+# 日常更新只用官方 TWSE/TPEX OpenAPI + 本機重算，零 secret。
+# FinMind 歷史回補是一次性、在本機跑，不在此排程。
+
+on:
+  schedule:
+    # GitHub cron 是 UTC。台灣(UTC+8)每天 09:00 = UTC 01:00。
+    - cron: "0 1 * * *"
+  workflow_dispatch: {} # 允許手動觸發
+
+permissions:
+  contents: write # 讓 GITHUB_TOKEN 能 push commit 回 repo
+
+concurrency:
+  group: update-financial-data
+  cancel-in-progress: false # 不中斷進行中的更新
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+
+      - name: 安裝相依
+        run: pip install -r requirements.txt
+
+      - name: 抓最新快照 (TWSE/TPEX OpenAPI)
+        run: python fetch_latest.py
+
+      - name: 重算基本面指標
+        run: python metrics.py
+
+      - name: 有變更才 commit & push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/
+          if git diff --staged --quiet; then
+            echo "本次無資料變更，跳過 commit。"
+          else
+            git commit -m "data: auto-update $(date -u +%Y-%m-%dT%H:%MZ)"
+            git push
+          fi

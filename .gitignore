@@ -1,0 +1,19 @@
+# 原始快照備份(每次跑會新增，會撐爆 repo) — 不進版控
+raw/
+
+# 背景行程日誌
+*.log
+*.err
+
+# FinMind 回補進度(可由實際檔案自我修復，不需版控)
+data/finmind/_progress.json
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# OS
+.DS_Store
+Thumbs.db

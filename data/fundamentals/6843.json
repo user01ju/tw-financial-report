@@ -1,0 +1,866 @@
+{
+ "code": "6843",
+ "industry": "電機機械",
+ "monthly": {
+  "2021-07": {
+   "revenue": 42977.0
+  },
+  "2021-08": {
+   "mom": 62.46,
+   "revenue": 69821.0
+  },
+  "2021-09": {
+   "mom": -37.01,
+   "revenue": 43982.0
+  },
+  "2021-10": {
+   "mom": 3.96,
+   "revenue": 45724.0
+  },
+  "2021-11": {
+   "mom": 45.62,
+   "revenue": 66583.0
+  },
+  "2021-12": {
+   "mom": 6.54,
+   "revenue": 70937.0
+  },
+  "2022-01": {
+   "mom": -15.6,
+   "revenue": 59874.0
+  },
+  "2022-02": {
+   "mom": -4.38,
+   "revenue": 57254.0
+  },
+  "2022-03": {
+   "mom": 43.77,
+   "revenue": 82312.0
+  },
+  "2022-05": {
+   "revenue": 59638.0
+  },
+  "2022-06": {
+   "mom": 28.92,
+   "revenue": 76884.0
+  },
+  "2022-07": {
+   "mom": 12.81,
+   "revenue": 86735.0,
+   "yoy": 101.82
+  },
+  "2022-08": {
+   "mom": 13.24,
+   "revenue": 98218.0,
+   "yoy": 40.67
+  },
+  "2022-09": {
+   "mom": -7.78,
+   "revenue": 90581.0,
+   "yoy": 105.95
+  },
+  "2022-10": {
+   "mom": 5.68,
+   "revenue": 95729.0,
+   "yoy": 109.36
+  },
+  "2022-11": {
+   "mom": -13.68,
+   "revenue": 82637.0,
+   "yoy": 24.11
+  },
+  "2022-12": {
+   "mom": -8.06,
+   "revenue": 75974.0,
+   "yoy": 7.1
+  },
+  "2023-01": {
+   "mom": 0.57,
+   "revenue": 76408.0,
+   "yoy": 27.61
+  },
+  "2023-02": {
+   "mom": -17.8,
+   "revenue": 62804.0,
+   "yoy": 9.69
+  },
+  "2023-03": {
+   "mom": 47.03,
+   "revenue": 92341.0,
+   "yoy": 12.18
+  },
+  "2023-04": {
+   "mom": 0.85,
+   "revenue": 93129.0
+  },
+  "2023-05": {
+   "mom": -12.24,
+   "revenue": 81730.0,
+   "yoy": 37.04
+  },
+  "2023-06": {
+   "mom": -0.09,
+   "revenue": 81653.0,
+   "yoy": 6.2
+  },
+  "2023-07": {
+   "mom": -17.64,
+   "revenue": 67252.0,
+   "yoy": -22.46
+  },
+  "2023-08": {
+   "mom": 3.49,
+   "revenue": 69599.0,
+   "yoy": -29.14
+  },
+  "2023-09": {
+   "mom": 12.4,
+   "revenue": 78228.0,
+   "yoy": -13.64
+  },
+  "2023-10": {
+   "mom": 0.02,
+   "revenue": 78244.0,
+   "yoy": -18.27
+  },
+  "2023-11": {
+   "mom": 6.42,
+   "revenue": 83264.0,
+   "yoy": 0.76
+  },
+  "2023-12": {
+   "mom": 4.73,
+   "revenue": 87200.0,
+   "yoy": 14.78
+  },
+  "2024-01": {
+   "mom": -30.15,
+   "revenue": 60911.0,
+   "yoy": -20.28
+  },
+  "2024-02": {
+   "mom": -13.23,
+   "revenue": 52854.0,
+   "yoy": -15.84
+  },
+  "2024-03": {
+   "mom": 4.6,
+   "revenue": 55284.0,
+   "yoy": -40.13
+  },
+  "2024-04": {
+   "mom": 8.02,
+   "revenue": 59717.0,
+   "yoy": -35.88
+  },
+  "2024-05": {
+   "mom": 9.3,
+   "revenue": 65272.0,
+   "yoy": -20.14
+  },
+  "2024-06": {
+   "mom": 14.81,
+   "revenue": 74939.0,
+   "yoy": -8.22
+  },
+  "2024-07": {
+   "mom": -15.63,
+   "revenue": 63227.0,
+   "yoy": -5.98
+  },
+  "2024-08": {
+   "mom": 11.82,
+   "revenue": 70700.0,
+   "yoy": 1.58
+  },
+  "2024-09": {
+   "mom": -16.93,
+   "revenue": 58728.0,
+   "yoy": -24.93
+  },
+  "2024-10": {
+   "mom": 11.18,
+   "revenue": 65296.0,
+   "yoy": -16.55
+  },
+  "2024-11": {
+   "mom": -9.01,
+   "revenue": 59412.0,
+   "yoy": -28.65
+  },
+  "2024-12": {
+   "mom": -4.14,
+   "revenue": 56953.0,
+   "yoy": -34.69
+  },
+  "2025-01": {
+   "mom": -9.77,
+   "revenue": 51391.0,
+   "yoy": -15.63
+  },
+  "2025-02": {
+   "mom": 7.1,
+   "revenue": 55042.0,
+   "yoy": 4.14
+  },
+  "2025-03": {
+   "mom": 12.06,
+   "revenue": 61678.0,
+   "yoy": 11.57
+  },
+  "2025-04": {
+   "mom": -3.73,
+   "revenue": 59377.0,
+   "yoy": -0.57
+  },
+  "2025-05": {
+   "mom": -10.56,
+   "revenue": 53106.0,
+   "yoy": -18.64
+  },
+  "2025-06": {
+   "mom": 65.01,
+   "revenue": 87628.0,
+   "yoy": 16.93
+  },
+  "2025-07": {
+   "mom": -10.43,
+   "revenue": 78490.0,
+   "yoy": 24.14
+  },
+  "2025-08": {
+   "mom": -7.33,
+   "revenue": 72734.0,
+   "yoy": 2.88
+  },
+  "2025-09": {
+   "mom": 9.25,
+   "revenue": 79460.0,
+   "yoy": 35.3
+  },
+  "2025-10": {
+   "mom": -11.17,
+   "revenue": 70586.0,
+   "yoy": 8.1
+  },
+  "2025-11": {
+   "mom": 15.6,
+   "revenue": 81594.0,
+   "yoy": 37.34
+  },
+  "2025-12": {
+   "mom": -8.95,
+   "revenue": 74294.0,
+   "yoy": 30.45
+  },
+  "2026-01": {
+   "mom": -18.48,
+   "revenue": 60562.0,
+   "yoy": 17.85
+  },
+  "2026-02": {
+   "mom": -6.45,
+   "revenue": 56654.0,
+   "yoy": 2.93
+  },
+  "2026-03": {
+   "mom": 10.86,
+   "revenue": 62806.0,
+   "yoy": 1.83
+  },
+  "2026-04": {
+   "mom": 3.94,
+   "revenue": 65283.0,
+   "yoy": 9.95
+  },
+  "2026-05": {
+   "mom": -23.52,
+   "revenue": 49930,
+   "yoy": -5.98
+  }
+ },
+ "name": "進典",
+ "quarterly": {
+  "2018Q4": {
+   "current_assets": 484189.0,
+   "current_liabilities": 271785.0,
+   "current_ratio": 178.15,
+   "debt_ratio": 41.21,
+   "equity": 471938.0,
+   "equity_parent": 471938.0,
+   "total_assets": 802727.0,
+   "total_liabilities": 330789.0
+  },
+  "2019Q4": {
+   "cogs": 371327.0,
+   "current_assets": 532172.0,
+   "current_liabilities": 321368.0,
+   "current_ratio": 165.6,
+   "debt_ratio": 45.52,
+   "eps": 1.73,
+   "equity": 487225.0,
+   "equity_parent": 487225.0,
+   "gross_margin": 40.61,
+   "gross_profit": 253923.0,
+   "net_income": 47141.0,
+   "net_margin": 7.54,
+   "operating_expenses": 160622.0,
+   "operating_income": 93301.0,
+   "operating_margin": 14.92,
+   "pretax_income": 77253.0,
+   "revenue": 625250.0,
+   "roa_q": 5.27,
+   "roe_q": 9.68,
+   "total_assets": 894265.0,
+   "total_liabilities": 407040.0
+  },
+  "2020Q2": {
+   "current_assets": 544983.0,
+   "current_liabilities": 336476.0,
+   "current_ratio": 161.97,
+   "debt_ratio": 46.54,
+   "equity": 482661.0,
+   "equity_parent": 482661.0,
+   "total_assets": 902768.0,
+   "total_liabilities": 420107.0
+  },
+  "2020Q4": {
+   "cogs": 404925.0,
+   "current_assets": 519509.0,
+   "current_liabilities": 297256.0,
+   "current_ratio": 174.77,
+   "debt_ratio": 41.71,
+   "eps": 2.16,
+   "eps_yoy": 24.86,
+   "equity": 524275.0,
+   "equity_parent": 524275.0,
+   "gross_margin": 37.14,
+   "gross_profit": 239252.0,
+   "net_income": 61675.0,
+   "net_income_yoy": 30.83,
+   "net_margin": 9.57,
+   "operating_expenses": 152913.0,
+   "operating_income": 86339.0,
+   "operating_margin": 13.4,
+   "pretax_income": 89158.0,
+   "revenue": 644177.0,
+   "revenue_yoy": 3.03,
+   "roa_q": 6.86,
+   "roe_q": 11.76,
+   "total_assets": 899358.0,
+   "total_liabilities": 375083.0
+  },
+  "2021Q1": {
+   "current_assets": 578069.0,
+   "current_liabilities": 330868.0,
+   "current_ratio": 174.71,
+   "debt_ratio": 43.94,
+   "equity": 530631.0,
+   "equity_parent": 530631.0,
+   "total_assets": 946563.0,
+   "total_liabilities": 415932.0
+  },
+  "2021Q2": {
+   "cogs": 286952.0,
+   "current_assets": 678977.0,
+   "current_liabilities": 444669.0,
+   "current_ratio": 152.69,
+   "debt_ratio": 49.67,
+   "eps": 1.49,
+   "equity": 533191.0,
+   "equity_parent": 533191.0,
+   "gross_margin": 35.21,
+   "gross_profit": 155963.0,
+   "net_income": 42831.0,
+   "net_margin": 9.67,
+   "operating_expenses": 93914.0,
+   "operating_income": 62049.0,
+   "operating_margin": 14.01,
+   "pretax_income": 66456.0,
+   "revenue": 442915.0,
+   "roa_q": 4.04,
+   "roe_q": 8.03,
+   "total_assets": 1059463.0,
+   "total_liabilities": 526272.0
+  },
+  "2021Q3": {
+   "current_assets": 564776.0,
+   "current_liabilities": 340157.0,
+   "current_ratio": 166.03,
+   "debt_ratio": 42.64,
+   "equity": 540652.0,
+   "equity_parent": 540652.0,
+   "total_assets": 942492.0,
+   "total_liabilities": 401840.0
+  },
+  "2021Q4": {
+   "cogs": 240599.0,
+   "current_assets": 601714.0,
+   "current_liabilities": 349688.0,
+   "current_ratio": 172.07,
+   "debt_ratio": 42.79,
+   "eps": 2.45,
+   "eps_yoy": 13.43,
+   "equity": 559010.0,
+   "equity_parent": 559010.0,
+   "gross_margin": 29.18,
+   "gross_profit": 99117.0,
+   "net_income": 28713.0,
+   "net_income_yoy": -53.44,
+   "net_margin": 8.45,
+   "operating_expenses": 79887.0,
+   "operating_income": 19230.0,
+   "operating_margin": 5.66,
+   "pretax_income": 27570.0,
+   "revenue": 339716.0,
+   "revenue_yoy": -47.26,
+   "roa_q": 2.94,
+   "roe_q": 5.14,
+   "total_assets": 977047.0,
+   "total_liabilities": 418037.0
+  },
+  "2022Q1": {
+   "cogs": 145300.0,
+   "current_assets": 639920.0,
+   "current_liabilities": 367153.0,
+   "current_ratio": 174.29,
+   "debt_ratio": 44.07,
+   "eps": 0.47,
+   "equity": 579660.0,
+   "equity_parent": 579660.0,
+   "gross_margin": 27.15,
+   "gross_profit": 54140.0,
+   "net_income": 13871.0,
+   "net_margin": 6.95,
+   "operating_expenses": 36533.0,
+   "operating_income": 17607.0,
+   "operating_margin": 8.83,
+   "pretax_income": 18659.0,
+   "revenue": 199440.0,
+   "roa_q": 1.34,
+   "roe_q": 2.39,
+   "total_assets": 1036323.0,
+   "total_liabilities": 456663.0
+  },
+  "2022Q2": {
+   "cogs": 123569.0,
+   "current_assets": 685306.0,
+   "current_liabilities": 440763.0,
+   "current_ratio": 155.48,
+   "debt_ratio": 49.15,
+   "eps": 0.95,
+   "eps_yoy": -36.24,
+   "equity": 546189.0,
+   "equity_parent": 546189.0,
+   "gross_margin": 36.08,
+   "gross_profit": 69751.0,
+   "net_income": 28051.0,
+   "net_income_yoy": -34.51,
+   "net_margin": 14.51,
+   "operating_expenses": 42636.0,
+   "operating_income": 27115.0,
+   "operating_margin": 14.03,
+   "pretax_income": 32996.0,
+   "revenue": 193320.0,
+   "revenue_yoy": -56.35,
+   "roa_q": 2.61,
+   "roe_q": 5.14,
+   "total_assets": 1074188.0,
+   "total_liabilities": 527999.0
+  },
+  "2022Q3": {
+   "cogs": 162687.0,
+   "current_assets": 743962.0,
+   "current_liabilities": 427898.0,
+   "current_ratio": 173.86,
+   "debt_ratio": 45.86,
+   "eps": 1.86,
+   "eps_ttm": 5.73,
+   "equity": 604655.0,
+   "equity_parent": 604655.0,
+   "gross_margin": 40.96,
+   "gross_profit": 112856.0,
+   "net_income": 55107.0,
+   "net_income_ttm": 125742.0,
+   "net_margin": 20.0,
+   "operating_expenses": 49906.0,
+   "operating_income": 62950.0,
+   "operating_margin": 22.85,
+   "pretax_income": 70322.0,
+   "revenue": 275543.0,
+   "revenue_ttm": 1008019.0,
+   "roa_q": 4.93,
+   "roa_ttm": 11.26,
+   "roe_q": 9.11,
+   "roe_ttm": 20.8,
+   "total_assets": 1116862.0,
+   "total_liabilities": 512207.0
+  },
+  "2022Q4": {
+   "cogs": 157724.0,
+   "eps": 1.13,
+   "eps_ttm": 4.41,
+   "eps_yoy": -53.88,
+   "gross_margin": 37.99,
+   "gross_profit": 96616.0,
+   "net_income": 36177.0,
+   "net_income_ttm": 133206.0,
+   "net_income_yoy": 26.0,
+   "net_margin": 14.22,
+   "operating_expenses": 50068.0,
+   "operating_income": 46548.0,
+   "operating_margin": 18.3,
+   "pretax_income": 47186.0,
+   "revenue": 254340.0,
+   "revenue_ttm": 922643.0,
+   "revenue_yoy": -25.13
+  },
+  "2023Q1": {
+   "cogs": 138565.0,
+   "current_assets": 869437.0,
+   "current_liabilities": 341998.0,
+   "current_ratio": 254.22,
+   "debt_ratio": 34.3,
+   "eps": 1.15,
+   "eps_ttm": 5.09,
+   "eps_yoy": 144.68,
+   "equity": 816127.0,
+   "equity_parent": 816127.0,
+   "gross_margin": 40.16,
+   "gross_profit": 92988.0,
+   "net_income": 38200.0,
+   "net_income_ttm": 157535.0,
+   "net_income_yoy": 175.39,
+   "net_margin": 16.5,
+   "operating_expenses": 42145.0,
+   "operating_income": 50843.0,
+   "operating_margin": 21.96,
+   "pretax_income": 50244.0,
+   "revenue": 231553.0,
+   "revenue_ttm": 954756.0,
+   "revenue_yoy": 16.1,
+   "roa_q": 3.08,
+   "roa_ttm": 12.68,
+   "roe_q": 4.68,
+   "roe_ttm": 19.3,
+   "total_assets": 1242243.0,
+   "total_liabilities": 426116.0
+  },
+  "2023Q2": {
+   "cogs": 160472.0,
+   "current_assets": 908712.0,
+   "current_liabilities": 441151.0,
+   "current_ratio": 205.99,
+   "debt_ratio": 45.43,
+   "eps": 1.17,
+   "eps_ttm": 5.31,
+   "eps_yoy": 23.16,
+   "equity": 765092.0,
+   "equity_parent": 765092.0,
+   "gross_margin": 37.44,
+   "gross_profit": 96040.0,
+   "net_income": 39027.0,
+   "net_income_ttm": 168511.0,
+   "net_income_yoy": 39.13,
+   "net_margin": 15.21,
+   "operating_expenses": 44077.0,
+   "operating_income": 51963.0,
+   "operating_margin": 20.26,
+   "pretax_income": 54284.0,
+   "revenue": 256512.0,
+   "revenue_ttm": 1017948.0,
+   "revenue_yoy": 32.69,
+   "roa_q": 2.78,
+   "roa_ttm": 12.02,
+   "roe_q": 5.1,
+   "roe_ttm": 22.02,
+   "total_assets": 1401974.0,
+   "total_liabilities": 636882.0
+  },
+  "2023Q3": {
+   "cogs": 140007.0,
+   "eps": 0.88,
+   "eps_ttm": 4.33,
+   "eps_yoy": -52.69,
+   "gross_margin": 34.9,
+   "gross_profit": 75071.0,
+   "net_income": 29419.0,
+   "net_income_ttm": 142823.0,
+   "net_income_yoy": -46.61,
+   "net_margin": 13.68,
+   "operating_expenses": 44758.0,
+   "operating_income": 30313.0,
+   "operating_margin": 14.09,
+   "pretax_income": 40623.0,
+   "revenue": 215078.0,
+   "revenue_ttm": 957483.0,
+   "revenue_yoy": -21.94
+  },
+  "2023Q4": {
+   "cogs": 164796.0,
+   "eps": 0.86,
+   "eps_ttm": 4.06,
+   "eps_yoy": -23.89,
+   "gross_margin": 33.74,
+   "gross_profit": 83912.0,
+   "net_income": 28539.0,
+   "net_income_ttm": 135185.0,
+   "net_income_yoy": -21.11,
+   "net_margin": 11.47,
+   "operating_expenses": 52254.0,
+   "operating_income": 31658.0,
+   "operating_margin": 12.73,
+   "pretax_income": 42227.0,
+   "revenue": 248708.0,
+   "revenue_ttm": 951851.0,
+   "revenue_yoy": -2.21
+  },
+  "2024Q1": {
+   "cogs": 115450.0,
+   "eps": 0.38,
+   "eps_ttm": 3.29,
+   "eps_yoy": -66.96,
+   "gross_margin": 31.71,
+   "gross_profit": 53599.0,
+   "net_income": 12787.0,
+   "net_income_ttm": 109772.0,
+   "net_income_yoy": -66.53,
+   "net_margin": 7.56,
+   "operating_expenses": 43211.0,
+   "operating_income": 10388.0,
+   "operating_margin": 6.14,
+   "pretax_income": 16693.0,
+   "revenue": 169049.0,
+   "revenue_ttm": 889347.0,
+   "revenue_yoy": -26.99
+  },
+  "2024Q2": {
+   "cogs": 129076.0,
+   "eps": 0.55,
+   "eps_ttm": 2.67,
+   "eps_yoy": -52.99,
+   "gross_margin": 35.44,
+   "gross_profit": 70851.0,
+   "net_income": 18356.0,
+   "net_income_ttm": 89101.0,
+   "net_income_yoy": -52.97,
+   "net_margin": 9.18,
+   "operating_expenses": 44305.0,
+   "operating_income": 26546.0,
+   "operating_margin": 13.28,
+   "pretax_income": 26003.0,
+   "revenue": 199927.0,
+   "revenue_ttm": 832762.0,
+   "revenue_yoy": -22.06
+  },
+  "2024Q3": {
+   "cogs": 117559.0,
+   "current_assets": 740969.0,
+   "current_liabilities": 239337.0,
+   "current_ratio": 309.59,
+   "debt_ratio": 34.47,
+   "eps": 0.62,
+   "eps_ttm": 2.41,
+   "eps_yoy": -29.55,
+   "equity": 809118.0,
+   "equity_parent": 809118.0,
+   "gross_margin": 38.98,
+   "gross_profit": 75096.0,
+   "net_income": 20504.0,
+   "net_income_ttm": 80186.0,
+   "net_income_yoy": -30.3,
+   "net_margin": 10.64,
+   "operating_expenses": 42348.0,
+   "operating_income": 32748.0,
+   "operating_margin": 17.0,
+   "pretax_income": 25742.0,
+   "revenue": 192655.0,
+   "revenue_ttm": 810339.0,
+   "revenue_yoy": -10.43,
+   "roa_q": 1.66,
+   "roa_ttm": 6.49,
+   "roe_q": 2.53,
+   "roe_ttm": 9.91,
+   "total_assets": 1234764.0,
+   "total_liabilities": 425646.0
+  },
+  "2024Q4": {
+   "cogs": 105020.0,
+   "current_assets": 773182.0,
+   "current_liabilities": 175365.0,
+   "current_ratio": 440.9,
+   "debt_ratio": 34.39,
+   "eps": 0.83,
+   "eps_ttm": 2.38,
+   "eps_yoy": -3.49,
+   "equity": 832957.0,
+   "equity_parent": 832957.0,
+   "gross_margin": 42.19,
+   "gross_profit": 76641.0,
+   "net_income": 27678.0,
+   "net_income_ttm": 79325.0,
+   "net_income_yoy": -3.02,
+   "net_margin": 15.24,
+   "operating_expenses": 43134.0,
+   "operating_income": 33507.0,
+   "operating_margin": 18.44,
+   "pretax_income": 36670.0,
+   "revenue": 181661.0,
+   "revenue_ttm": 743292.0,
+   "revenue_yoy": -26.96,
+   "roa_q": 2.18,
+   "roa_ttm": 6.25,
+   "roe_q": 3.32,
+   "roe_ttm": 9.52,
+   "total_assets": 1269467.0,
+   "total_liabilities": 436510.0
+  },
+  "2025Q1": {
+   "cogs": 103788.0,
+   "current_assets": 787979.0,
+   "current_liabilities": 303667.0,
+   "current_ratio": 259.49,
+   "debt_ratio": 34.74,
+   "eps": 0.57,
+   "eps_ttm": 2.57,
+   "eps_yoy": 50.0,
+   "equity": 859155.0,
+   "equity_parent": 859155.0,
+   "gross_margin": 38.26,
+   "gross_profit": 64323.0,
+   "net_income": 18850.0,
+   "net_income_ttm": 85388.0,
+   "net_income_yoy": 47.42,
+   "net_margin": 11.21,
+   "operating_expenses": 41493.0,
+   "operating_income": 22830.0,
+   "operating_margin": 13.58,
+   "pretax_income": 24539.0,
+   "revenue": 168111.0,
+   "revenue_ttm": 742354.0,
+   "revenue_yoy": -0.55,
+   "roa_q": 1.43,
+   "roa_ttm": 6.49,
+   "roe_q": 2.19,
+   "roe_ttm": 9.94,
+   "total_assets": 1316532.0,
+   "total_liabilities": 457377.0
+  },
+  "2025Q2": {
+   "cogs": 130014.0,
+   "current_assets": 855650.0,
+   "current_liabilities": 440226.0,
+   "current_ratio": 194.37,
+   "debt_ratio": 42.97,
+   "eps": 0.37,
+   "eps_ttm": 2.39,
+   "eps_yoy": -32.73,
+   "equity": 779638.0,
+   "equity_parent": 776523.0,
+   "gross_margin": 35.03,
+   "gross_profit": 70096.0,
+   "net_income": 12168.0,
+   "net_income_ttm": 79200.0,
+   "net_income_yoy": -33.71,
+   "net_margin": 6.08,
+   "operating_expenses": 42839.0,
+   "operating_income": 27257.0,
+   "operating_margin": 13.62,
+   "pretax_income": 16675.0,
+   "revenue": 200110.0,
+   "revenue_ttm": 742537.0,
+   "revenue_yoy": 0.09,
+   "roa_q": 0.89,
+   "roa_ttm": 5.79,
+   "roe_q": 1.56,
+   "roe_ttm": 10.16,
+   "total_assets": 1367090.0,
+   "total_liabilities": 587452.0
+  },
+  "2025Q3": {
+   "cogs": 144829.0,
+   "current_assets": 920433.0,
+   "current_liabilities": 173148.0,
+   "current_ratio": 531.59,
+   "debt_ratio": 42.21,
+   "eps": 0.59,
+   "eps_ttm": 2.36,
+   "eps_yoy": -4.84,
+   "equity": 828176.0,
+   "equity_parent": 825761.0,
+   "gross_margin": 37.22,
+   "gross_profit": 85855.0,
+   "net_income": 18827.0,
+   "net_income_ttm": 77523.0,
+   "net_income_yoy": -8.18,
+   "net_margin": 8.16,
+   "operating_expenses": 62241.0,
+   "operating_income": 23614.0,
+   "operating_margin": 10.24,
+   "pretax_income": 25340.0,
+   "revenue": 230684.0,
+   "revenue_ttm": 780566.0,
+   "revenue_yoy": 19.74,
+   "roa_q": 1.31,
+   "roa_ttm": 5.41,
+   "roe_q": 2.27,
+   "roe_ttm": 9.36,
+   "total_assets": 1433188.0,
+   "total_liabilities": 605012.0
+  },
+  "2025Q4": {
+   "cogs": 133055.0,
+   "current_assets": 976735.0,
+   "current_liabilities": 196258.0,
+   "current_ratio": 497.68,
+   "debt_ratio": 41.85,
+   "eps": 0.68,
+   "eps_ttm": 2.21,
+   "eps_yoy": -18.07,
+   "equity": 862089.0,
+   "equity_parent": 860773.0,
+   "gross_margin": 41.25,
+   "gross_profit": 93419.0,
+   "net_income": 21452.0,
+   "net_income_ttm": 71297.0,
+   "net_income_yoy": -22.49,
+   "net_margin": 9.47,
+   "operating_expenses": 68449.0,
+   "operating_income": 24970.0,
+   "operating_margin": 11.03,
+   "pretax_income": 29195.0,
+   "revenue": 226474.0,
+   "revenue_ttm": 825379.0,
+   "revenue_yoy": 24.67,
+   "roa_q": 1.45,
+   "roa_ttm": 4.81,
+   "roe_q": 2.49,
+   "roe_ttm": 8.27,
+   "total_assets": 1482595.0,
+   "total_liabilities": 620506.0
+  },
+  "2026Q1": {
+   "cogs": 108909.0,
+   "current_assets": 972496.0,
+   "current_liabilities": 146578.0,
+   "current_ratio": 663.47,
+   "eps": 0.4,
+   "eps_ttm": 2.04,
+   "eps_yoy": -29.82,
+   "equity_parent": 887909.0,
+   "gross_margin": 39.5,
+   "gross_profit": 71113.0,
+   "net_income": 11588.0,
+   "net_income_ttm": 64035.0,
+   "net_income_yoy": -38.53,
+   "net_margin": 6.44,
+   "operating_expenses": 69443.0,
+   "operating_income": 1670.0,
+   "operating_margin": 0.93,
+   "pretax_income": 4249.0,
+   "revenue": 180022.0,
+   "revenue_ttm": 837290.0,
+   "revenue_yoy": 7.09
+  }
+ }
+}
