@@ -217,6 +217,7 @@ def main():
     codes = sys.argv[1:] or company_codes()
     master = load(os.path.join(config.DATA_DIR, "companies.json"))
     latest = {}
+    latest_monthly = {}
     for i, code in enumerate(codes, 1):
         inc = merge_periods(
             os.path.join(config.DATA_DIR, "income_statement", f"{code}.json"),
@@ -243,8 +244,14 @@ def main():
             latest[code] = {"name": master.get(code, {}).get("name"),
                             "industry": master.get(code, {}).get("industry"),
                             "period": lp, **q[lp]}
+        if mo:
+            lm = max(mo)
+            latest_monthly[code] = {"name": master.get(code, {}).get("name"),
+                                    "industry": master.get(code, {}).get("industry"),
+                                    "month": lm, **mo[lm]}
     dump(os.path.join(config.DATA_DIR, "fundamentals", "_latest.json"), latest)
-    print(f"完成 {len(codes)} 檔，最新季橫斷面 {len(latest)} 檔 -> data/fundamentals/_latest.json")
+    dump(os.path.join(config.DATA_DIR, "fundamentals", "_latest_monthly.json"), latest_monthly)
+    print(f"完成 {len(codes)} 檔，季橫斷面 {len(latest)}、月橫斷面 {len(latest_monthly)} -> data/fundamentals/")
 
 
 if __name__ == "__main__":

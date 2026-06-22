@@ -8,6 +8,10 @@ raw/
 # FinMind 回補進度(可由實際檔案自我修復，不需版控)
 data/finmind/_progress.json
 
+# Node / 前端
+node_modules/
+web/dist/
+
 # Python
 __pycache__/
 *.pyc
