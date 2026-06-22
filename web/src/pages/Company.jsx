@@ -5,7 +5,7 @@ import {
   ResponsiveContainer, ComposedChart, Bar, Line, LineChart,
   XAxis, YAxis, CartesianGrid, Tooltip, ReferenceLine,
 } from "recharts";
-import { getCompany } from "../lib/data.js";
+import { getCompany, getValuation } from "../lib/data.js";
 import { fmtPct, fmtNum, fmtMoneyK, signClass, qKey } from "../lib/format.js";
 
 const C = { amber: "#e3a84a", sky: "#6db1d9", mauve: "#c98bb9", grid: "rgba(236,228,212,0.08)", dim: "#998f7e" };
@@ -29,12 +29,14 @@ function Stat({ k, v, cls, sub }) {
 export default function Company() {
   const { code } = useParams();
   const [d, setD] = useState(null);
+  const [val, setVal] = useState(null);
   const [err, setErr] = useState(null);
 
   useEffect(() => {
     setD(null);
     setErr(null);
     getCompany(code).then(setD).catch((e) => setErr(String(e)));
+    getValuation().then((v) => setVal(v[code] || null)).catch(() => {});
   }, [code]);
 
   if (err) return <div className="page errbox">查無此公司資料（{code}）</div>;
@@ -69,6 +71,9 @@ export default function Company() {
         <Stat k="負債比" v={fmtPct(last.debt_ratio)} cls="num" />
         <Stat k="EPS (TTM)" v={fmtNum(last.eps_ttm)} cls="num" />
         <Stat k="營收YoY" v={fmtPct(last.revenue_yoy)} cls={`num ${signClass(last.revenue_yoy)}`} sub={`單季 ${last.p || ""}`} />
+        <Stat k="本益比" v={fmtNum(val?.pe, 1)} cls="num" sub={val?.date ? `收盤 ${val.date}` : ""} />
+        <Stat k="股價淨值比" v={fmtNum(val?.pb, 2)} cls="num" />
+        <Stat k="殖利率" v={fmtPct(val?.yield)} cls="num" />
       </div>
 
       <div className="grid2">

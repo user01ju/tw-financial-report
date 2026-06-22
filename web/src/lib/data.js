@@ -14,3 +14,4 @@ export async function fetchJson(p) {
 export const getLatest = () => fetchJson("fundamentals/_latest.json");
 export const getLatestMonthly = () => fetchJson("fundamentals/_latest_monthly.json");
 export const getCompany = (code) => fetchJson(`fundamentals/${code}.json`);
+export const getValuation = () => fetchJson("valuation/_latest.json");

@@ -20,9 +20,9 @@ jobs:
   update:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.13"
           cache: pip
@@ -32,6 +32,9 @@ jobs:
 
       - name: 抓最新快照 (TWSE/TPEX OpenAPI)
         run: python fetch_latest.py
+
+      - name: 抓估值快照 (PE/PB/殖利率)
+        run: python fetch_valuation.py
 
       - name: 重算基本面指標
         run: python metrics.py

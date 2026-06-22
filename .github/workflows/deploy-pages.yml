@@ -10,6 +10,7 @@ on:
     paths:
       - "web/**"
       - "data/fundamentals/**"
+      - "data/valuation/**"
       - "data/companies.json"
       - ".github/workflows/deploy-pages.yml"
   schedule:
@@ -29,10 +30,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v6
         with:
-          node-version: 20
+          node-version: 22
           cache: npm
           cache-dependency-path: web/package-lock.json
       - run: npm ci
@@ -41,10 +42,11 @@ jobs:
         working-directory: web
       - name: 複製資料到 dist (只放網頁需要的)
         run: |
-          mkdir -p web/dist/data/fundamentals
+          mkdir -p web/dist/data/fundamentals web/dist/data/valuation
           cp data/fundamentals/*.json web/dist/data/fundamentals/
+          cp data/valuation/_latest.json web/dist/data/valuation/
           cp data/companies.json web/dist/data/
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@v5
         with:
           path: web/dist
 
@@ -56,4 +58,4 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
