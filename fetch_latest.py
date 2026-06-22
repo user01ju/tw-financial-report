@@ -77,6 +77,10 @@ ALIASES = {
 }
 
 
+# 「產表時間」類欄位：每次出表會變、非真實資料，丟棄以免每日假 diff
+DROP_FIELDS = {"出表日期", "Date", "create_time"}
+
+
 def pick(rec, canonical):
     for k in ALIASES[canonical]:
         if k in rec and str(rec[k]).strip():
@@ -100,8 +104,13 @@ def normalize_record(rec, period_kind):
             return None
         period = roc_year_q_to_period(y, q)
     # 輸出：英文 meta key 一律改回中文 canonical，財報科目原樣保留
+    # 濾掉「產表時間」類欄位：它們每次出表會變但不是真實資料，留著會造成每日假 diff
     rename = {alias: canon for canon, aliases in ALIASES.items() for alias in aliases}
-    out = {rename.get(k, k): to_number(v) for k, v in rec.items()}
+    out = {
+        rename.get(k, k): to_number(v)
+        for k, v in rec.items()
+        if k not in DROP_FIELDS
+    }
     return str(code).strip(), period, out
 
 
