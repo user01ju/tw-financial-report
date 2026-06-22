@@ -82,6 +82,39 @@ export default function Company() {
         <Stat k="殖利率" v={fmtPct(val?.yield)} cls="num" />
       </div>
 
+      <div className="chartcard" style={{ padding: "18px 0 0" }}>
+        <h3 style={{ padding: "0 18px" }}>近 3 期財報</h3>
+        <p className="note" style={{ padding: "0 18px" }}>單季數據；成長率為 YoY，ROE 為單季</p>
+        <div className="tablewrap" style={{ border: "none" }}>
+          <table className="data">
+            <thead>
+              <tr>
+                <th className="l">期別</th>
+                <th>EPS</th>
+                <th>營收成長率</th>
+                <th>營業利益成長率</th>
+                <th>營業利益率</th>
+                <th>稅後淨利率</th>
+                <th>單季ROE</th>
+              </tr>
+            </thead>
+            <tbody>
+              {q.slice(-3).reverse().map((r) => (
+                <tr key={r.p} style={{ cursor: "default" }}>
+                  <td className="l"><span className="code">{r.p}</span></td>
+                  <td className="num">{fmtNum(r.eps)}</td>
+                  <td className={`num ${signClass(r.revenue_yoy)}`}>{fmtPct(r.revenue_yoy)}</td>
+                  <td className={`num ${signClass(r.operating_income_yoy)}`}>{fmtPct(r.operating_income_yoy)}</td>
+                  <td className="num">{fmtPct(r.operating_margin)}</td>
+                  <td className="num">{fmtPct(r.net_margin)}</td>
+                  <td className="num">{fmtPct(r.roe_q)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
       <div className="grid2">
         <div className="chartcard">
           <h3>單季營收與年增</h3>

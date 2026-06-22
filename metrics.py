@@ -143,6 +143,7 @@ def quarterly_metrics(inc, bal):
         py = prev_year_q(p)
         if py in inc:
             rec["revenue_yoy"] = pct_change(rev, inc[py].get("revenue"))
+            rec["operating_income_yoy"] = pct_change(i.get("operating_income"), inc[py].get("operating_income"))
             rec["eps_yoy"] = pct_change(i.get("eps"), inc[py].get("eps"))
             rec["net_income_yoy"] = pct_change(ni, inc[py].get("net_income"))
         # TTM(近四季)
