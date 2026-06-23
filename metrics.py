@@ -200,14 +200,20 @@ def monthly_metrics(code):
             v = v / 1000
         rev_by_m[m] = v
     months = sorted(rev_by_m)
-    out, yoy_by_m = {}, {}
-    for m in months:
+    yoys = [pct_change(rev_by_m[m], rev_by_m.get(f"{int(m[:4]) - 1}{m[4:]}")) for m in months]
+    out = {}
+    for i, m in enumerate(months):
         rev = rev_by_m[m]
-        yoy = pct_change(rev, rev_by_m.get(f"{int(m[:4]) - 1}{m[4:]}"))
-        yoy_by_m[m] = yoy
-        rec = {"revenue": rev, "mom": pct_change(rev, rev_by_m.get(prev_month(m))), "yoy": yoy}
+        y3, y12 = avg_window(yoys, i + 1, 3), avg_window(yoys, i + 1, 12)  # 滾動短/長期動能
+        rec = {
+            "revenue": rev,
+            "mom": pct_change(rev, rev_by_m.get(prev_month(m))),
+            "yoy": yoys[i],
+            "yoy_3m": round(y3, 2) if y3 is not None else None,
+            "yoy_12m": round(y12, 2) if y12 is not None else None,
+        }
         out[m] = {k: v for k, v in rec.items() if v is not None}
-    return out, monthly_summary(rev_by_m, yoy_by_m, months)
+    return out, monthly_summary(rev_by_m, dict(zip(months, yoys)), months)
 
 
 def avg_window(yoys, end, n):

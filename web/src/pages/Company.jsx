@@ -3,7 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
   ResponsiveContainer, ComposedChart, Bar, Line, LineChart,
-  XAxis, YAxis, CartesianGrid, Tooltip, ReferenceLine,
+  XAxis, YAxis, CartesianGrid, Tooltip, ReferenceLine, Legend,
 } from "recharts";
 import { getCompany, getValuation } from "../lib/data.js";
 import { fmtPct, fmtNum, fmtMoneyK, signClass, qKey } from "../lib/format.js";
@@ -168,17 +168,20 @@ export default function Company() {
 
         <div className="chartcard">
           <h3>月營收與年增</h3>
-          <p className="note">柱：月營收(仟元) · 線：YoY %</p>
-          <ResponsiveContainer width="100%" height={240}>
+          <p className="note">柱：月營收(仟元) · 線：YoY 單月(細) / 3m / 12m %</p>
+          <ResponsiveContainer width="100%" height={260}>
             <ComposedChart data={mN} margin={{ left: 6, right: 6, top: 6 }}>
               <CartesianGrid stroke={C.grid} vertical={false} />
               <XAxis dataKey="p" {...axis} tickLine={false} interval={3} />
               <YAxis yAxisId="l" {...axis} tickLine={false} tickFormatter={(v) => moneyTick(v * 1000)} width={48} />
               <YAxis yAxisId="r" orientation="right" {...axis} tickLine={false} tickFormatter={(v) => v + "%"} width={42} />
               <Tooltip {...tip} formatter={(v, n) => (n === "月營收" ? fmtMoneyK(v) : fmtPct(v))} />
+              <Legend wrapperStyle={{ fontFamily: "IBM Plex Mono", fontSize: 11 }} />
               <ReferenceLine yAxisId="r" y={0} stroke={C.grid} />
               <Bar yAxisId="l" dataKey="revenue" name="月營收" fill={C.amber} radius={[2, 2, 0, 0]} />
-              <Line yAxisId="r" dataKey="yoy" name="YoY" stroke={C.sky} strokeWidth={2} dot={false} />
+              <Line yAxisId="r" dataKey="yoy" name="YoY" stroke={C.dim} strokeWidth={1} dot={false} />
+              <Line yAxisId="r" dataKey="yoy_3m" name="YoY 3m" stroke={C.sky} strokeWidth={2} dot={false} />
+              <Line yAxisId="r" dataKey="yoy_12m" name="YoY 12m" stroke={C.mauve} strokeWidth={2} dot={false} />
             </ComposedChart>
           </ResponsiveContainer>
         </div>

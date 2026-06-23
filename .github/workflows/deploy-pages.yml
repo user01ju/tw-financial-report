@@ -14,7 +14,7 @@ on:
       - "data/companies.json"
       - ".github/workflows/deploy-pages.yml"
   schedule:
-    - cron: "30 1 * * *" # 台灣 09:30，晚於資料更新(01:00)
+    - cron: "30 9 * * *" # 台灣 17:30，晚於資料更新(17:00)
   workflow_dispatch: {}
 
 permissions:

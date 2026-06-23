@@ -5,8 +5,8 @@ name: update-financial-data
 
 on:
   schedule:
-    # GitHub cron 是 UTC。台灣(UTC+8)每天 09:00 = UTC 01:00。
-    - cron: "0 1 * * *"
+    # GitHub cron 是 UTC。台灣(UTC+8)每天 17:00 = UTC 09:00（盤後+月營收已公布）。
+    - cron: "0 9 * * *"
   workflow_dispatch: {} # 允許手動觸發
 
 permissions:
