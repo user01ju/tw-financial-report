@@ -231,18 +231,23 @@ def monthly_momentum(mo):
 
 # 動能成長綜合分數的因子與權重(跨市場百分位後加權)
 MG_FACTORS = {
-    "revenue_yoy": 0.18,
-    "operating_income_yoy": 0.14,
-    "eps_yoy": 0.14,
-    "revenue_yoy_accel": 0.18,
-    "mrev_yoy_3m": 0.18,
-    "mrev_yoy_accel": 0.18,
+    "revenue_yoy": 0.16,
+    "operating_income_yoy": 0.12,
+    "eps_yoy": 0.12,
+    "revenue_yoy_accel": 0.16,
+    "mrev_yoy_3m": 0.16,
+    "mrev_yoy_accel": 0.13,
+    "mrev_streak": 0.15,  # 連續成長月數：獎勵「持續」而非單次暴衝
 }
+
+# 認列型類股(營收完工/里程碑認列,單季YoY會暴衝失真)→ 不納入動能評分
+MG_EXCLUDE_SECTORS = {"營建"}
 
 
 def add_mg_score(latest):
-    """對 latest 橫斷面每個因子做百分位排名,加權成 0-100 動能成長分數。"""
-    codes = list(latest)
+    """對 latest 橫斷面每個因子做百分位排名,加權成 0-100 動能成長分數。
+    認列型類股(營建)排除在評分宇宙外,不佔百分位也不給分。"""
+    codes = [c for c in latest if latest[c].get("sector") not in MG_EXCLUDE_SECTORS]
     pranks = {}
     for f in MG_FACTORS:
         vals = sorted(
