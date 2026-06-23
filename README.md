@@ -119,14 +119,14 @@ hits.sort(key=lambda v: v["roe_ttm"], reverse=True)
 
 | 類別 | 因子 | 權重 | 來源欄位 |
 |---|---|---|---|
-| 成長 0.32 | 營收 YoY | 0.14 | `revenue_yoy` |
-| | 營益 YoY | 0.09 | `operating_income_yoy` |
-| | EPS YoY | 0.09 | `eps_yoy` |
-| 加速 0.22 | 營收成長加速度 | 0.12 | `revenue_yoy_accel`（本季 YoY − 前季 YoY） |
-| | 月營收動能加速 | 0.10 | `mrev_yoy_accel`（近3月 YoY 均 − 前3月） |
-| 月營收動能 0.26 | 近3月 YoY 均值 | 0.13 | `mrev_yoy_3m` |
-| | 連續正成長月數 | 0.13 | `mrev_streak`（獎勵持續而非單次暴衝） |
-| 價格動能 0.20 | 近一年報酬 | 0.20 | `price_return_1y`（月底收盤，最新月 / 12月前同月 − 1） |
+| 成長 0.39 | 營收 YoY | 0.17 | `revenue_yoy` |
+| | 營益 YoY | 0.11 | `operating_income_yoy` |
+| | EPS YoY | 0.11 | `eps_yoy` |
+| 加速 0.26 | 營收成長加速度 | 0.14 | `revenue_yoy_accel`（本季 YoY − 前季 YoY） |
+| | 月營收動能加速 | 0.12 | `mrev_yoy_accel`（近3月 YoY 均 − 前3月） |
+| 月營收動能 0.30 | 近3月 YoY 均值 | 0.15 | `mrev_yoy_3m` |
+| | 連續正成長月數 | 0.15 | `mrev_streak`（獎勵持續而非單次暴衝） |
+| 價格動能 0.05 | 近一年報酬 | 0.05 | `price_return_1y`（月底收盤，最新月 / 12月前同月 − 1）；僅參考、避免追高 |
 
 **排除**：認列型類股（`MG_EXCLUDE_SECTORS = {"營建"}`，CMoney 子類股名）營收完工認列、YoY 失真，
 不納入評分宇宙（不佔百分位、不給分）。要排更多（如部分生技/太陽能）就加進該集合。

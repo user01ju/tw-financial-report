@@ -231,18 +231,18 @@ def monthly_momentum(mo):
 
 # 動能成長綜合分數的因子與權重(跨市場百分位後加權)。四類：成長/加速/月動能/價格動能
 MG_FACTORS = {
-    # 成長 0.32
-    "revenue_yoy": 0.14,
-    "operating_income_yoy": 0.09,
-    "eps_yoy": 0.09,
-    # 加速 0.22
-    "revenue_yoy_accel": 0.12,
-    "mrev_yoy_accel": 0.10,
-    # 月營收動能 0.26
-    "mrev_yoy_3m": 0.13,
-    "mrev_streak": 0.13,  # 連續成長月數：獎勵「持續」而非單次暴衝
-    # 價格動能 0.20
-    "price_return_1y": 0.20,
+    # 成長 0.39
+    "revenue_yoy": 0.17,
+    "operating_income_yoy": 0.11,
+    "eps_yoy": 0.11,
+    # 加速 0.26
+    "revenue_yoy_accel": 0.14,
+    "mrev_yoy_accel": 0.12,
+    # 月營收動能 0.30
+    "mrev_yoy_3m": 0.15,
+    "mrev_streak": 0.15,  # 連續成長月數：獎勵「持續」而非單次暴衝
+    # 價格動能 0.05（僅參考，避免追高）
+    "price_return_1y": 0.05,
 }
 
 # 認列型類股(營收完工/里程碑認列,單季YoY會暴衝失真)→ 不納入動能評分
