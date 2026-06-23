@@ -36,6 +36,9 @@ jobs:
       - name: 抓估值快照 (PE/PB/殖利率)
         run: python fetch_valuation.py
 
+      - name: 抓收盤更新月價序列 (動能用)
+        run: python fetch_prices.py
+
       - name: 重算基本面指標
         run: python metrics.py
 

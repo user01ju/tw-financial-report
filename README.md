@@ -108,6 +108,37 @@ hits = [v for v in d.values()
 hits.sort(key=lambda v: v["roe_ttm"], reverse=True)
 ```
 
+## 動能成長評分（mg_score）方法論
+
+`metrics.py` 對全市場橫斷面算出 0–100 的動能成長分數，供「動能成長」分頁與篩選頁使用。
+
+**做法**：每個因子先在全市場做**百分位排名**（0–100，越高越好），再依權重加權平均。用百分位而非原始值 →
+壓制極端值（如營建認列暴衝）、跨產業可比；某因子缺值時，該股以「剩餘因子重新正規化」計分。
+
+**四類因子與權重**（合計 1.0，定義於 `metrics.py` 的 `MG_FACTORS`）：
+
+| 類別 | 因子 | 權重 | 來源欄位 |
+|---|---|---|---|
+| 成長 0.32 | 營收 YoY | 0.14 | `revenue_yoy` |
+| | 營益 YoY | 0.09 | `operating_income_yoy` |
+| | EPS YoY | 0.09 | `eps_yoy` |
+| 加速 0.22 | 營收成長加速度 | 0.12 | `revenue_yoy_accel`（本季 YoY − 前季 YoY） |
+| | 月營收動能加速 | 0.10 | `mrev_yoy_accel`（近3月 YoY 均 − 前3月） |
+| 月營收動能 0.26 | 近3月 YoY 均值 | 0.13 | `mrev_yoy_3m` |
+| | 連續正成長月數 | 0.13 | `mrev_streak`（獎勵持續而非單次暴衝） |
+| 價格動能 0.20 | 近一年報酬 | 0.20 | `price_return_1y`（月底收盤，最新月 / 12月前同月 − 1） |
+
+**排除**：認列型類股（`MG_EXCLUDE_SECTORS = {"營建"}`，CMoney 子類股名）營收完工認列、YoY 失真，
+不納入評分宇宙（不佔百分位、不給分）。要排更多（如部分生技/太陽能）就加進該集合。
+
+**品質護欄**（在頁面端套用，非寫死進分數）：動能成長分頁預設 ROE(TTM) ≥ 10、營益率 ≥ 5，可調。
+
+### 股價資料（價格動能用）
+
+- `data/prices/<code>.json`：月底收盤序列 `{"YYYY-MM": close}`
+- 一年歷史由 `seed_prices.py` 從鄰專案 sector_gainer 日線一次性建立（本機跑，產出 commit）
+- 此後 `fetch_prices.py` 每日抓 TWSE/TPEX 收盤更新當月（進每日排程，免 token），**不依賴 sector_gainer 持續更新**
+
 ## 待辦
 
 - [ ] 產業別表單後綴驗證：`config.INDUSTRY_SUFFIXES` 目前 `ci/fh/basi/bd/ins`，已實測有資料但請對照 https://openapi.twse.com.tw/ 目錄確認無遺漏

@@ -229,15 +229,20 @@ def monthly_momentum(mo):
     return res
 
 
-# 動能成長綜合分數的因子與權重(跨市場百分位後加權)
+# 動能成長綜合分數的因子與權重(跨市場百分位後加權)。四類：成長/加速/月動能/價格動能
 MG_FACTORS = {
-    "revenue_yoy": 0.16,
-    "operating_income_yoy": 0.12,
-    "eps_yoy": 0.12,
-    "revenue_yoy_accel": 0.16,
-    "mrev_yoy_3m": 0.16,
-    "mrev_yoy_accel": 0.13,
-    "mrev_streak": 0.15,  # 連續成長月數：獎勵「持續」而非單次暴衝
+    # 成長 0.32
+    "revenue_yoy": 0.14,
+    "operating_income_yoy": 0.09,
+    "eps_yoy": 0.09,
+    # 加速 0.22
+    "revenue_yoy_accel": 0.12,
+    "mrev_yoy_accel": 0.10,
+    # 月營收動能 0.26
+    "mrev_yoy_3m": 0.13,
+    "mrev_streak": 0.13,  # 連續成長月數：獎勵「持續」而非單次暴衝
+    # 價格動能 0.20
+    "price_return_1y": 0.20,
 }
 
 # 認列型類股(營收完工/里程碑認列,單季YoY會暴衝失真)→ 不納入動能評分
@@ -288,6 +293,26 @@ def load_sectors():
     return m
 
 
+def load_price_returns():
+    """code -> 近一年報酬(%)。用月底收盤序列：最新月 / 12 個月前同月 - 1。"""
+    d = os.path.join(config.DATA_DIR, "prices")
+    out = {}
+    if not os.path.isdir(d):
+        return out
+    for fn in os.listdir(d):
+        if not fn.endswith(".json"):
+            continue
+        with open(os.path.join(d, fn), encoding="utf-8") as f:
+            s = json.load(f)
+        if not s:
+            continue
+        latest = max(s)
+        ref = f"{int(latest[:4]) - 1}-{latest[5:7]}"
+        if s.get(ref):
+            out[fn[:-5]] = round((s[latest] / s[ref] - 1) * 100, 2)
+    return out
+
+
 def company_codes():
     codes = set()
     for sub in ("income_statement", "balance_sheet", "monthly_revenue"):
@@ -304,6 +329,7 @@ def main():
     codes = sys.argv[1:] or company_codes()
     master = load(os.path.join(config.DATA_DIR, "companies.json"))
     sectors = load_sectors()
+    price_ret = load_price_returns()
     latest = {}
     latest_monthly = {}
     for i, code in enumerate(codes, 1):
@@ -322,10 +348,12 @@ def main():
         if not q and not mo:
             continue
         sec = sectors.get(code, {})
+        prc = price_ret.get(code)
         meta = {"name": master.get(code, {}).get("name"),
                 "industry": master.get(code, {}).get("industry"),
                 "sector": sec.get("sector"),
-                "sector_parent": sec.get("sector_parent")}
+                "sector_parent": sec.get("sector_parent"),
+                "price_return_1y": prc}
         dump(
             os.path.join(config.DATA_DIR, "fundamentals", f"{code}.json"),
             {"code": code, **meta, "quarterly": q, "monthly": mo},

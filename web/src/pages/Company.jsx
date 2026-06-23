@@ -80,6 +80,7 @@ export default function Company() {
         <Stat k="本益比" v={fmtNum(val?.pe, 1)} cls="num" sub={val?.date ? `收盤 ${val.date}` : ""} />
         <Stat k="股價淨值比" v={fmtNum(val?.pb, 2)} cls="num" />
         <Stat k="殖利率" v={fmtPct(val?.yield)} cls="num" />
+        <Stat k="近一年報酬" v={fmtPct(d.price_return_1y)} cls={`num ${signClass(d.price_return_1y)}`} />
       </div>
 
       <div className="chartcard" style={{ padding: "18px 0 0" }}>

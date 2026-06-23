@@ -11,6 +11,7 @@ const COLS = [
   { key: "operating_income_yoy", t: "營益YoY", f: (v) => fmtPct(v), color: true },
   { key: "mrev_yoy_3m", t: "月營收動能", f: (v) => fmtPct(v), color: true },
   { key: "mrev_streak", t: "連續月", f: (v) => (v == null ? "—" : `${v}`) },
+  { key: "price_return_1y", t: "1Y報酬", f: (v) => fmtPct(v), color: true },
   { key: "eps_yoy", t: "EPS YoY", f: (v) => fmtPct(v), color: true },
   { key: "roe_ttm", t: "ROE(TTM)", f: (v) => fmtPct(v) },
   { key: "operating_margin", t: "營益率", f: (v) => fmtPct(v) },
