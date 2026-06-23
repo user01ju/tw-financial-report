@@ -190,6 +190,7 @@ def sum_or_none(vals):
 
 
 def monthly_metrics(code):
+    """回傳 (per-month 序列, summary 動能/轉折/新高摘要)。"""
     data = load(os.path.join(config.DATA_DIR, "monthly_revenue", f"{code}.json"))
     # 先統一單位成仟元：FinMind(元)/1000，TWSE 原樣
     rev_by_m = {}
@@ -198,35 +199,59 @@ def monthly_metrics(code):
         if isinstance(v, (int, float)) and r.get("_src") == "finmind":
             v = v / 1000
         rev_by_m[m] = v
-    out = {}
-    for m in sorted(rev_by_m):
+    months = sorted(rev_by_m)
+    out, yoy_by_m = {}, {}
+    for m in months:
         rev = rev_by_m[m]
-        out[m] = {
-            "revenue": rev,
-            "mom": pct_change(rev, rev_by_m.get(prev_month(m))),
-            "yoy": pct_change(rev, rev_by_m.get(f"{int(m[:4]) - 1}{m[4:]}")),
-        }
-        out[m] = {k: v for k, v in out[m].items() if v is not None}
-    return out
+        yoy = pct_change(rev, rev_by_m.get(f"{int(m[:4]) - 1}{m[4:]}"))
+        yoy_by_m[m] = yoy
+        rec = {"revenue": rev, "mom": pct_change(rev, rev_by_m.get(prev_month(m))), "yoy": yoy}
+        out[m] = {k: v for k, v in rec.items() if v is not None}
+    return out, monthly_summary(rev_by_m, yoy_by_m, months)
 
 
-def monthly_momentum(mo):
-    """月營收動能：近3月 YoY 均值、加速度、連續正成長月數。"""
-    yoys = [mo[m].get("yoy") for m in sorted(mo)]  # 由舊到新
-    res = {}
-    recent = [y for y in yoys[-3:] if y is not None]
-    prior = [y for y in yoys[-6:-3] if y is not None]
-    if recent:
-        res["mrev_yoy_3m"] = round(sum(recent) / len(recent), 2)
-    if recent and prior:
-        res["mrev_yoy_accel"] = round(sum(recent) / len(recent) - sum(prior) / len(prior), 2)
+def monthly_summary(rev_by_m, yoy_by_m, months):
+    """月營收摘要：長短期 YoY(3m/12m)、累計YoY、加速、連續月、轉折、創新高。"""
+    if not months:
+        return {}
+    yoys = [yoy_by_m[m] for m in months]  # 由舊到新
+    s = {}
+    avg = lambda xs: round(sum(xs) / len(xs), 2) if xs else None
+    r3 = [y for y in yoys[-3:] if y is not None]
+    r12 = [y for y in yoys[-12:] if y is not None]
+    prior3 = [y for y in yoys[-6:-3] if y is not None]
+    if r3:
+        s["mrev_yoy_3m"] = avg(r3)  # 短期動能
+    if r12:
+        s["mrev_yoy_12m"] = avg(r12)  # 長期動能
+    if r3 and prior3:
+        s["mrev_yoy_accel"] = round(avg(r3) - avg(prior3), 2)
+    # 連續正成長月數
     streak = 0
     for y in reversed(yoys):
         if y is None or y <= 0:
             break
         streak += 1
-    res["mrev_streak"] = streak
-    return res
+    s["mrev_streak"] = streak
+    # YoY 轉折(最新月 vs 前一月 YoY 號變)：1=轉正 -1=轉負 0=無
+    if yoys[-1] is not None and len(yoys) >= 2 and yoys[-2] is not None:
+        s["mrev_turn"] = 1 if yoys[-1] > 0 >= yoys[-2] else (-1 if yoys[-1] <= 0 < yoys[-2] else 0)
+    # 累計營收 YoY(YTD)：當年初至今 vs 去年同期(只比兩年都有的月份)
+    y, mm = int(months[-1][:4]), int(months[-1][5:7])
+    cur = [rev_by_m[f"{y}-{k:02d}"] for k in range(1, mm + 1)
+           if rev_by_m.get(f"{y}-{k:02d}") is not None and rev_by_m.get(f"{y - 1}-{k:02d}") is not None]
+    pri = [rev_by_m[f"{y - 1}-{k:02d}"] for k in range(1, mm + 1)
+           if rev_by_m.get(f"{y}-{k:02d}") is not None and rev_by_m.get(f"{y - 1}-{k:02d}") is not None]
+    if cur and sum(pri) > 0:
+        s["mrev_yoy_ytd"] = round((sum(cur) / sum(pri) - 1) * 100, 2)
+    # 創新高(最新月營收)
+    revs = [rev_by_m[m] for m in months if rev_by_m[m] is not None]
+    last = rev_by_m[months[-1]]
+    if last is not None and revs:
+        s["mrev_high_all"] = last >= max(revs)
+        last12 = [rev_by_m[m] for m in months[-12:] if rev_by_m[m] is not None]
+        s["mrev_high_12m"] = bool(last12) and last >= max(last12)
+    return s
 
 
 # 動能成長綜合分數的因子與權重(跨市場百分位後加權)。四類：成長/加速/月動能/價格動能
@@ -344,7 +369,7 @@ def main():
             BALANCE_MAP,
         )
         q = quarterly_metrics(inc, bal)
-        mo = monthly_metrics(code)
+        mo, msum = monthly_metrics(code)
         if not q and not mo:
             continue
         sec = sectors.get(code, {})
@@ -360,11 +385,10 @@ def main():
         )
         if q:
             lp = max(q, key=q_tuple)
-            mm = monthly_momentum(mo) if mo else {}
-            latest[code] = {**meta, "period": lp, **q[lp], **mm}
+            latest[code] = {**meta, "period": lp, **q[lp], **msum}
         if mo:
             lm = max(mo)
-            latest_monthly[code] = {**meta, "month": lm, **mo[lm]}
+            latest_monthly[code] = {**meta, "month": lm, **mo[lm], **msum}
     add_mg_score(latest)
     dump(os.path.join(config.DATA_DIR, "fundamentals", "_latest.json"), latest)
     dump(os.path.join(config.DATA_DIR, "fundamentals", "_latest_monthly.json"), latest_monthly)

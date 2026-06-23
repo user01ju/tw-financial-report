@@ -4,6 +4,15 @@ import { motion } from "framer-motion";
 import { getLatestMonthly } from "../lib/data.js";
 import { fmtPct, fmtMoneyK, signClass } from "../lib/format.js";
 
+// 數值欄：YoY / 短期3m / 長期12m / 累計YTD / MoM（皆套紅漲綠跌）
+const COLS = [
+  { key: "yoy", t: "YoY" },
+  { key: "mrev_yoy_3m", t: "短期3m" },
+  { key: "mrev_yoy_12m", t: "長期12m" },
+  { key: "mrev_yoy_ytd", t: "累計YTD" },
+  { key: "mom", t: "MoM" },
+];
+
 export default function Monthly() {
   const nav = useNavigate();
   const [rows, setRows] = useState(null);
@@ -11,6 +20,8 @@ export default function Monthly() {
   const [q, setQ] = useState("");
   const [ind, setInd] = useState("");
   const [minYoy, setMinYoy] = useState("");
+  const [turnPos, setTurnPos] = useState(false);
+  const [highOnly, setHighOnly] = useState(false);
   const [sort, setSort] = useState({ k: "yoy", dir: -1 });
 
   useEffect(() => {
@@ -19,10 +30,14 @@ export default function Monthly() {
       .catch((e) => setErr(String(e)));
   }, []);
 
-  const industries = useMemo(
-    () => (rows ? [...new Set(rows.map((r) => r.industry).filter(Boolean))].sort() : []),
-    [rows]
-  );
+  const sectorsByParent = useMemo(() => {
+    if (!rows) return {};
+    const m = {};
+    rows.forEach((r) => {
+      if (r.sector) (m[r.sector_parent || "其他"] ||= new Set()).add(r.sector);
+    });
+    return Object.fromEntries(Object.entries(m).map(([p, s]) => [p, [...s].sort()]));
+  }, [rows]);
   const latestMonth = useMemo(
     () => (rows ? rows.map((r) => r.month).sort().at(-1) : ""),
     [rows]
@@ -33,9 +48,11 @@ export default function Monthly() {
     const qq = q.trim();
     const my = minYoy === "" ? null : +minYoy;
     let out = rows.filter((r) => {
-      if (ind && r.industry !== ind) return false;
+      if (ind && r.sector !== ind) return false;
       if (qq && !r.code.includes(qq) && !(r.name || "").includes(qq)) return false;
       if (my != null && !(r.yoy >= my)) return false;
+      if (turnPos && r.mrev_turn !== 1) return false;
+      if (highOnly && !r.mrev_high_all) return false;
       return true;
     });
     const { k, dir } = sort;
@@ -47,7 +64,7 @@ export default function Monthly() {
       return (x - y) * dir;
     });
     return out;
-  }, [rows, q, ind, minYoy, sort]);
+  }, [rows, q, ind, minYoy, turnPos, highOnly, sort]);
 
   const shown = view.slice(0, 250);
   const th = (k, label, cls) => (
@@ -64,8 +81,8 @@ export default function Monthly() {
       <div className="eyebrow">月營收橫斷面 · {latestMonth || "—"}</div>
       <h1>月營收熱力</h1>
       <p className="lede">
-        各公司最新月營收與年增（YoY）、月增（MoM）。預設按 YoY 由高到低，
-        <span className="up"> 紅為成長</span>、<span className="down">綠為衰退</span>。
+        最新月營收與年增。<b>短期3m</b>／<b>長期12m</b> 為近 3／12 月 YoY 均值（看動能強弱與加速），
+        <b>累計YTD</b> 平滑單月雜訊（春節失真用這個）。<span className="up">紅成長</span>、<span className="down">綠衰退</span>。
       </p>
 
       <div className="controls">
@@ -74,11 +91,15 @@ export default function Monthly() {
           <input type="text" value={q} onChange={(e) => setQ(e.target.value)} placeholder="2330 / 台積電" />
         </div>
         <div className="field">
-          <label>產業別</label>
+          <label>子類股 (CMoney)</label>
           <select value={ind} onChange={(e) => setInd(e.target.value)}>
             <option value="">全部</option>
-            {industries.map((i) => (
-              <option key={i} value={i}>{i}</option>
+            {Object.entries(sectorsByParent).map(([p, arr]) => (
+              <optgroup key={p} label={p}>
+                {arr.map((s) => (
+                  <option key={s} value={s}>{s}</option>
+                ))}
+              </optgroup>
             ))}
           </select>
         </div>
@@ -86,6 +107,14 @@ export default function Monthly() {
           <label>YoY ≥</label>
           <input type="number" value={minYoy} onChange={(e) => setMinYoy(e.target.value)} placeholder="0" />
         </div>
+        <label className="toggle">
+          <input type="checkbox" checked={turnPos} onChange={(e) => setTurnPos(e.target.checked)} />
+          YoY 剛轉正
+        </label>
+        <label className="toggle">
+          <input type="checkbox" checked={highOnly} onChange={(e) => setHighOnly(e.target.checked)} />
+          營收創新高
+        </label>
         <div className="count">
           符合 <b>{view.length}</b> 檔{view.length > 250 && <> · 顯示前 250</>}
         </div>
@@ -107,8 +136,9 @@ export default function Monthly() {
                 {th("name", "名稱", "l")}
                 {th("month", "月份")}
                 {th("revenue", "當月營收")}
-                {th("yoy", "YoY")}
-                {th("mom", "MoM")}
+                {COLS.map((c) => th(c.key, c.t))}
+                {th("mrev_streak", "連續月")}
+                <th className="l">訊號</th>
               </tr>
             </thead>
             <tbody>
@@ -117,12 +147,19 @@ export default function Monthly() {
                   <td className="l"><span className="code">{r.code}</span></td>
                   <td className="l">
                     <span className="cname">{r.name}</span>{" "}
-                    <span className="cind">{r.industry}</span>
+                    <span className="cind">{r.sector || r.industry}</span>
                   </td>
                   <td className="num" style={{ color: "var(--ink-dim)" }}>{r.month}</td>
                   <td className="num">{fmtMoneyK(r.revenue)}</td>
-                  <td className={`num ${signClass(r.yoy)}`}>{fmtPct(r.yoy)}</td>
-                  <td className={`num ${signClass(r.mom)}`}>{fmtPct(r.mom)}</td>
+                  {COLS.map((c) => (
+                    <td key={c.key} className={`num ${signClass(r[c.key])}`}>{fmtPct(r[c.key])}</td>
+                  ))}
+                  <td className="num">{r.mrev_streak ?? "—"}</td>
+                  <td className="l">
+                    {r.mrev_turn === 1 && <span className="sig up">轉正↗</span>}
+                    {r.mrev_turn === -1 && <span className="sig down">轉負↘</span>}
+                    {r.mrev_high_all && <span className="sig hi">★創高</span>}
+                  </td>
                 </tr>
               ))}
             </tbody>

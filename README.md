@@ -88,6 +88,7 @@ python metrics.py 2330 2317  # 指定股
 已算欄位：
 - **獲利能力(%)**：gross_margin、operating_margin、net_margin、roe_q/roe_ttm、roa_q/roa_ttm
 - **成長性(%)**：revenue_yoy、eps_yoy、net_income_yoy（單季）；月營收 mom/yoy
+- **月營收動能**：mrev_yoy_3m（短期）、mrev_yoy_12m（長期）、mrev_yoy_ytd（累計YTD，春節失真用這）、mrev_yoy_accel（加速）、mrev_streak（連續正成長月）、mrev_turn（1=YoY剛轉正/-1=轉負）、mrev_high_all/mrev_high_12m（創歷史/近12月新高）
 - **財務結構(%)**：debt_ratio、current_ratio
 - **TTM**：revenue_ttm、net_income_ttm、eps_ttm（近四季連續才算）
 - 估值（PE/PB）**未做**：需另抓股價配 eps_ttm / 每股淨值
