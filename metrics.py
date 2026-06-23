@@ -106,6 +106,15 @@ def prev_year_q(p):
     return f"{int(p[:4]) - 1}Q{p[-1]}"
 
 
+def prev_q(p):
+    """前一個連續季 '2026Q1' -> '2025Q4'"""
+    y, q = q_tuple(p)
+    q -= 1
+    if q == 0:
+        q, y = 4, y - 1
+    return f"{y}Q{q}"
+
+
 def trailing4(periods, p):
     """回傳 p 及其前 3 個連續季(含)，不連續則 None。"""
     y, q = q_tuple(p)
@@ -146,6 +155,13 @@ def quarterly_metrics(inc, bal):
             rec["operating_income_yoy"] = pct_change(i.get("operating_income"), inc[py].get("operating_income"))
             rec["eps_yoy"] = pct_change(i.get("eps"), inc[py].get("eps"))
             rec["net_income_yoy"] = pct_change(ni, inc[py].get("net_income"))
+        # 成長加速度(本季 YoY - 前季 YoY)：抓「加速中」的成長
+        pq = prev_q(p)
+        if pq in out:
+            for f in ("revenue_yoy", "operating_income_yoy"):
+                cur, prev = rec.get(f), out[pq].get(f)
+                if cur is not None and prev is not None:
+                    rec[f + "_accel"] = round(cur - prev, 2)
         # TTM(近四季)
         t4 = trailing4(set(periods), p)
         if t4:
@@ -192,6 +208,57 @@ def monthly_metrics(code):
         }
         out[m] = {k: v for k, v in out[m].items() if v is not None}
     return out
+
+
+def monthly_momentum(mo):
+    """月營收動能：近3月 YoY 均值、加速度、連續正成長月數。"""
+    yoys = [mo[m].get("yoy") for m in sorted(mo)]  # 由舊到新
+    res = {}
+    recent = [y for y in yoys[-3:] if y is not None]
+    prior = [y for y in yoys[-6:-3] if y is not None]
+    if recent:
+        res["mrev_yoy_3m"] = round(sum(recent) / len(recent), 2)
+    if recent and prior:
+        res["mrev_yoy_accel"] = round(sum(recent) / len(recent) - sum(prior) / len(prior), 2)
+    streak = 0
+    for y in reversed(yoys):
+        if y is None or y <= 0:
+            break
+        streak += 1
+    res["mrev_streak"] = streak
+    return res
+
+
+# 動能成長綜合分數的因子與權重(跨市場百分位後加權)
+MG_FACTORS = {
+    "revenue_yoy": 0.18,
+    "operating_income_yoy": 0.14,
+    "eps_yoy": 0.14,
+    "revenue_yoy_accel": 0.18,
+    "mrev_yoy_3m": 0.18,
+    "mrev_yoy_accel": 0.18,
+}
+
+
+def add_mg_score(latest):
+    """對 latest 橫斷面每個因子做百分位排名,加權成 0-100 動能成長分數。"""
+    codes = list(latest)
+    pranks = {}
+    for f in MG_FACTORS:
+        vals = sorted(
+            ((c, latest[c][f]) for c in codes if isinstance(latest[c].get(f), (int, float))),
+            key=lambda x: x[1],
+        )
+        n = len(vals)
+        pranks[f] = {c: (i / (n - 1) * 100 if n > 1 else 50.0) for i, (c, _) in enumerate(vals)}
+    for c in codes:
+        num = wsum = 0.0
+        for f, w in MG_FACTORS.items():
+            if c in pranks[f]:
+                num += pranks[f][c] * w
+                wsum += w
+        if wsum > 0:
+            latest[c]["mg_score"] = round(num / wsum, 1)
 
 
 def prev_month(m):
@@ -260,10 +327,12 @@ def main():
         )
         if q:
             lp = max(q, key=q_tuple)
-            latest[code] = {**meta, "period": lp, **q[lp]}
+            mm = monthly_momentum(mo) if mo else {}
+            latest[code] = {**meta, "period": lp, **q[lp], **mm}
         if mo:
             lm = max(mo)
             latest_monthly[code] = {**meta, "month": lm, **mo[lm]}
+    add_mg_score(latest)
     dump(os.path.join(config.DATA_DIR, "fundamentals", "_latest.json"), latest)
     dump(os.path.join(config.DATA_DIR, "fundamentals", "_latest_monthly.json"), latest_monthly)
     print(f"完成 {len(codes)} 檔，季橫斷面 {len(latest)}、月橫斷面 {len(latest_monthly)} -> data/fundamentals/")

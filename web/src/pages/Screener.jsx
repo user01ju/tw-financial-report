@@ -11,9 +11,11 @@ const COLS = [
   { key: "yield", t: "殖利率", f: (v) => fmtPct(v) },
   { key: "roe_ttm", t: "ROE(TTM)", f: (v) => fmtPct(v) },
   { key: "gross_margin", t: "毛利率", f: (v) => fmtPct(v) },
+  { key: "operating_margin", t: "營益率", f: (v) => fmtPct(v) },
   { key: "net_margin", t: "淨利率", f: (v) => fmtPct(v) },
   { key: "debt_ratio", t: "負債比", f: (v) => fmtPct(v) },
   { key: "revenue_yoy", t: "營收YoY", f: (v) => fmtPct(v), color: true },
+  { key: "operating_income_yoy", t: "營益YoY", f: (v) => fmtPct(v), color: true },
   { key: "eps_ttm", t: "EPS(TTM)", f: (v) => fmtNum(v) },
   { key: "eps_yoy", t: "EPS YoY", f: (v) => fmtPct(v), color: true },
 ];
@@ -29,6 +31,10 @@ export default function Screener() {
   const [maxDebt, setMaxDebt] = useState("");
   const [minYoy, setMinYoy] = useState("");
   const [maxPe, setMaxPe] = useState("");
+  const [minOpm, setMinOpm] = useState("");
+  const [minNm, setMinNm] = useState("");
+  const [minScore, setMinScore] = useState("");
+  const [minRevAccel, setMinRevAccel] = useState("");
   const [sort, setSort] = useState({ k: "roe_ttm", dir: -1 });
 
   useEffect(() => {
@@ -60,6 +66,10 @@ export default function Screener() {
     const md = maxDebt === "" ? null : +maxDebt;
     const my = minYoy === "" ? null : +minYoy;
     const mp = maxPe === "" ? null : +maxPe;
+    const mo = minOpm === "" ? null : +minOpm;
+    const mn = minNm === "" ? null : +minNm;
+    const ms = minScore === "" ? null : +minScore;
+    const ma = minRevAccel === "" ? null : +minRevAccel;
     let out = rows.filter((r) => {
       if (ind && r.sector !== ind) return false;
       if (qq && !r.code.includes(qq) && !(r.name || "").includes(qq)) return false;
@@ -67,6 +77,10 @@ export default function Screener() {
       if (md != null && !(r.debt_ratio <= md)) return false;
       if (my != null && !(r.revenue_yoy >= my)) return false;
       if (mp != null && !(r.pe != null && r.pe > 0 && r.pe <= mp)) return false;
+      if (mo != null && !(r.operating_margin >= mo)) return false;
+      if (mn != null && !(r.net_margin >= mn)) return false;
+      if (ms != null && !(r.mg_score >= ms)) return false;
+      if (ma != null && !(r.revenue_yoy_accel >= ma)) return false;
       return true;
     });
     const { k, dir } = sort;
@@ -78,7 +92,7 @@ export default function Screener() {
       return (x - y) * dir;
     });
     return out;
-  }, [rows, q, ind, minRoe, maxDebt, minYoy, maxPe, sort]);
+  }, [rows, q, ind, minRoe, maxDebt, minYoy, maxPe, minOpm, minNm, minScore, minRevAccel, sort]);
 
   const shown = view.slice(0, 250);
 
@@ -138,6 +152,22 @@ export default function Screener() {
           <label>本益比 ≤</label>
           <input type="number" value={maxPe} onChange={(e) => setMaxPe(e.target.value)} placeholder="20" />
         </div>
+        <div className="field range">
+          <label>營益率 ≥</label>
+          <input type="number" value={minOpm} onChange={(e) => setMinOpm(e.target.value)} placeholder="10" />
+        </div>
+        <div className="field range">
+          <label>淨利率 ≥</label>
+          <input type="number" value={minNm} onChange={(e) => setMinNm(e.target.value)} placeholder="5" />
+        </div>
+        <div className="field range">
+          <label>動能成長分 ≥</label>
+          <input type="number" value={minScore} onChange={(e) => setMinScore(e.target.value)} placeholder="80" />
+        </div>
+        <div className="field range">
+          <label>營收加速 ≥</label>
+          <input type="number" value={minRevAccel} onChange={(e) => setMinRevAccel(e.target.value)} placeholder="0" />
+        </div>
         <div className="count">
           符合 <b>{view.length}</b> 檔{view.length > 250 && <> · 顯示前 250</>}
         </div>
@@ -157,6 +187,7 @@ export default function Screener() {
               <tr>
                 {th("code", "代號", "l")}
                 {th("name", "名稱", "l")}
+                {th("mg_score", "動能分")}
                 {COLS.map((c) => th(c.key, c.t))}
               </tr>
             </thead>
@@ -167,6 +198,9 @@ export default function Screener() {
                   <td className="l">
                     <span className="cname">{r.name}</span>{" "}
                     <span className="cind">{r.sector || r.industry}</span>
+                  </td>
+                  <td className="num" style={{ color: "var(--amber)", fontWeight: 600 }}>
+                    {fmtNum(r.mg_score, 1)}
                   </td>
                   {COLS.map((c) => (
                     <td key={c.key} className={`num ${c.color ? signClass(r[c.key]) : ""}`}>

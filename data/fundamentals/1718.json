@@ -798,6 +798,7 @@
    "revenue": 8589095.0,
    "revenue_ttm": 33000494.0,
    "revenue_yoy": -1.38,
+   "revenue_yoy_accel": 9.07,
    "roa_q": 0.08,
    "roa_ttm": 0.3,
    "roe_q": 0.95,
@@ -823,6 +824,7 @@
    "revenue": 8276862.0,
    "revenue_ttm": 32661741.0,
    "revenue_yoy": -3.93,
+   "revenue_yoy_accel": -2.55,
    "roa_q": 0.1,
    "roa_ttm": 0.27,
    "roe_q": 1.26,
@@ -841,7 +843,8 @@
    "net_margin": 9.56,
    "revenue": 8801954.0,
    "revenue_ttm": 33221334.0,
-   "revenue_yoy": 6.79
+   "revenue_yoy": 6.79,
+   "revenue_yoy_accel": 10.72
   },
   "2017Q1": {
    "cogs": 8001371.0,
@@ -861,6 +864,7 @@
    "revenue": 8833958.0,
    "revenue_ttm": 34501869.0,
    "revenue_yoy": 16.95,
+   "revenue_yoy_accel": 10.16,
    "roa_q": 0.1,
    "roa_ttm": 0.39,
    "roe_q": 1.24,
@@ -886,6 +890,7 @@
    "revenue": 8749049.0,
    "revenue_ttm": 34661823.0,
    "revenue_yoy": 1.86,
+   "revenue_yoy_accel": -15.09,
    "roa_q": 0.09,
    "roa_ttm": 0.4,
    "roe_q": 1.14,
@@ -904,7 +909,8 @@
    "net_margin": 13.08,
    "revenue": 9829565.0,
    "revenue_ttm": 36214526.0,
-   "revenue_yoy": 18.76
+   "revenue_yoy": 18.76,
+   "revenue_yoy_accel": 16.9
   },
   "2017Q4": {
    "cogs": 8451383.0,
@@ -917,7 +923,8 @@
    "net_margin": 9.99,
    "revenue": 9625754.0,
    "revenue_ttm": 37038326.0,
-   "revenue_yoy": 9.36
+   "revenue_yoy": 9.36,
+   "revenue_yoy_accel": -9.4
   },
   "2018Q1": {
    "cogs": 8692681.0,
@@ -930,7 +937,8 @@
    "net_margin": 12.19,
    "revenue": 9972297.0,
    "revenue_ttm": 38176665.0,
-   "revenue_yoy": 12.89
+   "revenue_yoy": 12.89,
+   "revenue_yoy_accel": 3.53
   },
   "2018Q2": {
    "cogs": 9194690.0,
@@ -943,7 +951,8 @@
    "net_margin": 11.67,
    "revenue": 10759272.0,
    "revenue_ttm": 40186888.0,
-   "revenue_yoy": 22.98
+   "revenue_yoy": 22.98,
+   "revenue_yoy_accel": 10.09
   },
   "2018Q3": {
    "cogs": 9479375.0,
@@ -956,7 +965,8 @@
    "net_margin": 10.9,
    "revenue": 10829985.0,
    "revenue_ttm": 41187308.0,
-   "revenue_yoy": 10.18
+   "revenue_yoy": 10.18,
+   "revenue_yoy_accel": -12.8
   },
   "2018Q4": {
    "cogs": 9037679.0,
@@ -976,6 +986,7 @@
    "revenue": 9987633.0,
    "revenue_ttm": 41549187.0,
    "revenue_yoy": 3.76,
+   "revenue_yoy_accel": -6.42,
    "roa_q": 0.11,
    "roa_ttm": 0.61,
    "roe_q": 1.3,
@@ -994,7 +1005,8 @@
    "net_margin": 6.86,
    "revenue": 9715734.0,
    "revenue_ttm": 41292624.0,
-   "revenue_yoy": -2.57
+   "revenue_yoy": -2.57,
+   "revenue_yoy_accel": -6.33
   },
   "2019Q2": {
    "cogs": 8365578.0,
@@ -1007,7 +1019,8 @@
    "net_margin": 5.81,
    "revenue": 9032844.0,
    "revenue_ttm": 39566196.0,
-   "revenue_yoy": -16.05
+   "revenue_yoy": -16.05,
+   "revenue_yoy_accel": -13.48
   },
   "2019Q3": {
    "cogs": 7875266.0,
@@ -1027,6 +1040,7 @@
    "revenue": 8607490.0,
    "revenue_ttm": 37343701.0,
    "revenue_yoy": -20.52,
+   "revenue_yoy_accel": -4.47,
    "roa_q": 0.09,
    "roa_ttm": 0.37,
    "roe_q": 1.12,
@@ -1052,6 +1066,7 @@
    "revenue": 8375954.0,
    "revenue_ttm": 35732022.0,
    "revenue_yoy": -16.14,
+   "revenue_yoy_accel": 4.38,
    "roa_q": 0.1,
    "roa_ttm": 0.36,
    "roe_q": 1.18,
@@ -1077,6 +1092,7 @@
    "revenue": 7596582.0,
    "revenue_ttm": 33612870.0,
    "revenue_yoy": -21.81,
+   "revenue_yoy_accel": -5.67,
    "roa_q": 0.03,
    "roa_ttm": 0.3,
    "roe_q": 0.36,
@@ -1102,6 +1118,7 @@
    "revenue": 6361522.0,
    "revenue_ttm": 30941548.0,
    "revenue_yoy": -29.57,
+   "revenue_yoy_accel": -7.76,
    "roa_q": 0.07,
    "roa_ttm": 0.29,
    "roe_q": 0.85,
@@ -1127,6 +1144,7 @@
    "revenue": 10111671.0,
    "revenue_ttm": 32445729.0,
    "revenue_yoy": 17.48,
+   "revenue_yoy_accel": 47.05,
    "roa_q": 0.46,
    "roa_ttm": 0.65,
    "roe_q": 5.29,
@@ -1152,6 +1170,7 @@
    "revenue": 6746624.0,
    "revenue_ttm": 30816399.0,
    "revenue_yoy": -19.45,
+   "revenue_yoy_accel": -36.93,
    "roa_q": -0.01,
    "roa_ttm": 0.53,
    "roe_q": -0.12,
@@ -1177,6 +1196,7 @@
    "revenue": 7719407.0,
    "revenue_ttm": 30939224.0,
    "revenue_yoy": 1.62,
+   "revenue_yoy_accel": 21.07,
    "roa_q": 0.13,
    "roa_ttm": 0.63,
    "roe_q": 1.51,
@@ -1202,6 +1222,7 @@
    "revenue": 7779877.0,
    "revenue_ttm": 32357579.0,
    "revenue_yoy": 22.3,
+   "revenue_yoy_accel": 20.68,
    "roa_q": 0.1,
    "roa_ttm": 0.65,
    "roe_q": 1.11,
@@ -1227,6 +1248,7 @@
    "revenue": 8295069.0,
    "revenue_ttm": 30540977.0,
    "revenue_yoy": -17.97,
+   "revenue_yoy_accel": -40.27,
    "roa_q": 0.14,
    "roa_ttm": 0.36,
    "roe_q": 1.6,
@@ -1252,6 +1274,7 @@
    "revenue": 9252171.0,
    "revenue_ttm": 33046524.0,
    "revenue_yoy": 37.14,
+   "revenue_yoy_accel": 55.11,
    "roa_q": 0.12,
    "roa_ttm": 0.48,
    "roe_q": 1.34,
@@ -1277,6 +1300,7 @@
    "revenue": 8065113.0,
    "revenue_ttm": 33392230.0,
    "revenue_yoy": 4.48,
+   "revenue_yoy_accel": -32.66,
    "roa_q": 0.1,
    "roa_ttm": 0.45,
    "roe_q": 1.1,
@@ -1302,6 +1326,7 @@
    "revenue": 8312021.0,
    "revenue_ttm": 33924374.0,
    "revenue_yoy": 6.84,
+   "revenue_yoy_accel": 2.36,
    "roa_q": 0.11,
    "roa_ttm": 0.46,
    "roe_q": 1.23,
@@ -1327,6 +1352,7 @@
    "revenue": 9093236.0,
    "revenue_ttm": 34722541.0,
    "revenue_yoy": 9.62,
+   "revenue_yoy_accel": 2.78,
    "roa_q": 0.08,
    "roa_ttm": 0.4,
    "roe_q": 0.98,
@@ -1345,7 +1371,8 @@
    "net_margin": 4.75,
    "revenue": 8647778.0,
    "revenue_ttm": 34118148.0,
-   "revenue_yoy": -6.53
+   "revenue_yoy": -6.53,
+   "revenue_yoy_accel": -16.15
   },
   "2023Q1": {
    "cogs": 8301035.0,
@@ -1365,6 +1392,7 @@
    "revenue": 9252935.0,
    "revenue_ttm": 35305970.0,
    "revenue_yoy": 14.73,
+   "revenue_yoy_accel": 21.26,
    "roa_q": 0.08,
    "roa_ttm": 0.32,
    "roe_q": 0.86,
@@ -1390,6 +1418,7 @@
    "revenue": 9737745.0,
    "revenue_ttm": 36731694.0,
    "revenue_yoy": 17.15,
+   "revenue_yoy_accel": 2.42,
    "roa_q": 0.12,
    "roa_ttm": 0.33,
    "roe_q": 1.33,
@@ -1408,7 +1437,8 @@
    "net_margin": 13.92,
    "revenue": 10288760.0,
    "revenue_ttm": 37927218.0,
-   "revenue_yoy": 13.15
+   "revenue_yoy": 13.15,
+   "revenue_yoy_accel": -4.0
   },
   "2023Q4": {
    "cogs": 8544241.0,
@@ -1421,7 +1451,8 @@
    "net_margin": 5.36,
    "revenue": 9490870.0,
    "revenue_ttm": 38770310.0,
-   "revenue_yoy": 9.75
+   "revenue_yoy": 9.75,
+   "revenue_yoy_accel": -3.4
   },
   "2024Q1": {
    "cogs": 8492201.0,
@@ -1434,7 +1465,8 @@
    "net_margin": 15.21,
    "revenue": 10490646.0,
    "revenue_ttm": 40008021.0,
-   "revenue_yoy": 13.38
+   "revenue_yoy": 13.38,
+   "revenue_yoy_accel": 3.63
   },
   "2024Q2": {
    "cogs": 8587801.0,
@@ -1447,7 +1479,8 @@
    "net_margin": 16.38,
    "revenue": 10743719.0,
    "revenue_ttm": 41013995.0,
-   "revenue_yoy": 10.33
+   "revenue_yoy": 10.33,
+   "revenue_yoy_accel": -3.05
   },
   "2024Q3": {
    "cogs": 9097146.0,
@@ -1466,6 +1499,7 @@
    "revenue": 11237229.0,
    "revenue_ttm": 41962464.0,
    "revenue_yoy": 9.22,
+   "revenue_yoy_accel": -1.11,
    "roa_q": 0.18,
    "roa_ttm": 0.59,
    "roe_q": 2.08,
@@ -1491,6 +1525,7 @@
    "revenue": 12908561.0,
    "revenue_ttm": 45380155.0,
    "revenue_yoy": 36.01,
+   "revenue_yoy_accel": 26.79,
    "roa_q": 0.12,
    "roa_ttm": 0.63,
    "roe_q": 1.41,
@@ -1516,6 +1551,7 @@
    "revenue": 11491192.0,
    "revenue_ttm": 46380701.0,
    "revenue_yoy": 9.54,
+   "revenue_yoy_accel": -26.47,
    "roa_q": 0.16,
    "roa_ttm": 0.61,
    "roe_q": 1.92,
@@ -1541,6 +1577,7 @@
    "revenue": 11530078.0,
    "revenue_ttm": 47167060.0,
    "revenue_yoy": 7.32,
+   "revenue_yoy_accel": -2.22,
    "roa_q": 0.14,
    "roa_ttm": 0.58,
    "roe_q": 1.65,
@@ -1566,6 +1603,7 @@
    "revenue": 11061283.0,
    "revenue_ttm": 46991114.0,
    "revenue_yoy": -1.57,
+   "revenue_yoy_accel": -8.89,
    "roa_q": 0.22,
    "roa_ttm": 0.63,
    "roe_q": 2.47,
@@ -1591,6 +1629,7 @@
    "revenue": 11190305.0,
    "revenue_ttm": 45272858.0,
    "revenue_yoy": -13.31,
+   "revenue_yoy_accel": -11.74,
    "roa_q": 0.16,
    "roa_ttm": 0.66,
    "roe_q": 1.78,
@@ -1616,6 +1655,7 @@
    "revenue": 11169810.0,
    "revenue_ttm": 44951476.0,
    "revenue_yoy": -2.8,
+   "revenue_yoy_accel": 10.51,
    "roa_q": 0.2,
    "roa_ttm": 0.7,
    "roe_q": 2.19,

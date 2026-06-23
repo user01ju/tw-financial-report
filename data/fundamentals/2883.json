@@ -749,6 +749,7 @@
    "revenue": 5167367.0,
    "revenue_ttm": 26264877.0,
    "revenue_yoy": -34.76,
+   "revenue_yoy_accel": -16.0,
    "total_assets": 893191923.0,
    "total_liabilities": 731455915.0
   },
@@ -763,6 +764,7 @@
    "revenue": 8488732.0,
    "revenue_ttm": 29154104.0,
    "revenue_yoy": 51.6,
+   "revenue_yoy_accel": 86.36,
    "total_assets": 912030833.0,
    "total_liabilities": 747093468.0
   },
@@ -774,7 +776,8 @@
    "pretax_income": 1988748.0,
    "revenue": 6958886.0,
    "revenue_ttm": 27127728.0,
-   "revenue_yoy": -22.55
+   "revenue_yoy": -22.55,
+   "revenue_yoy_accel": -74.15
   },
   "2017Q1": {
    "debt_ratio": 81.76,
@@ -787,6 +790,7 @@
    "revenue": 6801497.0,
    "revenue_ttm": 27416482.0,
    "revenue_yoy": 4.43,
+   "revenue_yoy_accel": 26.98,
    "total_assets": 926575499.0,
    "total_liabilities": 757534243.0
   },
@@ -801,6 +805,7 @@
    "revenue": 7169430.0,
    "revenue_ttm": 29418545.0,
    "revenue_yoy": 38.74,
+   "revenue_yoy_accel": 34.31,
    "total_assets": 929058603.0,
    "total_liabilities": 764602379.0
   },
@@ -812,7 +817,8 @@
    "pretax_income": 5774458.0,
    "revenue": 21448334.0,
    "revenue_ttm": 42378147.0,
-   "revenue_yoy": 152.67
+   "revenue_yoy": 152.67,
+   "revenue_yoy_accel": 113.93
   },
   "2017Q4": {
    "eps": 0.19,
@@ -822,7 +828,8 @@
    "pretax_income": 4775133.0,
    "revenue": 49994390.0,
    "revenue_ttm": 85413651.0,
-   "revenue_yoy": 618.43
+   "revenue_yoy": 618.43,
+   "revenue_yoy_accel": 465.76
   },
   "2018Q1": {
    "eps": 0.23,
@@ -832,7 +839,8 @@
    "pretax_income": 4417048.0,
    "revenue": 57956133.0,
    "revenue_ttm": 136568287.0,
-   "revenue_yoy": 752.11
+   "revenue_yoy": 752.11,
+   "revenue_yoy_accel": 133.68
   },
   "2018Q2": {
    "eps": 0.19,
@@ -842,7 +850,8 @@
    "pretax_income": 4963506.0,
    "revenue": 61683149.0,
    "revenue_ttm": 191082006.0,
-   "revenue_yoy": 760.36
+   "revenue_yoy": 760.36,
+   "revenue_yoy_accel": 8.25
   },
   "2018Q3": {
    "eps": 0.17,
@@ -852,7 +861,8 @@
    "pretax_income": 5732448.0,
    "revenue": 71066397.0,
    "revenue_ttm": 240700069.0,
-   "revenue_yoy": 231.34
+   "revenue_yoy": 231.34,
+   "revenue_yoy_accel": -529.02
   },
   "2018Q4": {
    "debt_ratio": 91.77,
@@ -865,6 +875,7 @@
    "revenue": 61644198.0,
    "revenue_ttm": 252349877.0,
    "revenue_yoy": 23.3,
+   "revenue_yoy_accel": -208.04,
    "total_assets": 2717814828.0,
    "total_liabilities": 2494251922.0
   },
@@ -876,7 +887,8 @@
    "pretax_income": 5468984.0,
    "revenue": 67675026.0,
    "revenue_ttm": 262068770.0,
-   "revenue_yoy": 16.77
+   "revenue_yoy": 16.77,
+   "revenue_yoy_accel": -6.53
   },
   "2019Q2": {
    "eps": 0.29,
@@ -886,7 +898,8 @@
    "pretax_income": 7177534.0,
    "revenue": 58585803.0,
    "revenue_ttm": 258971424.0,
-   "revenue_yoy": -5.02
+   "revenue_yoy": -5.02,
+   "revenue_yoy_accel": -21.79
   },
   "2019Q3": {
    "debt_ratio": 90.48,
@@ -899,6 +912,7 @@
    "revenue": 62167331.0,
    "revenue_ttm": 250072358.0,
    "revenue_yoy": -12.52,
+   "revenue_yoy_accel": -7.5,
    "total_assets": 3051016682.0,
    "total_liabilities": 2760604147.0
   },
@@ -913,6 +927,7 @@
    "revenue": 51953940.0,
    "revenue_ttm": 240382100.0,
    "revenue_yoy": -15.72,
+   "revenue_yoy_accel": -3.2,
    "total_assets": 3027288004.0,
    "total_liabilities": 2730822850.0
   },
@@ -927,6 +942,7 @@
    "revenue": 52092821.0,
    "revenue_ttm": 224799895.0,
    "revenue_yoy": -23.03,
+   "revenue_yoy_accel": -7.31,
    "total_assets": 3114168302.0,
    "total_liabilities": 2872138439.0
   },
@@ -941,6 +957,7 @@
    "revenue": 52465161.0,
    "revenue_ttm": 218679253.0,
    "revenue_yoy": -10.45,
+   "revenue_yoy_accel": 12.58,
    "total_assets": 3213415636.0,
    "total_liabilities": 2932153312.0
   },
@@ -955,6 +972,7 @@
    "revenue": 67712780.0,
    "revenue_ttm": 224224702.0,
    "revenue_yoy": 8.92,
+   "revenue_yoy_accel": 19.37,
    "total_assets": 3292770380.0,
    "total_liabilities": 2996265674.0
   },
@@ -969,6 +987,7 @@
    "revenue": 52519691.0,
    "revenue_ttm": 224790453.0,
    "revenue_yoy": 1.09,
+   "revenue_yoy_accel": -7.83,
    "total_assets": 3434618475.0,
    "total_liabilities": 3101992388.0
   },
@@ -983,6 +1002,7 @@
    "revenue": 53207692.0,
    "revenue_ttm": 225905324.0,
    "revenue_yoy": 2.14,
+   "revenue_yoy_accel": 1.05,
    "total_assets": 3426117789.0,
    "total_liabilities": 3131865333.0
   },
@@ -997,6 +1017,7 @@
    "revenue": 45504887.0,
    "revenue_ttm": 218945050.0,
    "revenue_yoy": -13.27,
+   "revenue_yoy_accel": -15.41,
    "total_assets": 3498255860.0,
    "total_liabilities": 3187378066.0
   },
@@ -1011,6 +1032,7 @@
    "revenue": 49608905.0,
    "revenue_ttm": 200841175.0,
    "revenue_yoy": -26.74,
+   "revenue_yoy_accel": -13.47,
    "total_assets": 3392342353.0,
    "total_liabilities": 3087362991.0
   },
@@ -1025,6 +1047,7 @@
    "revenue": 43956686.0,
    "revenue_ttm": 192278170.0,
    "revenue_yoy": -16.3,
+   "revenue_yoy_accel": 10.44,
    "total_assets": 3458639948.0,
    "total_liabilities": 3165529196.0
   },
@@ -1039,6 +1062,7 @@
    "revenue": 41656732.0,
    "revenue_ttm": 180727210.0,
    "revenue_yoy": -21.71,
+   "revenue_yoy_accel": -5.41,
    "total_assets": 3501296779.0,
    "total_liabilities": 3238756672.0
   },
@@ -1053,6 +1077,7 @@
    "revenue": 32577321.0,
    "revenue_ttm": 167799644.0,
    "revenue_yoy": -28.41,
+   "revenue_yoy_accel": -6.7,
    "total_assets": 3483381788.0,
    "total_liabilities": 3296516907.0
   },
@@ -1067,6 +1092,7 @@
    "revenue": 25168340.0,
    "revenue_ttm": 143359079.0,
    "revenue_yoy": -49.27,
+   "revenue_yoy_accel": -20.86,
    "total_assets": 3628787011.0,
    "total_liabilities": 3460346352.0
   },
@@ -1078,7 +1104,8 @@
    "pretax_income": -5170691.0,
    "revenue": -3546990.0,
    "revenue_ttm": 95855403.0,
-   "revenue_yoy": -108.07
+   "revenue_yoy": -108.07,
+   "revenue_yoy_accel": -58.8
   },
   "2023Q1": {
    "debt_ratio": 93.44,
@@ -1091,6 +1118,7 @@
    "revenue": 11764612.0,
    "revenue_ttm": 65963283.0,
    "revenue_yoy": -71.76,
+   "revenue_yoy_accel": 36.31,
    "total_assets": 3554801720.0,
    "total_liabilities": 3321738450.0
   },
@@ -1105,6 +1133,7 @@
    "revenue": 16888828.0,
    "revenue_ttm": 50274790.0,
    "revenue_yoy": -48.16,
+   "revenue_yoy_accel": 23.6,
    "total_assets": 3680091381.0,
    "total_liabilities": 3436060494.0
   },
@@ -1116,7 +1145,8 @@
    "pretax_income": 9735024.0,
    "revenue": 8992117.0,
    "revenue_ttm": 34098567.0,
-   "revenue_yoy": -64.27
+   "revenue_yoy": -64.27,
+   "revenue_yoy_accel": -16.11
   },
   "2023Q4": {
    "eps": 0.08,
@@ -1126,7 +1156,8 @@
    "pretax_income": 302151.0,
    "revenue": 1906490.0,
    "revenue_ttm": 39552047.0,
-   "revenue_yoy": 153.75
+   "revenue_yoy": 153.75,
+   "revenue_yoy_accel": 218.02
   },
   "2024Q1": {
    "eps": 0.49,
@@ -1136,7 +1167,8 @@
    "pretax_income": 9895558.0,
    "revenue": 15692178.0,
    "revenue_ttm": 43479613.0,
-   "revenue_yoy": 33.38
+   "revenue_yoy": 33.38,
+   "revenue_yoy_accel": -120.37
   },
   "2024Q2": {
    "eps": 0.49,
@@ -1146,7 +1178,8 @@
    "pretax_income": 11059596.0,
    "revenue": 11823440.0,
    "revenue_ttm": 38414225.0,
-   "revenue_yoy": -29.99
+   "revenue_yoy": -29.99,
+   "revenue_yoy_accel": -63.37
   },
   "2024Q3": {
    "debt_ratio": 92.23,
@@ -1159,6 +1192,7 @@
    "revenue": 24399645.0,
    "revenue_ttm": 53821753.0,
    "revenue_yoy": 171.34,
+   "revenue_yoy_accel": 201.33,
    "total_assets": 3941786547.0,
    "total_liabilities": 3635672172.0
   },
@@ -1173,6 +1207,7 @@
    "revenue": 21373506.0,
    "revenue_ttm": 73288769.0,
    "revenue_yoy": 1021.09,
+   "revenue_yoy_accel": 849.75,
    "total_assets": 3948244504.0,
    "total_liabilities": 3640951342.0
   },
@@ -1187,6 +1222,7 @@
    "revenue": 27140073.0,
    "revenue_ttm": 84736664.0,
    "revenue_yoy": 72.95,
+   "revenue_yoy_accel": -948.14,
    "total_assets": 3966011446.0,
    "total_liabilities": 3565053831.0
   },
@@ -1201,6 +1237,7 @@
    "revenue": -357222.0,
    "revenue_ttm": 72556002.0,
    "revenue_yoy": -103.02,
+   "revenue_yoy_accel": -175.97,
    "total_assets": 3825516404.0,
    "total_liabilities": 3558982929.0
   },
@@ -1215,6 +1252,7 @@
    "revenue": 10066917.0,
    "revenue_ttm": 58223274.0,
    "revenue_yoy": -58.74,
+   "revenue_yoy_accel": 44.28,
    "total_assets": 3959508128.0,
    "total_liabilities": 3648080405.0
   },
@@ -1229,6 +1267,7 @@
    "revenue": 27454438.0,
    "revenue_ttm": 64304206.0,
    "revenue_yoy": 28.45,
+   "revenue_yoy_accel": 87.19,
    "total_assets": 4082703737.0,
    "total_liabilities": 3720450862.0
   },
