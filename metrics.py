@@ -210,22 +210,34 @@ def monthly_metrics(code):
     return out, monthly_summary(rev_by_m, yoy_by_m, months)
 
 
+def avg_window(yoys, end, n):
+    """yoys[end-n:end] 非 None 的平均(end 為 exclusive 索引)。"""
+    if end <= 0:
+        return None
+    w = [y for y in yoys[max(0, end - n):end] if y is not None]
+    return sum(w) / len(w) if w else None
+
+
 def monthly_summary(rev_by_m, yoy_by_m, months):
     """月營收摘要：長短期 YoY(3m/12m)、累計YoY、加速、連續月、轉折、創新高。"""
     if not months:
         return {}
     yoys = [yoy_by_m[m] for m in months]  # 由舊到新
     s = {}
-    avg = lambda xs: round(sum(xs) / len(xs), 2) if xs else None
-    r3 = [y for y in yoys[-3:] if y is not None]
-    r12 = [y for y in yoys[-12:] if y is not None]
-    prior3 = [y for y in yoys[-6:-3] if y is not None]
-    if r3:
-        s["mrev_yoy_3m"] = avg(r3)  # 短期動能
-    if r12:
-        s["mrev_yoy_12m"] = avg(r12)  # 長期動能
-    if r3 and prior3:
-        s["mrev_yoy_accel"] = round(avg(r3) - avg(prior3), 2)
+    n = len(yoys)
+    cur3, cur12 = avg_window(yoys, n, 3), avg_window(yoys, n, 12)
+    prev3, prev12 = avg_window(yoys, n - 1, 3), avg_window(yoys, n - 1, 12)
+    prior3 = avg_window(yoys, n - 3, 3)  # 前一段 3 月(算加速用)
+    if cur3 is not None:
+        s["mrev_yoy_3m"] = round(cur3, 2)  # 短期動能
+    if cur12 is not None:
+        s["mrev_yoy_12m"] = round(cur12, 2)  # 長期動能
+    if cur3 is not None and prior3 is not None:
+        s["mrev_yoy_accel"] = round(cur3 - prior3, 2)
+    # 短期突破長期：本月 3m 上穿 12m(上月還在下方)=動能轉強黃金交叉；1=剛突破 0=無
+    if None not in (cur3, cur12, prev3, prev12):
+        s["mrev_breakout"] = 1 if cur3 > cur12 and prev3 <= prev12 else 0
+        s["mrev_3m_over_12m"] = cur3 > cur12  # 當前短期是否在長期之上(狀態)
     # 連續正成長月數
     streak = 0
     for y in reversed(yoys):

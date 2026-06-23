@@ -239,6 +239,9 @@ a {
 .sig.hi {
   color: var(--amber);
 }
+.sig.bo {
+  color: #6db1d9;
+}
 
 .count {
   margin-left: auto;

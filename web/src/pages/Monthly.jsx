@@ -22,6 +22,7 @@ export default function Monthly() {
   const [minYoy, setMinYoy] = useState("");
   const [turnPos, setTurnPos] = useState(false);
   const [highOnly, setHighOnly] = useState(false);
+  const [breakoutOnly, setBreakoutOnly] = useState(false);
   const [sort, setSort] = useState({ k: "yoy", dir: -1 });
 
   useEffect(() => {
@@ -53,6 +54,7 @@ export default function Monthly() {
       if (my != null && !(r.yoy >= my)) return false;
       if (turnPos && r.mrev_turn !== 1) return false;
       if (highOnly && !r.mrev_high_all) return false;
+      if (breakoutOnly && r.mrev_breakout !== 1) return false;
       return true;
     });
     const { k, dir } = sort;
@@ -64,7 +66,7 @@ export default function Monthly() {
       return (x - y) * dir;
     });
     return out;
-  }, [rows, q, ind, minYoy, turnPos, highOnly, sort]);
+  }, [rows, q, ind, minYoy, turnPos, highOnly, breakoutOnly, sort]);
 
   const shown = view.slice(0, 250);
   const th = (k, label, cls) => (
@@ -115,6 +117,10 @@ export default function Monthly() {
           <input type="checkbox" checked={highOnly} onChange={(e) => setHighOnly(e.target.checked)} />
           營收創新高
         </label>
+        <label className="toggle">
+          <input type="checkbox" checked={breakoutOnly} onChange={(e) => setBreakoutOnly(e.target.checked)} />
+          3m突破12m
+        </label>
         <div className="count">
           符合 <b>{view.length}</b> 檔{view.length > 250 && <> · 顯示前 250</>}
         </div>
@@ -156,6 +162,7 @@ export default function Monthly() {
                   ))}
                   <td className="num">{r.mrev_streak ?? "—"}</td>
                   <td className="l">
+                    {r.mrev_breakout === 1 && <span className="sig bo">3m▲12m</span>}
                     {r.mrev_turn === 1 && <span className="sig up">轉正↗</span>}
                     {r.mrev_turn === -1 && <span className="sig down">轉負↘</span>}
                     {r.mrev_high_all && <span className="sig hi">★創高</span>}
