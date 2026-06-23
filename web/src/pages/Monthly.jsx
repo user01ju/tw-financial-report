@@ -53,7 +53,7 @@ export default function Monthly() {
       if (qq && !r.code.includes(qq) && !(r.name || "").includes(qq)) return false;
       if (my != null && !(r.yoy >= my)) return false;
       if (turnPos && r.mrev_turn !== 1) return false;
-      if (highOnly && !r.mrev_high_all) return false;
+      if (highOnly && !r.mrev_high_36m) return false;
       if (breakoutOnly && r.mrev_breakout !== 1) return false;
       return true;
     });
@@ -115,7 +115,7 @@ export default function Monthly() {
         </label>
         <label className="toggle">
           <input type="checkbox" checked={highOnly} onChange={(e) => setHighOnly(e.target.checked)} />
-          營收創新高
+          近36月新高
         </label>
         <label className="toggle">
           <input type="checkbox" checked={breakoutOnly} onChange={(e) => setBreakoutOnly(e.target.checked)} />
@@ -165,7 +165,7 @@ export default function Monthly() {
                     {r.mrev_breakout === 1 && <span className="sig bo">3m▲12m</span>}
                     {r.mrev_turn === 1 && <span className="sig up">轉正↗</span>}
                     {r.mrev_turn === -1 && <span className="sig down">轉負↘</span>}
-                    {r.mrev_high_all && <span className="sig hi">★創高</span>}
+                    {r.mrev_high_36m && <span className="sig hi">★36M高</span>}
                   </td>
                 </tr>
               ))}

@@ -262,13 +262,11 @@ def monthly_summary(rev_by_m, yoy_by_m, months):
            if rev_by_m.get(f"{y}-{k:02d}") is not None and rev_by_m.get(f"{y - 1}-{k:02d}") is not None]
     if cur and sum(pri) > 0:
         s["mrev_yoy_ytd"] = round((sum(cur) / sum(pri) - 1) * 100, 2)
-    # 創新高(最新月營收)
-    revs = [rev_by_m[m] for m in months if rev_by_m[m] is not None]
+    # 創新高：近 36 個月新高(至少需 12 個月資料,避免新股 trivial 標高)
     last = rev_by_m[months[-1]]
-    if last is not None and revs:
-        s["mrev_high_all"] = last >= max(revs)
-        last12 = [rev_by_m[m] for m in months[-12:] if rev_by_m[m] is not None]
-        s["mrev_high_12m"] = bool(last12) and last >= max(last12)
+    last36 = [rev_by_m[m] for m in months[-36:] if rev_by_m[m] is not None]
+    if last is not None and len(last36) >= 12:
+        s["mrev_high_36m"] = last >= max(last36)
     return s
 
 
