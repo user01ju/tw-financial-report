@@ -1,7 +1,8 @@
-import React, { Suspense, lazy } from "react";
+import React, { Suspense, lazy, useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
 import { HashRouter, Routes, Route, NavLink } from "react-router-dom";
 import "./index.css";
+import { getMeta } from "./lib/data.js";
 import Screener from "./pages/Screener.jsx";
 import Monthly from "./pages/Monthly.jsx";
 import Momentum from "./pages/Momentum.jsx";
@@ -9,6 +10,17 @@ import Momentum from "./pages/Momentum.jsx";
 const Company = lazy(() => import("./pages/Company.jsx"));
 
 function Masthead() {
+  const [meta, setMeta] = useState(null);
+  useEffect(() => {
+    getMeta().then(setMeta).catch(() => {});
+  }, []);
+  const updated = meta?.updated_at
+    ? new Date(meta.updated_at).toLocaleString("zh-TW", {
+        timeZone: "Asia/Taipei",
+        year: "numeric", month: "2-digit", day: "2-digit",
+        hour: "2-digit", minute: "2-digit", hour12: false,
+      })
+    : null;
   return (
     <header className="masthead">
       <NavLink to="/" className="wordmark">
@@ -22,6 +34,11 @@ function Masthead() {
         <NavLink to="/momentum">動能成長</NavLink>
         <NavLink to="/monthly">月營收</NavLink>
       </nav>
+      {updated && (
+        <span className="updated" title={`季 ${meta.latest_quarter} · 月 ${meta.latest_month}`}>
+          更新 {updated}
+        </span>
+      )}
     </header>
   );
 }

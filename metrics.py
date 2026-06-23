@@ -15,6 +15,7 @@
   python metrics.py                 # 全部
   python metrics.py 2330 2317       # 指定股
 """
+import datetime
 import json
 import os
 import sys
@@ -408,6 +409,12 @@ def main():
     add_mg_score(latest)
     dump(os.path.join(config.DATA_DIR, "fundamentals", "_latest.json"), latest)
     dump(os.path.join(config.DATA_DIR, "fundamentals", "_latest_monthly.json"), latest_monthly)
+    dump(os.path.join(config.DATA_DIR, "fundamentals", "_meta.json"), {
+        "updated_at": datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds"),
+        "latest_quarter": max((v["period"] for v in latest.values()), default=None),
+        "latest_month": max((v["month"] for v in latest_monthly.values()), default=None),
+        "count": len(latest),
+    })
     print(f"完成 {len(codes)} 檔，季橫斷面 {len(latest)}、月橫斷面 {len(latest_monthly)} -> data/fundamentals/")
 
 

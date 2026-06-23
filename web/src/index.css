@@ -130,6 +130,13 @@ a {
   background: var(--amber);
   font-weight: 500;
 }
+.masthead .updated {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-faint);
+  white-space: nowrap;
+  align-self: center;
+}
 
 /* ---- layout ---- */
 .page {
