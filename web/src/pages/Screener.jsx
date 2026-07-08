@@ -35,6 +35,7 @@ export default function Screener() {
   const [minNm, setMinNm] = useState("");
   const [minScore, setMinScore] = useState("");
   const [minRevAccel, setMinRevAccel] = useState("");
+  const [period, setPeriod] = useState("");
   const [sort, setSort] = useState({ k: "roe_ttm", dir: -1 });
 
   useEffect(() => {
@@ -46,6 +47,12 @@ export default function Screener() {
       )
       .catch((e) => setErr(String(e)));
   }, []);
+
+  // 各公司「最新一季」不對齊(公告日不同)，列出實際出現過的季度供篩選
+  const periods = useMemo(() => {
+    if (!rows) return [];
+    return [...new Set(rows.map((r) => r.period).filter(Boolean))].sort().reverse();
+  }, [rows]);
 
   // CMoney 子類股，依大分類(parent)分組供 optgroup
   const sectorsByParent = useMemo(() => {
@@ -72,6 +79,7 @@ export default function Screener() {
     const ma = minRevAccel === "" ? null : +minRevAccel;
     let out = rows.filter((r) => {
       if (ind && r.sector !== ind) return false;
+      if (period && r.period !== period) return false;
       if (qq && !r.code.includes(qq) && !(r.name || "").includes(qq)) return false;
       if (mr != null && !(r.roe_ttm >= mr)) return false;
       if (md != null && !(r.debt_ratio <= md)) return false;
@@ -92,7 +100,7 @@ export default function Screener() {
       return (x - y) * dir;
     });
     return out;
-  }, [rows, q, ind, minRoe, maxDebt, minYoy, maxPe, minOpm, minNm, minScore, minRevAccel, sort]);
+  }, [rows, q, ind, period, minRoe, maxDebt, minYoy, maxPe, minOpm, minNm, minScore, minRevAccel, sort]);
 
   const shown = view.slice(0, 250);
 
@@ -133,6 +141,15 @@ export default function Screener() {
                   <option key={s} value={s}>{s}</option>
                 ))}
               </optgroup>
+            ))}
+          </select>
+        </div>
+        <div className="field">
+          <label>財報季度</label>
+          <select value={period} onChange={(e) => setPeriod(e.target.value)}>
+            <option value="">全部</option>
+            {periods.map((p) => (
+              <option key={p} value={p}>{p}</option>
             ))}
           </select>
         </div>
@@ -187,6 +204,7 @@ export default function Screener() {
               <tr>
                 {th("code", "代號", "l")}
                 {th("name", "名稱", "l")}
+                {th("period", "季度")}
                 {th("mg_score", "動能分")}
                 {COLS.map((c) => th(c.key, c.t))}
               </tr>
@@ -199,6 +217,7 @@ export default function Screener() {
                     <span className="cname">{r.name}</span>{" "}
                     <span className="cind">{r.sector || r.industry}</span>
                   </td>
+                  <td className="num">{r.period || "—"}</td>
                   <td className="num" style={{ color: "var(--amber)", fontWeight: 600 }}>
                     {fmtNum(r.mg_score, 1)}
                   </td>

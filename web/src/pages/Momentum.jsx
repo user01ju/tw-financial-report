@@ -26,6 +26,7 @@ export default function Momentum() {
   const [minRoe, setMinRoe] = useState("10");
   const [minOpm, setMinOpm] = useState("5");
   const [minScore, setMinScore] = useState("");
+  const [period, setPeriod] = useState("");
   const [sort, setSort] = useState({ k: "mg_score", dir: -1 });
 
   useEffect(() => {
@@ -49,6 +50,12 @@ export default function Momentum() {
     return Object.fromEntries(Object.entries(m).map(([p, s]) => [p, [...s].sort()]));
   }, [rows]);
 
+  // 各公司「最新一季」不對齊(公告日不同)，列出實際出現過的季度供篩選
+  const periods = useMemo(() => {
+    if (!rows) return [];
+    return [...new Set(rows.map((r) => r.period).filter(Boolean))].sort().reverse();
+  }, [rows]);
+
   const view = useMemo(() => {
     if (!rows) return [];
     const qq = q.trim();
@@ -57,6 +64,7 @@ export default function Momentum() {
     const ms = minScore === "" ? null : +minScore;
     let out = rows.filter((r) => {
       if (ind && r.sector !== ind) return false;
+      if (period && r.period !== period) return false;
       if (qq && !r.code.includes(qq) && !(r.name || "").includes(qq)) return false;
       if (mr != null && !(r.roe_ttm >= mr)) return false;
       if (mo != null && !(r.operating_margin >= mo)) return false;
@@ -72,7 +80,7 @@ export default function Momentum() {
       return (x - y) * dir;
     });
     return out;
-  }, [rows, q, ind, minRoe, minOpm, minScore, sort]);
+  }, [rows, q, ind, period, minRoe, minOpm, minScore, sort]);
 
   const shown = view.slice(0, 250);
   const th = (k, label, cls) => (
@@ -111,6 +119,15 @@ export default function Momentum() {
             ))}
           </select>
         </div>
+        <div className="field">
+          <label>財報季度</label>
+          <select value={period} onChange={(e) => setPeriod(e.target.value)}>
+            <option value="">全部</option>
+            {periods.map((p) => (
+              <option key={p} value={p}>{p}</option>
+            ))}
+          </select>
+        </div>
         <div className="field range">
           <label>動能成長分 ≥</label>
           <input type="number" value={minScore} onChange={(e) => setMinScore(e.target.value)} placeholder="80" />
@@ -142,6 +159,7 @@ export default function Momentum() {
               <tr>
                 {th("code", "代號", "l")}
                 {th("name", "名稱", "l")}
+                {th("period", "季度")}
                 {th("mg_score", "動能成長分")}
                 {COLS.map((c) => th(c.key, c.t))}
               </tr>
@@ -154,6 +172,7 @@ export default function Momentum() {
                     <span className="cname">{r.name}</span>{" "}
                     <span className="cind">{r.sector || r.industry}</span>
                   </td>
+                  <td className="num">{r.period || "—"}</td>
                   <td className="num" style={{ color: "var(--amber)", fontWeight: 600 }}>
                     {fmtNum(r.mg_score, 1)}
                   </td>
