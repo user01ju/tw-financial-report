@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { getLatest, getValuation } from "../lib/data.js";
 import { useUrlState } from "../lib/useUrlState.js";
 import { useScrollRestore } from "../lib/useScrollRestore.js";
+import TvButton from "../components/TvButton.jsx";
 import { fmtPct, fmtNum, fmtMoneyK, signClass } from "../lib/format.js";
 
 // 欄位定義：key, 標題, 取值, 格式, 是否套漲跌色(紅漲綠跌)
@@ -190,6 +191,7 @@ export default function Screener() {
         <div className="count">
           符合 <b>{view.length}</b> 檔{view.length > 250 && <> · 顯示前 250</>}
         </div>
+        <TvButton name="篩選排行" rows={view} />
       </div>
 
       {!rows ? (

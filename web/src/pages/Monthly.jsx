@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { getLatestMonthly } from "../lib/data.js";
 import { useUrlState } from "../lib/useUrlState.js";
 import { useScrollRestore } from "../lib/useScrollRestore.js";
+import TvButton from "../components/TvButton.jsx";
 import { fmtPct, fmtMoneyK, signClass } from "../lib/format.js";
 
 // 數值欄：YoY / 短期3m / 長期12m / 累計YTD / MoM（皆套紅漲綠跌）
@@ -135,6 +136,7 @@ export default function Monthly() {
         <div className="count">
           符合 <b>{view.length}</b> 檔{view.length > 250 && <> · 顯示前 250</>}
         </div>
+        <TvButton name="月營收" rows={view} />
       </div>
 
       {!rows ? (

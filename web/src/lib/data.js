@@ -16,3 +16,4 @@ export const getLatestMonthly = () => fetchJson("fundamentals/_latest_monthly.js
 export const getCompany = (code) => fetchJson(`fundamentals/${code}.json`);
 export const getValuation = () => fetchJson("valuation/_latest.json");
 export const getMeta = () => fetchJson("fundamentals/_meta.json");
+export const getMarkets = () => fetchJson("markets.json"); // {code: "TWSE"|"TPEX"}，推 TV 用

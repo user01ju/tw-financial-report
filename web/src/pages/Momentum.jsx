@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { getLatest } from "../lib/data.js";
 import { useUrlState } from "../lib/useUrlState.js";
 import { useScrollRestore } from "../lib/useScrollRestore.js";
+import TvButton from "../components/TvButton.jsx";
 import { fmtPct, fmtNum, signClass } from "../lib/format.js";
 
 // 動能成長頁欄位
@@ -151,6 +152,7 @@ export default function Momentum() {
         <div className="count">
           符合 <b>{view.length}</b> 檔{view.length > 250 && <> · 顯示前 250</>}
         </div>
+        <TvButton name="動能成長" rows={view} />
       </div>
 
       {!rows ? (

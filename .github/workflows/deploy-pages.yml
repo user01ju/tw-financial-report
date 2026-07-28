@@ -12,6 +12,7 @@ on:
       - "data/fundamentals/**"
       - "data/valuation/**"
       - "data/companies.json"
+      - "data/markets.json"
       - ".github/workflows/deploy-pages.yml"
   schedule:
     - cron: "30 9 * * *" # 台灣 17:30，晚於資料更新(17:00)
@@ -46,6 +47,7 @@ jobs:
           cp data/fundamentals/*.json web/dist/data/fundamentals/
           cp data/valuation/_latest.json web/dist/data/valuation/
           cp data/companies.json web/dist/data/
+          cp data/markets.json web/dist/data/
       - uses: actions/upload-pages-artifact@v5
         with:
           path: web/dist

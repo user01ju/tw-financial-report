@@ -250,6 +250,27 @@ a {
   color: #6db1d9;
 }
 
+.tvbtn {
+  margin-left: 14px;
+  align-self: center;
+  background: transparent;
+  border: 1px solid var(--amber-deep);
+  color: var(--amber);
+  font-family: var(--mono);
+  font-size: 12px;
+  padding: 7px 12px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: background 0.15s, opacity 0.15s;
+}
+.tvbtn:hover:not(:disabled) {
+  background: rgba(227, 168, 74, 0.12);
+}
+.tvbtn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
 .count {
   margin-left: auto;
   font-family: var(--mono);
