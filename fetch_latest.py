@@ -162,6 +162,38 @@ def run_dataset(name):
     return companies
 
 
+# 上市/上櫃歸屬。用公司基本資料(t187ap03)而非每日收盤：收盤端點對當日無成交的
+# 股票給 " ---"，冷門股會整批漏掉(4130/4198/5703/8087 踩過，被誤標成上市)。
+MARKET_SOURCES = [
+    ("https://openapi.twse.com.tw/v1/opendata/t187ap03_L", "公司代號", "TWSE"),
+    ("https://www.tpex.org.tw/openapi/v1/mopsfin_t187ap03_O", "SecuritiesCompanyCode", "TPEX"),
+]
+
+
+def update_markets():
+    """data/markets.json = {code: "TWSE"|"TPEX"}，前端推 TradingView 要 EX:CODE 前綴。"""
+    markets = {}
+    for url, key, mk in MARKET_SOURCES:
+        records = fetch_json(url)
+        if not records:
+            print(f"  ! {mk} 基本資料抓不到，保留舊值")
+            continue
+        n = 0
+        for rec in records:
+            code = str(rec.get(key, "")).strip()
+            if re.fullmatch(r"\d{4}", code):
+                markets[code] = mk
+                n += 1
+        print(f"  {mk}: {n} 檔")
+    if not markets:
+        return
+    path = os.path.join(config.DATA_DIR, "markets.json")
+    master = load(path)
+    master.update(markets)  # 只增不減：下市/暫停交易不該讓前綴消失
+    dump(path, master)
+    print(f"  -> markets.json {len(master)} 檔")
+
+
 def update_master(all_companies):
     path = os.path.join(config.DATA_DIR, "companies.json")
     master = load(path)
@@ -177,6 +209,8 @@ def main():
         print(f"[{name}]")
         all_companies.update(run_dataset(name))
     update_master(all_companies)
+    print("[markets]")
+    update_markets()
     print("完成。")
 
 
