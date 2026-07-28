@@ -1,7 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import { getLatestMonthly } from "../lib/data.js";
+import { useUrlState } from "../lib/useUrlState.js";
+import { useScrollRestore } from "../lib/useScrollRestore.js";
 import { fmtPct, fmtMoneyK, signClass } from "../lib/format.js";
 
 // 數值欄：YoY / 短期3m / 長期12m / 累計YTD / MoM（皆套紅漲綠跌）
@@ -13,17 +15,26 @@ const COLS = [
   { key: "mom", t: "MoM" },
 ];
 
+const DEFAULTS = {
+  q: "", sector: "", yoy: "",
+  turn: false, high: false, breakout: false,
+  sk: "yoy", sd: "-1",
+};
+
 export default function Monthly() {
   const nav = useNavigate();
+  const loc = useLocation();
   const [rows, setRows] = useState(null);
   const [err, setErr] = useState(null);
-  const [q, setQ] = useState("");
-  const [ind, setInd] = useState("");
-  const [minYoy, setMinYoy] = useState("");
-  const [turnPos, setTurnPos] = useState(false);
-  const [highOnly, setHighOnly] = useState(false);
-  const [breakoutOnly, setBreakoutOnly] = useState(false);
-  const [sort, setSort] = useState({ k: "yoy", dir: -1 });
+  const [f, setF] = useUrlState(DEFAULTS);
+  const {
+    q, sector: ind, yoy: minYoy,
+    turn: turnPos, high: highOnly, breakout: breakoutOnly,
+  } = f;
+  const sort = { k: f.sk, dir: +f.sd };
+  const setSort = (k) =>
+    setF({ sk: k, sd: sort.k === k ? String(-sort.dir) : "-1" });
+  useScrollRestore(loc.pathname, !!rows);
 
   useEffect(() => {
     getLatestMonthly()
@@ -70,7 +81,7 @@ export default function Monthly() {
 
   const shown = view.slice(0, 250);
   const th = (k, label, cls) => (
-    <th key={k} className={cls} onClick={() => setSort((s) => ({ k, dir: s.k === k ? -s.dir : -1 }))}>
+    <th key={k} className={cls} onClick={() => setSort(k)}>
       {label}
       {sort.k === k && <span className="arrow">{sort.dir < 0 ? "▾" : "▴"}</span>}
     </th>
@@ -90,11 +101,11 @@ export default function Monthly() {
       <div className="controls">
         <div className="field">
           <label>搜尋 代號 / 名稱</label>
-          <input type="text" value={q} onChange={(e) => setQ(e.target.value)} placeholder="2330 / 台積電" />
+          <input type="text" value={q} onChange={(e) => setF({ q: e.target.value })} placeholder="2330 / 台積電" />
         </div>
         <div className="field">
           <label>子類股 (CMoney)</label>
-          <select value={ind} onChange={(e) => setInd(e.target.value)}>
+          <select value={ind} onChange={(e) => setF({ sector: e.target.value })}>
             <option value="">全部</option>
             {Object.entries(sectorsByParent).map(([p, arr]) => (
               <optgroup key={p} label={p}>
@@ -107,18 +118,18 @@ export default function Monthly() {
         </div>
         <div className="field range">
           <label>YoY ≥</label>
-          <input type="number" value={minYoy} onChange={(e) => setMinYoy(e.target.value)} placeholder="0" />
+          <input type="number" value={minYoy} onChange={(e) => setF({ yoy: e.target.value })} placeholder="0" />
         </div>
         <label className="toggle">
-          <input type="checkbox" checked={turnPos} onChange={(e) => setTurnPos(e.target.checked)} />
+          <input type="checkbox" checked={turnPos} onChange={(e) => setF({ turn: e.target.checked })} />
           YoY 剛轉正
         </label>
         <label className="toggle">
-          <input type="checkbox" checked={highOnly} onChange={(e) => setHighOnly(e.target.checked)} />
+          <input type="checkbox" checked={highOnly} onChange={(e) => setF({ high: e.target.checked })} />
           近36月新高
         </label>
         <label className="toggle">
-          <input type="checkbox" checked={breakoutOnly} onChange={(e) => setBreakoutOnly(e.target.checked)} />
+          <input type="checkbox" checked={breakoutOnly} onChange={(e) => setF({ breakout: e.target.checked })} />
           3m突破12m
         </label>
         <div className="count">
@@ -149,7 +160,14 @@ export default function Monthly() {
             </thead>
             <tbody>
               {shown.map((r) => (
-                <tr key={r.code} onClick={() => nav(`/c/${r.code}`)}>
+                <tr
+                  key={r.code}
+                  onClick={() =>
+                    nav(`/c/${r.code}`, {
+                      state: { from: loc.pathname + loc.search, label: "月營收熱力" },
+                    })
+                  }
+                >
                   <td className="l"><span className="code">{r.code}</span></td>
                   <td className="l">
                     <span className="cname">{r.name}</span>{" "}

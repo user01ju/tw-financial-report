@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, useLocation, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
   ResponsiveContainer, ComposedChart, Bar, Line, LineChart,
@@ -28,11 +28,14 @@ function Stat({ k, v, cls, sub }) {
 
 export default function Company() {
   const { code } = useParams();
+  // 來源列表頁(含篩選 query)由跳轉時帶進 location.state；直接開連結則退回篩選排行
+  const { from, label } = useLocation().state || {};
   const [d, setD] = useState(null);
   const [val, setVal] = useState(null);
   const [err, setErr] = useState(null);
 
   useEffect(() => {
+    window.scrollTo(0, 0); // 從列表中段點進來時不該停在半空
     setD(null);
     setErr(null);
     getCompany(code).then(setD).catch((e) => setErr(String(e)));
@@ -54,7 +57,7 @@ export default function Company() {
 
   return (
     <motion.div className="page" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.35 }}>
-      <Link to="/" className="backlink">← 返回篩選排行</Link>
+      <Link to={from || "/"} className="backlink">← 返回{label || "篩選排行"}</Link>
       <div className="cohead" style={{ marginTop: 14 }}>
         <div>
           <div className="bigcode">{d.code}</div>

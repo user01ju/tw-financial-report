@@ -1,7 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import { getLatest } from "../lib/data.js";
+import { useUrlState } from "../lib/useUrlState.js";
+import { useScrollRestore } from "../lib/useScrollRestore.js";
 import { fmtPct, fmtNum, signClass } from "../lib/format.js";
 
 // 動能成長頁欄位
@@ -17,17 +19,23 @@ const COLS = [
   { key: "operating_margin", t: "營益率", f: (v) => fmtPct(v) },
 ];
 
+const DEFAULTS = {
+  q: "", sector: "", period: "",
+  score: "", roe: "10", opm: "5",
+  sk: "mg_score", sd: "-1",
+};
+
 export default function Momentum() {
   const nav = useNavigate();
+  const loc = useLocation();
   const [rows, setRows] = useState(null);
   const [err, setErr] = useState(null);
-  const [q, setQ] = useState("");
-  const [ind, setInd] = useState("");
-  const [minRoe, setMinRoe] = useState("10");
-  const [minOpm, setMinOpm] = useState("5");
-  const [minScore, setMinScore] = useState("");
-  const [period, setPeriod] = useState("");
-  const [sort, setSort] = useState({ k: "mg_score", dir: -1 });
+  const [f, setF] = useUrlState(DEFAULTS);
+  const { q, sector: ind, period, score: minScore, roe: minRoe, opm: minOpm } = f;
+  const sort = { k: f.sk, dir: +f.sd };
+  const setSort = (k) =>
+    setF({ sk: k, sd: sort.k === k ? String(-sort.dir) : "-1" });
+  useScrollRestore(loc.pathname, !!rows);
 
   useEffect(() => {
     getLatest()
@@ -84,7 +92,7 @@ export default function Momentum() {
 
   const shown = view.slice(0, 250);
   const th = (k, label, cls) => (
-    <th key={k} className={cls} onClick={() => setSort((s) => ({ k, dir: s.k === k ? -s.dir : -1 }))}>
+    <th key={k} className={cls} onClick={() => setSort(k)}>
       {label}
       {sort.k === k && <span className="arrow">{sort.dir < 0 ? "▾" : "▴"}</span>}
     </th>
@@ -104,11 +112,11 @@ export default function Momentum() {
       <div className="controls">
         <div className="field">
           <label>搜尋 代號 / 名稱</label>
-          <input type="text" value={q} onChange={(e) => setQ(e.target.value)} placeholder="2330 / 台積電" />
+          <input type="text" value={q} onChange={(e) => setF({ q: e.target.value })} placeholder="2330 / 台積電" />
         </div>
         <div className="field">
           <label>子類股 (CMoney)</label>
-          <select value={ind} onChange={(e) => setInd(e.target.value)}>
+          <select value={ind} onChange={(e) => setF({ sector: e.target.value })}>
             <option value="">全部</option>
             {Object.entries(sectorsByParent).map(([p, arr]) => (
               <optgroup key={p} label={p}>
@@ -121,7 +129,7 @@ export default function Momentum() {
         </div>
         <div className="field">
           <label>財報季度</label>
-          <select value={period} onChange={(e) => setPeriod(e.target.value)}>
+          <select value={period} onChange={(e) => setF({ period: e.target.value })}>
             <option value="">全部</option>
             {periods.map((p) => (
               <option key={p} value={p}>{p}</option>
@@ -130,15 +138,15 @@ export default function Momentum() {
         </div>
         <div className="field range">
           <label>動能成長分 ≥</label>
-          <input type="number" value={minScore} onChange={(e) => setMinScore(e.target.value)} placeholder="80" />
+          <input type="number" value={minScore} onChange={(e) => setF({ score: e.target.value })} placeholder="80" />
         </div>
         <div className="field range">
           <label>ROE(TTM) ≥</label>
-          <input type="number" value={minRoe} onChange={(e) => setMinRoe(e.target.value)} />
+          <input type="number" value={minRoe} onChange={(e) => setF({ roe: e.target.value })} />
         </div>
         <div className="field range">
           <label>營益率 ≥</label>
-          <input type="number" value={minOpm} onChange={(e) => setMinOpm(e.target.value)} />
+          <input type="number" value={minOpm} onChange={(e) => setF({ opm: e.target.value })} />
         </div>
         <div className="count">
           符合 <b>{view.length}</b> 檔{view.length > 250 && <> · 顯示前 250</>}
@@ -166,7 +174,14 @@ export default function Momentum() {
             </thead>
             <tbody>
               {shown.map((r) => (
-                <tr key={r.code} onClick={() => nav(`/c/${r.code}`)}>
+                <tr
+                  key={r.code}
+                  onClick={() =>
+                    nav(`/c/${r.code}`, {
+                      state: { from: loc.pathname + loc.search, label: "動能成長" },
+                    })
+                  }
+                >
                   <td className="l"><span className="code">{r.code}</span></td>
                   <td className="l">
                     <span className="cname">{r.name}</span>{" "}
