@@ -940,7 +940,7 @@
   }
  },
  "name": "順達",
- "price_return_1y": 26.41,
+ "price_return_1y": -19.78,
  "quarterly": {
   "2015Q1": {
    "cogs": 5070274.0,
@@ -2266,6 +2266,32 @@
    "revenue_ttm": 14200061.0,
    "revenue_yoy": 41.54,
    "revenue_yoy_accel": 6.32
+  },
+  "2026Q2": {
+   "cogs": 5682496.0,
+   "current_assets": 13068580.0,
+   "current_liabilities": 9117032.0,
+   "current_ratio": 143.34,
+   "eps": 3.4,
+   "eps_ttm": 9.53,
+   "eps_yoy": -12.6,
+   "equity_parent": 8959923.0,
+   "gross_margin": 16.87,
+   "gross_profit": 1153317.0,
+   "net_income": 520024.0,
+   "net_income_ttm": 1457621.0,
+   "net_income_yoy": -12.39,
+   "net_margin": 7.61,
+   "operating_expenses": 507151.0,
+   "operating_income": 646166.0,
+   "operating_income_yoy": 222.94,
+   "operating_income_yoy_accel": 62.53,
+   "operating_margin": 9.45,
+   "pretax_income": 611182.0,
+   "revenue": 6835813.0,
+   "revenue_ttm": 17786647.0,
+   "revenue_yoy": 110.38,
+   "revenue_yoy_accel": 68.84
   }
  },
  "sector": "二次電池",

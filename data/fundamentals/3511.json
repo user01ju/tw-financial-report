@@ -940,7 +940,7 @@
   }
  },
  "name": "矽瑪",
- "price_return_1y": -2.8,
+ "price_return_1y": -16.96,
  "quarterly": {
   "2015Q1": {
    "cogs": 173572.0,
@@ -2266,6 +2266,32 @@
    "revenue_ttm": 1757409.0,
    "revenue_yoy": 1.12,
    "revenue_yoy_accel": 7.81
+  },
+  "2026Q2": {
+   "cogs": 794706.0,
+   "current_assets": 1233391.0,
+   "current_liabilities": 644781.0,
+   "current_ratio": 191.29,
+   "eps": -0.41,
+   "eps_ttm": -1.04,
+   "eps_yoy": 0.0,
+   "equity_parent": 1273612.0,
+   "gross_margin": 14.63,
+   "gross_profit": 136166.0,
+   "net_income": -43208.0,
+   "net_income_ttm": -115711.0,
+   "net_income_yoy": 8.61,
+   "net_margin": -4.64,
+   "operating_expenses": 177047.0,
+   "operating_income": -40881.0,
+   "operating_income_yoy": 12.18,
+   "operating_income_yoy_accel": -49.56,
+   "operating_margin": -4.39,
+   "pretax_income": -42677.0,
+   "revenue": 930872.0,
+   "revenue_ttm": 2271157.0,
+   "revenue_yoy": 123.16,
+   "revenue_yoy_accel": 122.04
   }
  },
  "sector": "連接元件",

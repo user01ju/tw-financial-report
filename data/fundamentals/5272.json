@@ -940,7 +940,7 @@
   }
  },
  "name": "笙科",
- "price_return_1y": -22.32,
+ "price_return_1y": -18.69,
  "quarterly": {
   "2015Q1": {
    "cogs": 61632.0,
@@ -2232,6 +2232,31 @@
    "revenue_ttm": 325279.0,
    "revenue_yoy": -18.76,
    "revenue_yoy_accel": -14.19
+  },
+  "2026Q2": {
+   "cogs": 99951.0,
+   "current_assets": 285586.0,
+   "current_liabilities": 93489.0,
+   "current_ratio": 305.48,
+   "eps": -1.06,
+   "eps_ttm": -2.35,
+   "eps_yoy": -241.94,
+   "gross_margin": 37.8,
+   "gross_profit": 60740.0,
+   "net_income": -58797.0,
+   "net_income_ttm": -130325.0,
+   "net_income_yoy": -242.32,
+   "net_margin": -36.59,
+   "operating_expenses": 118170.0,
+   "operating_income": -57430.0,
+   "operating_income_yoy": -205.22,
+   "operating_income_yoy_accel": -125.56,
+   "operating_margin": -35.74,
+   "pretax_income": -58478.0,
+   "revenue": 160691.0,
+   "revenue_ttm": 381949.0,
+   "revenue_yoy": 54.48,
+   "revenue_yoy_accel": 73.24
   }
  },
  "sector": "IC-設計",

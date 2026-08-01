@@ -940,7 +940,7 @@
   }
  },
  "name": "全新",
- "price_return_1y": 83.1,
+ "price_return_1y": 86.58,
  "quarterly": {
   "2015Q1": {
    "cogs": 320027.0,
@@ -2242,6 +2242,39 @@
    "roe_ttm": 15.97,
    "total_assets": 5394173.0,
    "total_liabilities": 1726948.0
+  },
+  "2026Q2": {
+   "cogs": 1186546.0,
+   "current_assets": 3024000.0,
+   "current_liabilities": 1373593.0,
+   "current_ratio": 220.15,
+   "debt_ratio": 35.4,
+   "eps": 2.2,
+   "eps_ttm": 5.17,
+   "eps_yoy": 1000.0,
+   "equity": 3693109.0,
+   "gross_margin": 38.35,
+   "gross_profit": 738137.0,
+   "net_income": 408673.0,
+   "net_income_ttm": 958104.0,
+   "net_income_yoy": 1025.54,
+   "net_margin": 21.23,
+   "operating_expenses": 287673.0,
+   "operating_income": 450464.0,
+   "operating_income_yoy": 269.02,
+   "operating_income_yoy_accel": 242.39,
+   "operating_margin": 23.4,
+   "pretax_income": 480300.0,
+   "revenue": 1924683.0,
+   "revenue_ttm": 4756386.0,
+   "revenue_yoy": 169.53,
+   "revenue_yoy_accel": 148.66,
+   "roa_q": 7.15,
+   "roa_ttm": 16.76,
+   "roe_q": 11.07,
+   "roe_ttm": 25.94,
+   "total_assets": 5716733.0,
+   "total_liabilities": 2023624.0
   }
  },
  "sector": "半導體元件",

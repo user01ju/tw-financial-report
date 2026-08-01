@@ -940,7 +940,7 @@
   }
  },
  "name": "瑞穎",
- "price_return_1y": 6.6,
+ "price_return_1y": 5.56,
  "quarterly": {
   "2015Q1": {
    "cogs": 189060.0,
@@ -2234,6 +2234,31 @@
    "revenue_ttm": 1495423.0,
    "revenue_yoy": 22.85,
    "revenue_yoy_accel": 4.99
+  },
+  "2026Q2": {
+   "cogs": 436144.0,
+   "current_assets": 1159276.0,
+   "current_liabilities": 773352.0,
+   "current_ratio": 149.9,
+   "eps": 6.32,
+   "eps_ttm": 14.14,
+   "eps_yoy": 123.32,
+   "gross_margin": 43.16,
+   "gross_profit": 331151.0,
+   "net_income": 221906.0,
+   "net_income_ttm": 496642.0,
+   "net_income_yoy": 123.23,
+   "net_margin": 28.92,
+   "operating_expenses": 59095.0,
+   "operating_income": 272056.0,
+   "operating_income_yoy": 78.34,
+   "operating_income_yoy_accel": 31.57,
+   "operating_margin": 35.46,
+   "pretax_income": 277383.0,
+   "revenue": 767295.0,
+   "revenue_ttm": 1789412.0,
+   "revenue_yoy": 62.11,
+   "revenue_yoy_accel": 39.26
   }
  },
  "sector": "其他",

@@ -933,7 +933,7 @@
   }
  },
  "name": "精測",
- "price_return_1y": 192.5,
+ "price_return_1y": 100.4,
  "quarterly": {
   "2015Q1": {
    "current_assets": 582573.0,
@@ -2235,6 +2235,32 @@
    "revenue_ttm": 5011025.0,
    "revenue_yoy": 17.79,
    "revenue_yoy_accel": 25.03
+  },
+  "2026Q2": {
+   "cogs": 1283359.0,
+   "current_assets": 9833287.0,
+   "current_liabilities": 2252105.0,
+   "current_ratio": 436.63,
+   "eps": 25.45,
+   "eps_ttm": 52.97,
+   "eps_yoy": 287.37,
+   "equity_parent": 10126505.0,
+   "gross_margin": 57.18,
+   "gross_profit": 1713625.0,
+   "net_income": 831383.0,
+   "net_income_ttm": 1725632.0,
+   "net_income_yoy": 290.1,
+   "net_margin": 27.74,
+   "operating_expenses": 746701.0,
+   "operating_income": 966915.0,
+   "operating_income_yoy": 208.04,
+   "operating_income_yoy_accel": 149.19,
+   "operating_margin": 32.26,
+   "pretax_income": 1014154.0,
+   "revenue": 2996984.0,
+   "revenue_ttm": 6792274.0,
+   "revenue_yoy": 146.52,
+   "revenue_yoy_accel": 128.73
   }
  },
  "sector": "IC-封測",
