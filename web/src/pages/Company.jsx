@@ -5,7 +5,7 @@ import {
   ResponsiveContainer, ComposedChart, Bar, Line, LineChart,
   XAxis, YAxis, CartesianGrid, Tooltip, ReferenceLine, Legend,
 } from "recharts";
-import { getCompany, getValuation } from "../lib/data.js";
+import { getCompany, getValuation, getPriceReturns } from "../lib/data.js";
 import { fmtPct, fmtNum, fmtMoneyK, signClass, qKey } from "../lib/format.js";
 
 const C = { amber: "#e3a84a", sky: "#6db1d9", mauve: "#c98bb9", grid: "rgba(236,228,212,0.08)", dim: "#998f7e" };
@@ -32,6 +32,7 @@ export default function Company() {
   const { from, label } = useLocation().state || {};
   const [d, setD] = useState(null);
   const [val, setVal] = useState(null);
+  const [ret1y, setRet1y] = useState(null);
   const [err, setErr] = useState(null);
 
   useEffect(() => {
@@ -40,6 +41,7 @@ export default function Company() {
     setErr(null);
     getCompany(code).then(setD).catch((e) => setErr(String(e)));
     getValuation().then((v) => setVal(v[code] || null)).catch(() => {});
+    getPriceReturns().then((r) => setRet1y(r[code] ?? null)).catch(() => {});
   }, [code]);
 
   if (err) return <div className="page errbox">查無此公司資料（{code}）</div>;
@@ -83,7 +85,7 @@ export default function Company() {
         <Stat k="本益比" v={fmtNum(val?.pe, 1)} cls="num" sub={val?.date ? `收盤 ${val.date}` : ""} />
         <Stat k="股價淨值比" v={fmtNum(val?.pb, 2)} cls="num" />
         <Stat k="殖利率" v={fmtPct(val?.yield)} cls="num" />
-        <Stat k="近一年報酬" v={fmtPct(d.price_return_1y)} cls={`num ${signClass(d.price_return_1y)}`} />
+        <Stat k="近一年報酬" v={fmtPct(ret1y)} cls={`num ${signClass(ret1y)}`} />
       </div>
 
       <div className="chartcard" style={{ padding: "18px 0 0" }}>

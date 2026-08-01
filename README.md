@@ -22,8 +22,24 @@ data/companies.json            代號→名稱/產業 主檔
 data/monthly_revenue/<code>.json  { "2026-05": {...} }
 data/income_statement/<code>.json { "2026Q1": {...} }  ⚠️ TWSE 原值=年初至今累計
 data/balance_sheet/<code>.json
+data/prices.json               月底收盤 {code: {ym: close}}  ← 單檔,不是每檔一個
 raw/                           每次抓取原始備份(稽核/重跑)
 ```
+
+### 為什麼價格相關的東西都不放在 per-code 檔裡
+
+每個交易日 commit 一次，天天變的欄位若散在 2000 個檔裡，就是天天產 2000 個新 blob。
+所以刻意這樣切：
+
+| 檔 | 變動頻率 |
+|---|---|
+| `data/fundamentals/<code>.json` | **準靜態**，只有新一季/新一月財報才動 |
+| `data/prices.json` | 每交易日 1 個 blob |
+| `data/fundamentals/_price_returns.json` | 每交易日 1 個 blob（`{code: 近一年報酬%}`） |
+| `_latest.json` / `_latest_monthly.json` / `_meta.json` | 本來就每天重生 |
+
+典型一天（價格變、財報沒變）只動 **5 個檔**。改動前是 ~3850 個。
+新增「天天變」的欄位時請沿用這個原則，別塞回 per-code 檔。
 
 ## ⚠️ t187ap06 損益是「年初至今累計」不是單季
 

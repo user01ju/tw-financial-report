@@ -7,9 +7,11 @@
   data/finmind/income_statement/<code>.json  FinMind 損益(type 碼, 歷史)
   data/finmind/balance_sheet/<code>.json
   data/monthly_revenue/<code>.json    月營收(已合併雙來源)
+  data/prices.json                    月底收盤 {code: {ym: close}}
 輸出:
-  data/fundamentals/<code>.json       { quarterly:{...}, monthly:{...} }
+  data/fundamentals/<code>.json       { quarterly:{...}, monthly:{...} }  ← 準靜態
   data/fundamentals/_latest.json      全市場最新季橫斷面(排行/篩選用)
+  data/fundamentals/_price_returns.json  {code: 近一年報酬%}  ← 天天變的欄位獨立放
 
 用法:
   python metrics.py                 # 全部
@@ -391,21 +393,14 @@ def load_sectors():
 
 def load_price_returns():
     """code -> 近一年報酬(%)。用月底收盤序列：最新月 / 12 個月前同月 - 1。"""
-    d = os.path.join(config.DATA_DIR, "prices")
     out = {}
-    if not os.path.isdir(d):
-        return out
-    for fn in os.listdir(d):
-        if not fn.endswith(".json"):
-            continue
-        with open(os.path.join(d, fn), encoding="utf-8") as f:
-            s = json.load(f)
+    for code, s in load(os.path.join(config.DATA_DIR, "prices.json")).items():
         if not s:
             continue
         latest = max(s)
         ref = f"{int(latest[:4]) - 1}-{latest[5:7]}"
         if s.get(ref):
-            out[fn[:-5]] = round((s[latest] / s[ref] - 1) * 100, 2)
+            out[code] = round((s[latest] / s[ref] - 1) * 100, 2)
     return out
 
 
@@ -449,19 +444,22 @@ def main():
         meta = {"name": master.get(code, {}).get("name"),
                 "industry": master.get(code, {}).get("industry"),
                 "sector": sec.get("sector"),
-                "sector_parent": sec.get("sector_parent"),
-                "price_return_1y": prc}
+                "sector_parent": sec.get("sector_parent")}
+        # price_return_1y 天天變,不放進 per-code 檔——否則 1900 個本來準靜態的檔每天
+        # 只為這一行全部重寫(repo 肥大主因)。另存 _price_returns.json 單檔;橫斷面
+        # (_latest/_latest_monthly)照舊內嵌,它們本來就每天重生。
         dump(
             os.path.join(config.DATA_DIR, "fundamentals", f"{code}.json"),
             {"code": code, **meta, "quarterly": q, "monthly": mo},
         )
         if q:
             lp = max(q, key=q_tuple)
-            latest[code] = {**meta, "period": lp, **q[lp], **msum}
+            latest[code] = {**meta, "price_return_1y": prc, "period": lp, **q[lp], **msum}
         if mo:
             lm = max(mo)
-            latest_monthly[code] = {**meta, "month": lm, **mo[lm], **msum}
+            latest_monthly[code] = {**meta, "price_return_1y": prc, "month": lm, **mo[lm], **msum}
     add_mg_score(latest)
+    dump(os.path.join(config.DATA_DIR, "fundamentals", "_price_returns.json"), price_ret)
     dump(os.path.join(config.DATA_DIR, "fundamentals", "_latest.json"), latest)
     dump(os.path.join(config.DATA_DIR, "fundamentals", "_latest_monthly.json"), latest_monthly)
     dump(os.path.join(config.DATA_DIR, "fundamentals", "_meta.json"), {

@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
-"""每日抓 TWSE/TPEX 收盤,更新月底收盤序列 data/prices/<code>.json。
+"""每日抓 TWSE/TPEX 收盤,更新月底收盤序列 data/prices.json {code: {ym: close}}。
 
 1 年歷史由 seed_prices.py(sector_gainer)一次性建立;此後本檔每日維護當月,
 不再依賴 sector_gainer。當月值每天被最新收盤覆蓋 → 月底即該月收盤。
+
+單檔而非 data/prices/<code>.json:價格天天變,拆 2000 個檔等於每天在 git 產 2000 個
+新 blob(repo 肥大的主因之一)。合併後每天只動 1 個 blob。
 """
 import datetime
 import json
@@ -56,18 +59,18 @@ def main():
                 n += 1
         ym = roc_ym(rows[0].get("Date")) if rows else None
         print(f"{url.split('/')[-1]}: {n} 檔 ({ym or 'Date 無法解析,退回 ' + today_ym})")
-    d = os.path.join(config.DATA_DIR, "prices")
-    os.makedirs(d, exist_ok=True)
+    p = os.path.join(config.DATA_DIR, "prices.json")
+    all_prices = {}
+    if os.path.exists(p):
+        with open(p, encoding="utf-8") as f:
+            all_prices = json.load(f)
     for code, (ym, c) in closes.items():
-        p = os.path.join(d, f"{code}.json")
-        s = {}
-        if os.path.exists(p):
-            with open(p, encoding="utf-8") as f:
-                s = json.load(f)
-        s[ym] = c
-        with open(p, "w", encoding="utf-8") as f:
-            json.dump(s, f, ensure_ascii=False, indent=1, sort_keys=True)
-    print(f"更新收盤 {len(closes)} 檔 ({sorted({ym for ym, _ in closes.values()})})")
+        all_prices.setdefault(code, {})[ym] = c
+    os.makedirs(config.DATA_DIR, exist_ok=True)
+    with open(p, "w", encoding="utf-8") as f:
+        json.dump(all_prices, f, ensure_ascii=False, indent=1, sort_keys=True)
+    print(f"更新收盤 {len(closes)} 檔 ({sorted({ym for ym, _ in closes.values()})})，"
+          f"prices.json 共 {len(all_prices)} 檔")
 
 
 if __name__ == "__main__":

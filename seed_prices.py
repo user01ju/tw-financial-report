@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""一次性：從 sector_gainer 既有日線 seed 月底收盤 -> data/prices/<code>.json。
+"""一次性：從 sector_gainer 既有日線 seed 月底收盤 -> data/prices.json {code: {ym: close}}。
 
 之後由 fetch_prices.py(TWSE/TPEX 每日)維護當月,不再依賴 sector_gainer。
 本機跑,產出 commit 進 repo(Action runner 沒有 sector_gainer)。
@@ -32,11 +32,9 @@ def main():
                     prices[code][ym] = float(close)  # 同月後寫覆蓋 → 月底收盤
                 except ValueError:
                     pass
-    out_dir = os.path.join(config.DATA_DIR, "prices")
-    os.makedirs(out_dir, exist_ok=True)
-    for code, series in prices.items():
-        with open(os.path.join(out_dir, f"{code}.json"), "w", encoding="utf-8") as f:
-            json.dump(series, f, ensure_ascii=False, indent=1, sort_keys=True)
+    os.makedirs(config.DATA_DIR, exist_ok=True)
+    with open(os.path.join(config.DATA_DIR, "prices.json"), "w", encoding="utf-8") as f:
+        json.dump(prices, f, ensure_ascii=False, indent=1, sort_keys=True)
     print(f"seed {len(prices)} 檔,月數範圍 {files[0][-14:-4]} ~ {files[-1][-14:-4]}")
 
 
