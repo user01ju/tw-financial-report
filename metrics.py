@@ -87,15 +87,15 @@ def extract(rec, mapping, source):
 
 
 def merge_periods(twse_file, fm_file, mapping):
-    """合併兩來源 → {period: {canonical}}；同期 TWSE 官方優先。"""
+    """合併兩來源 → ({period: {canonical}}, {period: 來源})；同期 TWSE 官方優先。"""
     twse, fm = load(twse_file), load(fm_file)
-    out = {}
+    out, src = {}, {}
     for period in set(twse) | set(fm):
         if period in twse:
-            out[period] = extract(twse[period], mapping, "twse")
+            out[period], src[period] = extract(twse[period], mapping, "twse"), "twse"
         else:
-            out[period] = extract(fm[period], mapping, "finmind")
-    return out
+            out[period], src[period] = extract(fm[period], mapping, "finmind"), "finmind"
+    return out, src
 
 
 # ---- 季 period 運算 ----
@@ -126,6 +126,42 @@ def trailing4(periods, p):
         if q == 0:
             q, y = 4, y - 1
     return seq if all(s in periods for s in seq) else None
+
+
+def cum_to(inc, src, y, q):
+    """同年『年初至今累計』到 Qq 的各欄金額；TWSE 存值本身即累計，FinMind 單季則靠加總。
+    湊不齊回 None。"""
+    if q == 0:
+        return {}
+    p = f"{y}Q{q}"
+    if src.get(p) == "twse":
+        return inc[p]
+    if p not in inc:
+        return None
+    base = cum_to(inc, src, y, q - 1)
+    if base is None:
+        return None
+    return {k: v + base.get(k, 0) for k, v in inc[p].items()
+            if isinstance(v, (int, float)) and (q == 1 or isinstance(base.get(k), (int, float)))}
+
+
+def decumulate(inc, src):
+    """TWSE t187ap06 損益是年初至今累計(Q2=H1、Q3=前三季、Q4=全年) → 還原單季：
+    single(Qn) = cum(Qn) − cum(Qn−1)，Q1 累計即單季。FinMind 本來就是單季，不動。
+    全欄位含 EPS 都相減(股本變動會有小誤差,業界標準近似)。資產負債表是時點數不套用。
+    前一季累計湊不出來就丟掉該期——寧可少一期,也別讓累計值污染 YoY/TTM/mg_score。"""
+    out = {}
+    for p, rec in inc.items():
+        y, q = q_tuple(p)
+        if src.get(p) != "twse" or q == 1:
+            out[p] = rec
+            continue
+        base = cum_to(inc, src, y, q - 1)
+        if base is None:
+            continue
+        out[p] = {k: round(v - base[k], 4) for k, v in rec.items()
+                  if isinstance(v, (int, float)) and isinstance(base.get(k), (int, float))}
+    return out
 
 
 def quarterly_metrics(inc, bal):
@@ -291,6 +327,24 @@ MG_FACTORS = {
 MG_EXCLUDE_SECTORS = {"營建"}
 
 
+def average_rank_pct(vals, n):
+    """已排序的 (code, value) → 百分位(0-100)。同值取平均名次,否則穩定排序會讓
+    幾百檔同為 0 的股票(如 mrev_streak)依 code 順序拿到 0-40 的假百分位。"""
+    if n <= 1:
+        return {c: 50.0 for c, _ in vals}
+    out = {}
+    i = 0
+    while i < n:
+        j = i
+        while j + 1 < n and vals[j + 1][1] == vals[i][1]:
+            j += 1
+        p = round((i + j) / 2 / (n - 1) * 100, 4)
+        for c, _ in vals[i:j + 1]:
+            out[c] = p
+        i = j + 1
+    return out
+
+
 def add_mg_score(latest):
     """對 latest 橫斷面每個因子做百分位排名,加權成 0-100 動能成長分數。
     認列型類股(營建)排除在評分宇宙外,不佔百分位也不給分。"""
@@ -302,7 +356,7 @@ def add_mg_score(latest):
             key=lambda x: x[1],
         )
         n = len(vals)
-        pranks[f] = {c: (i / (n - 1) * 100 if n > 1 else 50.0) for i, (c, _) in enumerate(vals)}
+        pranks[f] = average_rank_pct(vals, n)
     for c in codes:
         num = wsum = 0.0
         for f, w in MG_FACTORS.items():
@@ -375,12 +429,13 @@ def main():
     latest = {}
     latest_monthly = {}
     for i, code in enumerate(codes, 1):
-        inc = merge_periods(
+        inc, inc_src = merge_periods(
             os.path.join(config.DATA_DIR, "income_statement", f"{code}.json"),
             os.path.join(config.DATA_DIR, "finmind", "income_statement", f"{code}.json"),
             INCOME_MAP,
         )
-        bal = merge_periods(
+        inc = decumulate(inc, inc_src)
+        bal, _ = merge_periods(
             os.path.join(config.DATA_DIR, "balance_sheet", f"{code}.json"),
             os.path.join(config.DATA_DIR, "finmind", "balance_sheet", f"{code}.json"),
             BALANCE_MAP,

@@ -20,10 +20,18 @@ python fetch_latest.py monthly_revenue # 單抓
 ```
 data/companies.json            代號→名稱/產業 主檔
 data/monthly_revenue/<code>.json  { "2026-05": {...} }
-data/income_statement/<code>.json { "2026Q1": {...} }
+data/income_statement/<code>.json { "2026Q1": {...} }  ⚠️ TWSE 原值=年初至今累計
 data/balance_sheet/<code>.json
 raw/                           每次抓取原始備份(稽核/重跑)
 ```
+
+## ⚠️ t187ap06 損益是「年初至今累計」不是單季
+
+TWSE/TPEX 綜合損益表所有流量欄位（營收/毛利/營益/淨利/EPS）Q2=H1、Q3=前三季、Q4=全年；
+FinMind 則是單季。Q1 累計=單季，所以只看 Q1 完全看不出問題。
+
+儲存層照存原值，`metrics.py` 的 `decumulate()` 負責還原單季 `single(Qn)=cum(Qn)−cum(Qn−1)`。
+**直接讀 `data/income_statement/` 的新程式要自己去累計。** 資產負債表是時點數不受影響。
 
 ## ⚠️ OpenAPI 只有「最新一期」
 
