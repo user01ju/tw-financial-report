@@ -7,7 +7,12 @@ on:
   schedule:
     # GitHub cron 是 UTC。台灣(UTC+8)每天 17:00 = UTC 09:00（盤後+月營收已公布）。
     - cron: "0 9 * * *"
-  workflow_dispatch: {} # 允許手動觸發
+  workflow_dispatch: # 允許手動觸發
+    inputs:
+      skip_verify:
+        description: "略過資料驗證直接 commit（確定是假警報、門檻還沒空修時的逃生門）"
+        type: boolean
+        default: false
 
 permissions:
   contents: write # 讓 GITHUB_TOKEN 能 push commit 回 repo
@@ -45,6 +50,7 @@ jobs:
       # 零外部呼叫，FAIL 擋掉下面的 commit：壞資料不進 repo。
       # exit 1 = FAIL → 紅燈中止；exit 2 = 只有 WARN → 印出來但照常 commit。
       - name: 資料驗證 Tier A（FAIL 擋 commit）
+        if: github.event.inputs.skip_verify != 'true'
         run: |
           rc=0
           python verify.py --tier a || rc=$?
