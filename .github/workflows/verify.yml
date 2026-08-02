@@ -1,0 +1,45 @@
+name: Verify data (Tier B)
+
+# 交叉源驗證（會打外部 API）：季營收 vs 月營收合計、eps_ttm、revenue_yoy 重算、
+# price_return_1y 比對 sector_gainer 的公開資料。
+# 獨立於 update-financial-data：這裡紅了只代表交叉源對不起來，不影響每日資料更新。
+# Tier A（零外部呼叫）掛在 update.yml 的 commit 之前，不在這裡重跑。
+
+on:
+  schedule:
+    # 台北 21:30（UTC 13:30），週一~五。
+    # 排在本 repo 的 update（UTC 09:00）與 sector_gainer 的 Daily update 之後，
+    # 兩邊都更新完才比對，避免「對方還沒跑」造成的無意義 SKIP。
+    # 注意 GitHub Actions schedule 常有大幅延遲，這是診斷性排程，不保證準點。
+    - cron: "30 13 * * 1-5"
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.13"
+          cache: pip
+
+      - name: 安裝相依
+        run: pip install -r requirements.txt
+
+      # exit 1 = FAIL（兩邊都拿到資料但數字對不起來）→ 讓 workflow 紅
+      # exit 2 = 只有 WARN；外部源掛掉/超時一律 SKIP，不算失敗
+      - name: Verify data (Tier B)
+        run: |
+          rc=0
+          python verify.py --tier b || rc=$?
+          if [ "$rc" -eq 2 ]; then
+            echo "::warning::Tier B 驗證有 WARN（exit 2）"
+          elif [ "$rc" -ne 0 ]; then
+            echo "::error::Tier B 驗證失敗（exit $rc）"
+            exit 1
+          fi

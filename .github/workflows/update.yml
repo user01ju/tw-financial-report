@@ -42,6 +42,19 @@ jobs:
       - name: 重算基本面指標
         run: python metrics.py
 
+      # 零外部呼叫，FAIL 擋掉下面的 commit：壞資料不進 repo。
+      # exit 1 = FAIL → 紅燈中止；exit 2 = 只有 WARN → 印出來但照常 commit。
+      - name: 資料驗證 Tier A（FAIL 擋 commit）
+        run: |
+          rc=0
+          python verify.py --tier a || rc=$?
+          if [ "$rc" -eq 2 ]; then
+            echo "::warning::Tier A 有 WARN（不擋 commit）"
+          elif [ "$rc" -ne 0 ]; then
+            echo "::error::Tier A 驗證失敗（exit $rc）— 中止 commit，見上方 [FAIL] 行"
+            exit 1
+          fi
+
       - name: 有變更才 commit & push
         run: |
           git config user.name "github-actions[bot]"
