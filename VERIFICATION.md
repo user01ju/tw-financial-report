@@ -44,12 +44,16 @@ exit code：`0` 全過（或只有 SKIP）／`1` 至少一條 FAIL／`2` 沒 FAI
 | check-id | 驗什麼 |
 |---|---|
 | `quarterly-vs-monthly-revenue` | **季營收 ≈ Σ 該季三個月月營收**（tolerance 3%，月營收是自結值） |
-| `quarterly-revenue-cumulative-leak` | 季營收不得超出三個月合計 >25% |
+| `quarterly-revenue-cumulative-leak` | 季營收超出三個月合計 >25%（多檔或單檔倍數級＝FAIL，孤例＝WARN） |
 | `eps-ttm-consistency` | `eps_ttm` = Σ 近 4 個單季 EPS |
 | `revenue-yoy-recompute` | `revenue_yoy` 從存值重算比對 |
 | `price-return-vs-sector-gainer` | 抽 3 檔月底收盤與近一年報酬 vs sector_gainer |
 
 前兩條合起來封印 t187ap06 累計 YTD 污染那個 bug class（2026-08-01 用 1232 人工驗出來的那件事）——累計污染再發生時當天就紅。實測 1923 檔 median 偏離 0.00%，超過 3% 的 26 檔集中在金融保險業，那類公司本來就不該用營收比對。
+
+`quarterly-revenue-cumulative-leak` 的分級（2026-08-14 改）：原本「單檔超標即 FAIL」，被 4402 郡都開發 2026Q2 +40% 誤觸紅一次。那不是污染——`decumulation-identity`（Tier A）當天照樣過，6569 = 11624 − 5055 完全正確；成因是年中**共同控制下企業合併**，被合併方追溯併入半年報（Q2 損益表冒出「共同控制下前手權益」欄），但月營收與已公告的 Q1 損益表都不追溯重編，整包差額只能落在該單季。這種合法孤例會一直發生。
+
+真污染打不到單檔：`metrics.decumulate()` 湊不出前季累計就整期丟掉，單一公司拿不到累計值，只有 pipeline 級失誤（src 標錯／decumulate 迴歸）才會污染，屆時幾乎所有非 Q1 檔會同時 +100%/+200%。所以判準改成**看檔數不看單點**：洩漏 ≥ max(3 檔, 0.5%) 為系統性 → FAIL；單檔偏離 ≥80%（逼近 Q2 污染的 +100%）孤例也 FAIL；其餘 WARN（exit 2，CI 不紅但留紀錄）。原本要攔的 bug class 一條都沒放過。
 
 `price-return-vs-sector-gainer` 注意：兩邊都必須用**未還原** close 才可比（prices.json 未還原權息）。資料走 `raw.githubusercontent.com` 抓 sector_gainer 的公開產物，不需要 sibling checkout。
 

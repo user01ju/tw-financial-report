@@ -18,6 +18,7 @@ import argparse
 import csv
 import datetime
 import json
+import math
 import os
 import re
 import statistics
@@ -66,6 +67,16 @@ QM_OUTLIER_FAIL_FRAC = 0.10   # >10% = 系統性壞掉
 # 實測全市場正向偏離上限只有 +6.5%（排除月營收為負的怪股後），所以 +25% 門檻
 # 既有巨大餘裕又能 100% 攔下 t187ap06 累計污染重現。這是本 repo 最有價值的一條。
 QM_LEAK_PCT = 25.0
+# 但「單檔超標即 FAIL」會被合法個案誤觸。累計污染**不可能只打到一檔**：
+# metrics.decumulate() 湊不出前季累計就整期丟掉，單一公司拿不到累計值，污染只能是
+# pipeline 級（src 標錯／decumulate 迴歸），會讓幾乎所有非 Q1 檔同時 +100%/+200%。
+# 反向的合法孤例則真的存在：年中「共同控制下企業合併」把被合併方追溯併入半年報，
+# 月營收與已公告的 Q1 損益表都不追溯重編，整包差額就落在該單季
+# （2026-08-14 的 4402 郡都開發 +40%，Q2 損益表同時冒出「共同控制下前手權益」欄）。
+# 所以分級：系統性（多檔）才 FAIL，孤例 WARN，但單檔就倍數級的照樣 FAIL。
+QM_LEAK_FAIL_FRAC = 0.005  # 洩漏檔數 >0.5%＝系統性（孤例 1/1934=0.05%，真污染 ~100%）
+QM_LEAK_FAIL_MIN = 3       # 樣本小時的絕對下限，至少 3 檔才談得上系統性
+QM_LEAK_HARD_PCT = 80.0    # 單檔已逼近 Q2 污染的 +100%，孤例也不放行
 
 EPS_TTM_TOL = 0.02   # eps_ttm = round(Σ4 單季 EPS, 2)，只留捨入誤差
 YOY_TOL_PP = 0.02    # revenue_yoy 是 round(…, 2) 的百分點
@@ -509,7 +520,9 @@ def check_quarterly_vs_monthly():
 
 def check_quarterly_revenue_leak():
     """累計 YTD 污染的方向性簽名：季營收**大幅超出**該季三個月合計。
-    Q2 污染 ≈ +100%、Q3 ≈ +200%。實測正向偏離全市場上限只有 +6.5%，門檻 25% 有巨大餘裕。"""
+    Q2 污染 ≈ +100%、Q3 ≈ +200%，且必然同時打到幾乎所有非 Q1 檔（單檔中不了招，
+    見 QM_LEAK_* 註解）。故只有「多檔超標」或「單檔倍數級」才是污染 → FAIL；
+    孤例多半是年中追溯重編（企業合併）造成的合法偏離 → WARN。"""
     r = scan()
     rows = [x for x in r["qm"] if x[3] > 0]  # 月營收合計為負/零的怪股跳過，百分比無意義
     if not rows:
@@ -517,13 +530,22 @@ def check_quarterly_revenue_leak():
     leaks = sorted(((rev / s - 1) * 100, c, p, rev, s)
                    for c, p, rev, s, _ in rows if (rev / s - 1) * 100 > QM_LEAK_PCT)
     worst = max((rev / s - 1) * 100 for c, p, rev, s, _ in rows)
-    if leaks:
-        d, c, p, rev, s = leaks[-1]
-        return "FAIL", (f"{len(leaks)}/{len(rows)} 檔季營收超出三個月合計 >{QM_LEAK_PCT}%，"
-                        f"最大 {c} {p} +{d:.0f}%（季={rev:.0f} 月合計={s:.0f}）"
-                        "——t187ap06 累計 YTD 污染的簽名")
-    return "PASS", (f"{len(rows)} 檔中無季營收超出三個月合計 >{QM_LEAK_PCT}% 者"
-                    f"（實際最大 +{worst:.2f}%）")
+    if not leaks:
+        return "PASS", (f"{len(rows)} 檔中無季營收超出三個月合計 >{QM_LEAK_PCT}% 者"
+                        f"（實際最大 +{worst:.2f}%）")
+    ex = "、".join(f"{c} {p} +{d:.0f}%（季={rev:.0f} 月合計={s:.0f}）"
+                   for d, c, p, rev, s in reversed(leaks[-3:]))
+    msg = f"{len(leaks)}/{len(rows)} 檔季營收超出三個月合計 >{QM_LEAK_PCT}%：{ex}"
+    # ceil：樣本再小也不會把門檻算成 0 檔
+    fail_n = max(QM_LEAK_FAIL_MIN, math.ceil(len(rows) * QM_LEAK_FAIL_FRAC))
+    if len(leaks) >= fail_n:
+        return "FAIL", (f"{msg} — 洩漏 ≥{fail_n} 檔（系統性）"
+                        "，t187ap06 累計 YTD 污染的簽名")
+    if leaks[-1][0] >= QM_LEAK_HARD_PCT:
+        return "FAIL", (f"{msg} — 單檔偏離 ≥{QM_LEAK_HARD_PCT}%"
+                        f"（逼近 Q2 累計污染的 +100%）")
+    return "WARN", (f"{msg} — 孤例（<{fail_n} 檔且 <{QM_LEAK_HARD_PCT}%），"
+                    "多為年中企業合併追溯重編；非累計污染（那會同時打到幾乎所有非 Q1 檔）")
 
 
 def check_eps_ttm():
