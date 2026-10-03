@@ -960,7 +960,9 @@
    "eps": 0.38,
    "equity": 37185151.0,
    "equity_parent": 37185151.0,
+   "net_income_parent": 1077398.0,
    "operating_expenses": 1579930.0,
+   "pretax_income": 1245844.0,
    "total_assets": 536399810.0,
    "total_liabilities": 499214659.0
   },
@@ -969,7 +971,9 @@
    "eps": 0.34,
    "equity": 37147534.0,
    "equity_parent": 37147534.0,
+   "net_income_parent": 971893.0,
    "operating_expenses": 1700193.0,
+   "pretax_income": 1144239.0,
    "total_assets": 538579416.0,
    "total_liabilities": 501431882.0
   },
@@ -978,7 +982,9 @@
    "eps": 0.31,
    "equity": 38220830.0,
    "equity_parent": 38220830.0,
+   "net_income_parent": 1057503.0,
    "operating_expenses": 1641700.0,
+   "pretax_income": 1236564.0,
    "total_assets": 543746736.0,
    "total_liabilities": 505525906.0
   },
@@ -988,7 +994,9 @@
    "eps_ttm": 1.3,
    "equity": 38977648.0,
    "equity_parent": 38977648.0,
+   "net_income_parent": 807338.0,
    "operating_expenses": 1653468.0,
+   "pretax_income": 992973.0,
    "total_assets": 546554881.0,
    "total_liabilities": 507577233.0
   },
@@ -999,7 +1007,9 @@
    "eps_yoy": -26.32,
    "equity": 39864549.0,
    "equity_parent": 39864549.0,
+   "net_income_parent": 862267.0,
    "operating_expenses": 1618441.0,
+   "pretax_income": 1026634.0,
    "total_assets": 533999114.0,
    "total_liabilities": 494134565.0
   },
@@ -1010,7 +1020,9 @@
    "eps_yoy": -23.53,
    "equity": 39684742.0,
    "equity_parent": 39684742.0,
+   "net_income_parent": 783228.0,
    "operating_expenses": 1610817.0,
+   "pretax_income": 929452.0,
    "total_assets": 551489885.0,
    "total_liabilities": 511805143.0
   },
@@ -1021,7 +1033,9 @@
    "eps_yoy": -19.35,
    "equity": 40535536.0,
    "equity_parent": 40535536.0,
+   "net_income_parent": 818388.0,
    "operating_expenses": 1647874.0,
+   "pretax_income": 953813.0,
    "total_assets": 557001157.0,
    "total_liabilities": 516465621.0
   },
@@ -1029,7 +1043,9 @@
    "eps": 0.25,
    "eps_ttm": 1.04,
    "eps_yoy": -7.41,
-   "operating_expenses": 1797863.0
+   "net_income_parent": 780003.0,
+   "operating_expenses": 1797863.0,
+   "pretax_income": 906003.0
   },
   "2017Q1": {
    "debt_ratio": 93.03,
@@ -1038,7 +1054,9 @@
    "eps_yoy": -14.29,
    "equity": 41750057.0,
    "equity_parent": 41750057.0,
+   "net_income_parent": 731673.0,
    "operating_expenses": 1620755.0,
+   "pretax_income": 811751.0,
    "total_assets": 598844083.0,
    "total_liabilities": 557094026.0
   },
@@ -1049,7 +1067,9 @@
    "eps_yoy": 11.54,
    "equity": 41484408.0,
    "equity_parent": 41484408.0,
+   "net_income_parent": 914071.0,
    "operating_expenses": 1615515.0,
+   "pretax_income": 1052062.0,
    "total_assets": 573098382.0,
    "total_liabilities": 531613974.0
   },
@@ -1057,31 +1077,41 @@
    "eps": 0.25,
    "eps_ttm": 1.03,
    "eps_yoy": 0.0,
-   "operating_expenses": 1657231.0
+   "net_income_parent": 827633.0,
+   "operating_expenses": 1657231.0,
+   "pretax_income": 958333.0
   },
   "2017Q4": {
    "eps": 0.12,
    "eps_ttm": 0.9,
    "eps_yoy": -52.0,
-   "operating_expenses": 1527264.0
+   "net_income_parent": 380506.0,
+   "operating_expenses": 1527264.0,
+   "pretax_income": 445498.0
   },
   "2018Q1": {
    "eps": 0.23,
    "eps_ttm": 0.89,
    "eps_yoy": -4.17,
-   "operating_expenses": 1609232.0
+   "net_income_parent": 736379.0,
+   "operating_expenses": 1609232.0,
+   "pretax_income": 788266.0
   },
   "2018Q2": {
    "eps": 0.31,
    "eps_ttm": 0.91,
    "eps_yoy": 6.9,
-   "operating_expenses": 1636562.0
+   "net_income_parent": 967234.0,
+   "operating_expenses": 1636562.0,
+   "pretax_income": 1088885.0
   },
   "2018Q3": {
    "eps": 0.29,
    "eps_ttm": 0.95,
    "eps_yoy": 16.0,
-   "operating_expenses": 1678381.0
+   "net_income_parent": 1023140.0,
+   "operating_expenses": 1678381.0,
+   "pretax_income": 1195607.0
   },
   "2018Q4": {
    "debt_ratio": 92.87,
@@ -1090,7 +1120,9 @@
    "eps_yoy": 108.33,
    "equity": 44744740.0,
    "equity_parent": 44744740.0,
+   "net_income_parent": 797448.0,
    "operating_expenses": 1710820.0,
+   "pretax_income": 995721.0,
    "total_assets": 627351150.0,
    "total_liabilities": 582606410.0
   },
@@ -1098,13 +1130,17 @@
    "eps": 0.35,
    "eps_ttm": 1.2,
    "eps_yoy": 52.17,
-   "operating_expenses": 1713241.0
+   "net_income_parent": 1158261.0,
+   "operating_expenses": 1713241.0,
+   "pretax_income": 1378070.0
   },
   "2019Q2": {
    "eps": 0.32,
    "eps_ttm": 1.21,
    "eps_yoy": 3.23,
-   "operating_expenses": 1683129.0
+   "net_income_parent": 1031419.0,
+   "operating_expenses": 1683129.0,
+   "pretax_income": 1213473.0
   },
   "2019Q3": {
    "debt_ratio": 92.68,
@@ -1113,7 +1149,9 @@
    "eps_yoy": -20.69,
    "equity": 46738352.0,
    "equity_parent": 46738352.0,
+   "net_income_parent": 830560.0,
    "operating_expenses": 1741473.0,
+   "pretax_income": 956773.0,
    "total_assets": 638647603.0,
    "total_liabilities": 591909251.0
   },
@@ -1124,7 +1162,9 @@
    "eps_yoy": -28.0,
    "equity": 47284413.0,
    "equity_parent": 47284413.0,
+   "net_income_parent": 612355.0,
    "operating_expenses": 1815212.0,
+   "pretax_income": 708561.0,
    "total_assets": 654887550.0,
    "total_liabilities": 607603137.0
   },
@@ -1135,7 +1175,9 @@
    "eps_yoy": -68.57,
    "equity": 47451015.0,
    "equity_parent": 47451015.0,
+   "net_income_parent": 379433.0,
    "operating_expenses": 1663918.0,
+   "pretax_income": 402247.0,
    "total_assets": 678084824.0,
    "total_liabilities": 630633809.0
   },
@@ -1146,7 +1188,9 @@
    "eps_yoy": 15.62,
    "equity": 47703918.0,
    "equity_parent": 47703918.0,
+   "net_income_parent": 1235686.0,
    "operating_expenses": 1647520.0,
+   "pretax_income": 1413412.0,
    "total_assets": 653717644.0,
    "total_liabilities": 606013726.0
   },
@@ -1157,7 +1201,9 @@
    "eps_yoy": -13.04,
    "equity": 48422580.0,
    "equity_parent": 48422580.0,
+   "net_income_parent": 715955.0,
    "operating_expenses": 1711133.0,
+   "pretax_income": 823174.0,
    "total_assets": 668167662.0,
    "total_liabilities": 619745082.0
   },
@@ -1168,7 +1214,9 @@
    "eps_yoy": -72.22,
    "equity": 48743705.0,
    "equity_parent": 48743705.0,
+   "net_income_parent": 187629.0,
    "operating_expenses": 1841962.0,
+   "pretax_income": 249401.0,
    "total_assets": 680047467.0,
    "total_liabilities": 631303762.0
   },
@@ -1179,7 +1227,9 @@
    "eps_yoy": 109.09,
    "equity": 49447105.0,
    "equity_parent": 49447105.0,
+   "net_income_parent": 799081.0,
    "operating_expenses": 1775438.0,
+   "pretax_income": 921569.0,
    "total_assets": 679980991.0,
    "total_liabilities": 630533886.0
   },
@@ -1190,7 +1240,9 @@
    "eps_yoy": -48.65,
    "equity": 48781960.0,
    "equity_parent": 48781960.0,
+   "net_income_parent": 649968.0,
    "operating_expenses": 1579659.0,
+   "pretax_income": 720483.0,
    "total_assets": 699581419.0,
    "total_liabilities": 650799459.0
   },
@@ -1201,7 +1253,9 @@
    "eps_yoy": 5.0,
    "equity": 49351619.0,
    "equity_parent": 49351619.0,
+   "net_income_parent": 766030.0,
    "operating_expenses": 1667711.0,
+   "pretax_income": 860683.0,
    "total_assets": 704148583.0,
    "total_liabilities": 654796964.0
   },
@@ -1212,7 +1266,9 @@
    "eps_yoy": 320.0,
    "equity": 49701951.0,
    "equity_parent": 49701951.0,
+   "net_income_parent": 724043.0,
    "operating_expenses": 1654041.0,
+   "pretax_income": 800087.0,
    "total_assets": 723054513.0,
    "total_liabilities": 673352562.0
   },
@@ -1223,7 +1279,9 @@
    "eps_yoy": -17.39,
    "equity": 49723572.0,
    "equity_parent": 49723572.0,
+   "net_income_parent": 660712.0,
    "operating_expenses": 1588196.0,
+   "pretax_income": 750852.0,
    "total_assets": 729110773.0,
    "total_liabilities": 679387201.0
   },
@@ -1234,7 +1292,9 @@
    "eps_yoy": 47.37,
    "equity": 48278204.0,
    "equity_parent": 48278204.0,
+   "net_income_parent": 988689.0,
    "operating_expenses": 1689178.0,
+   "pretax_income": 1175166.0,
    "total_assets": 758858797.0,
    "total_liabilities": 710580593.0
   },
@@ -1245,7 +1305,9 @@
    "eps_yoy": 9.52,
    "equity": 52363599.0,
    "equity_parent": 52363599.0,
+   "net_income_parent": 854468.0,
    "operating_expenses": 1789501.0,
+   "pretax_income": 975564.0,
    "total_assets": 751866199.0,
    "total_liabilities": 699502600.0
   },
@@ -1253,7 +1315,9 @@
    "eps": 0.3,
    "eps_ttm": 1.0,
    "eps_yoy": 42.86,
-   "operating_expenses": 1936838.0
+   "net_income_parent": 1173633.0,
+   "operating_expenses": 1936838.0,
+   "pretax_income": 1289534.0
   },
   "2023Q1": {
    "debt_ratio": 92.65,
@@ -1262,7 +1326,9 @@
    "eps_yoy": 10.53,
    "equity": 56272699.0,
    "equity_parent": 56272699.0,
+   "net_income_parent": 849298.0,
    "operating_expenses": 1706995.0,
+   "pretax_income": 977874.0,
    "total_assets": 765243016.0,
    "total_liabilities": 708970317.0
   },
@@ -1273,7 +1339,9 @@
    "eps_yoy": 3.57,
    "equity": 56108456.0,
    "equity_parent": 56108456.0,
+   "net_income_parent": 1190946.0,
    "operating_expenses": 1851272.0,
+   "pretax_income": 1362179.0,
    "total_assets": 789654257.0,
    "total_liabilities": 733545801.0
   },
@@ -1281,25 +1349,33 @@
    "eps": 0.34,
    "eps_ttm": 1.14,
    "eps_yoy": 47.83,
-   "operating_expenses": 2001831.0
+   "net_income_parent": 1397319.0,
+   "operating_expenses": 2001831.0,
+   "pretax_income": 1578515.0
   },
   "2023Q4": {
    "eps": 0.19,
    "eps_ttm": 1.03,
    "eps_yoy": -36.67,
-   "operating_expenses": 1986267.0
+   "net_income_parent": 736646.0,
+   "operating_expenses": 1986267.0,
+   "pretax_income": 788504.0
   },
   "2024Q1": {
    "eps": 0.31,
    "eps_ttm": 1.13,
    "eps_yoy": 47.62,
-   "operating_expenses": 1975854.0
+   "net_income_parent": 1241328.0,
+   "operating_expenses": 1975854.0,
+   "pretax_income": 1425843.0
   },
   "2024Q2": {
    "eps": 0.28,
    "eps_ttm": 1.12,
    "eps_yoy": -3.45,
-   "operating_expenses": 1926538.0
+   "net_income_parent": 1169131.0,
+   "operating_expenses": 1926538.0,
+   "pretax_income": 1318964.0
   },
   "2024Q3": {
    "debt_ratio": 92.84,
@@ -1308,7 +1384,9 @@
    "eps_yoy": -29.41,
    "equity": 60526982.0,
    "equity_parent": 60526982.0,
+   "net_income_parent": 1120641.0,
    "operating_expenses": 1980658.0,
+   "pretax_income": 1239989.0,
    "total_assets": 845022542.0,
    "total_liabilities": 784495560.0
   },
@@ -1319,7 +1397,9 @@
    "eps_yoy": -5.26,
    "equity": 61249789.0,
    "equity_parent": 61249789.0,
+   "net_income_parent": 766090.0,
    "operating_expenses": 1965167.0,
+   "pretax_income": 885132.0,
    "total_assets": 853463050.0,
    "total_liabilities": 792213261.0
   },
@@ -1330,7 +1410,9 @@
    "eps_yoy": -16.13,
    "equity": 62401024.0,
    "equity_parent": 62401024.0,
+   "net_income_parent": 1107361.0,
    "operating_expenses": 1925633.0,
+   "pretax_income": 1225390.0,
    "total_assets": 854008413.0,
    "total_liabilities": 791607389.0
   },
@@ -1341,7 +1423,9 @@
    "eps_yoy": -35.71,
    "equity": 61096200.0,
    "equity_parent": 61096200.0,
+   "net_income_parent": 783786.0,
    "operating_expenses": 1912935.0,
+   "pretax_income": 880917.0,
    "total_assets": 873942381.0,
    "total_liabilities": 812846181.0
   },
@@ -1352,7 +1436,9 @@
    "eps_yoy": 8.33,
    "equity": 68280267.0,
    "equity_parent": 68280267.0,
+   "net_income_parent": 1170189.0,
    "operating_expenses": 2023192.0,
+   "pretax_income": 1307925.0,
    "total_assets": 879218260.0,
    "total_liabilities": 810937993.0
   },
@@ -1363,7 +1449,9 @@
    "eps_yoy": 27.78,
    "equity": 69848666.0,
    "equity_parent": 69848666.0,
+   "net_income_parent": 1110079.0,
    "operating_expenses": 2094392.0,
+   "pretax_income": 1245261.0,
    "total_assets": 873710892.0,
    "total_liabilities": 803862226.0
   },
@@ -1376,6 +1464,7 @@
    "equity_parent": 71201864.0,
    "net_income": 1221472.0,
    "operating_expenses": 2028318.0,
+   "pretax_income": 1365176.0,
    "roa_q": 0.14,
    "roe_q": 1.72,
    "total_assets": 891493396.0,
@@ -1390,6 +1479,7 @@
    "equity_parent": 71742188.0,
    "net_income": 1409475.0,
    "operating_expenses": 2185064.0,
+   "pretax_income": 1575727.0,
    "roa_q": 0.16,
    "roe_q": 1.96,
    "total_assets": 900260328.0,
