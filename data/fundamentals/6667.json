@@ -703,9 +703,9 @@
   "2026-06": {
    "mom": 20.02,
    "revenue": 653712,
-   "yoy": -2.48,
+   "yoy": -2.5,
    "yoy_12m": 30.82,
-   "yoy_3m": 2.74
+   "yoy_3m": 2.73
   },
   "2026-07": {
    "mom": -30.85,
@@ -719,7 +719,7 @@
    "revenue": 801683,
    "yoy": 69.06,
    "yoy_12m": 28.23,
-   "yoy_3m": 15.0
+   "yoy_3m": 14.99
   }
  },
  "name": "信紘科",
@@ -1141,10 +1141,10 @@
    "current_liabilities": 396046.0,
    "current_ratio": 269.66,
    "debt_ratio": 47.08,
-   "eps": -0.13,
-   "eps_basis_adj": true,
-   "eps_ttm": 3.44,
-   "eps_yoy": -122.81,
+   "eps": -0.07,
+   "eps_repaired": true,
+   "eps_ttm": 2.09,
+   "eps_yoy": -120.0,
    "eps_yoy_turn": "轉虧",
    "equity": 971436.0,
    "equity_parent": 971436.0,
@@ -1182,7 +1182,6 @@
    "current_ratio": 246.32,
    "debt_ratio": 48.41,
    "eps": 0.36,
-   "eps_basis_adj": true,
    "eps_ttm": 2.61,
    "eps_yoy": 325.0,
    "eps_yoy_turn": "轉盈",
@@ -1222,7 +1221,6 @@
    "current_ratio": 195.42,
    "debt_ratio": 54.11,
    "eps": 1.05,
-   "eps_basis_adj": true,
    "eps_ttm": 2.38,
    "eps_yoy": -17.97,
    "equity": 961539.0,
@@ -1259,7 +1257,6 @@
    "current_ratio": 207.38,
    "debt_ratio": 51.78,
    "eps": 0.85,
-   "eps_basis_adj": true,
    "eps_ttm": 2.19,
    "eps_yoy": -18.27,
    "equity": 995284.0,
@@ -1296,7 +1293,6 @@
    "current_ratio": 196.97,
    "debt_ratio": 56.8,
    "eps": 1.01,
-   "eps_basis_adj": true,
    "eps_ttm": 3.27,
    "eps_yoy": 1542.86,
    "eps_yoy_turn": "轉盈",

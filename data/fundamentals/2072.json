@@ -19,19 +19,31 @@
   },
   "2026-05": {
    "mom": -5.81,
-   "revenue": 1542251
+   "revenue": 1542251,
+   "yoy": 81.09,
+   "yoy_12m": 81.09,
+   "yoy_3m": 81.09
   },
   "2026-06": {
    "mom": 11.42,
-   "revenue": 1718369
+   "revenue": 1718369,
+   "yoy": 101.11,
+   "yoy_12m": 91.1,
+   "yoy_3m": 91.1
   },
   "2026-07": {
    "mom": -8.53,
-   "revenue": 1571712
+   "revenue": 1571712,
+   "yoy": 105.65,
+   "yoy_12m": 95.95,
+   "yoy_3m": 95.95
   },
   "2026-08": {
    "mom": -16.58,
-   "revenue": 1311094
+   "revenue": 1311094,
+   "yoy": 84.84,
+   "yoy_12m": 93.17,
+   "yoy_3m": 97.2
   }
  },
  "name": "世紀風電",
@@ -402,9 +414,10 @@
    "current_liabilities": 4219902.0,
    "current_ratio": 301.26,
    "debt_ratio": 24.53,
-   "eps": 5.21,
+   "eps": 2.71,
    "eps_basis_adj": true,
-   "eps_yoy": -44.81,
+   "eps_repaired": true,
+   "eps_yoy": -54.61,
    "equity": 18546305.0,
    "equity_parent": 18543910.0,
    "gross_margin": 25.06,
@@ -434,7 +447,7 @@
    "debt_ratio": 19.84,
    "eps": 2.35,
    "eps_basis_adj": true,
-   "eps_ttm": 11.5,
+   "eps_ttm": 11.49,
    "equity": 18945400.0,
    "equity_parent": 18943005.0,
    "gross_margin": 32.63,
@@ -499,8 +512,7 @@
    "current_ratio": 298.76,
    "debt_ratio": 23.86,
    "eps": 5.26,
-   "eps_basis_adj": true,
-   "eps_ttm": 14.68,
+   "eps_ttm": 14.7,
    "eps_yoy": 111.24,
    "equity": 23361966.0,
    "equity_parent": 23359566.0,
@@ -536,9 +548,8 @@
    "current_ratio": 229.26,
    "debt_ratio": 29.5,
    "eps": 4.33,
-   "eps_basis_adj": true,
    "eps_ttm": 16.32,
-   "eps_yoy": 70.47,
+   "eps_yoy": 59.78,
    "equity": 24151197.0,
    "equity_parent": 24147973.0,
    "gross_margin": 20.64,

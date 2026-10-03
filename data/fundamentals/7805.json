@@ -31,19 +31,31 @@
   },
   "2026-05": {
    "mom": -11.24,
-   "revenue": 554780
+   "revenue": 554780,
+   "yoy": 6.7,
+   "yoy_12m": 6.7,
+   "yoy_3m": 6.7
   },
   "2026-06": {
    "mom": -9.68,
-   "revenue": 501052
+   "revenue": 501052,
+   "yoy": 28.11,
+   "yoy_12m": 17.41,
+   "yoy_3m": 17.41
   },
   "2026-07": {
    "mom": 16.59,
-   "revenue": 584171
+   "revenue": 584171,
+   "yoy": 13.58,
+   "yoy_12m": 16.13,
+   "yoy_3m": 16.13
   },
   "2026-08": {
    "mom": -5.28,
-   "revenue": 553328
+   "revenue": 553328,
+   "yoy": 19.25,
+   "yoy_12m": 16.91,
+   "yoy_3m": 20.31
   }
  },
  "name": "威聯通",
@@ -161,8 +173,9 @@
    "current_liabilities": 2936864.0,
    "current_ratio": 143.43,
    "debt_ratio": 36.2,
-   "eps": 18.19,
+   "eps": 6.53,
    "eps_basis_adj": true,
+   "eps_repaired": true,
    "eps_yoy": -67.15,
    "equity": 5407257.0,
    "equity_parent": 5407257.0,
@@ -192,8 +205,7 @@
    "current_ratio": 187.45,
    "debt_ratio": 26.84,
    "eps": 12.65,
-   "eps_basis_adj": true,
-   "eps_ttm": 48.47,
+   "eps_ttm": 48.5,
    "equity": 5656663.0,
    "equity_parent": 5656663.0,
    "gross_margin": 59.52,
@@ -223,8 +235,7 @@
    "current_ratio": 306.89,
    "debt_ratio": 20.02,
    "eps": 13.72,
-   "eps_basis_adj": true,
-   "eps_ttm": 44.54,
+   "eps_ttm": 44.64,
    "eps_yoy": -21.96,
    "equity": 7889592.0,
    "equity_parent": 7889592.0,
@@ -258,8 +269,7 @@
    "current_ratio": 188.98,
    "debt_ratio": 33.19,
    "eps": 12.96,
-   "eps_basis_adj": true,
-   "eps_ttm": 45.28,
+   "eps_ttm": 45.86,
    "eps_yoy": 10.39,
    "equity": 7040102.0,
    "equity_parent": 7040102.0,
@@ -295,9 +305,8 @@
    "current_ratio": 190.02,
    "debt_ratio": 31.61,
    "eps": 10.25,
-   "eps_basis_adj": true,
    "eps_ttm": 49.58,
-   "eps_yoy": 72.56,
+   "eps_yoy": 56.97,
    "equity": 7720328.0,
    "equity_parent": 7720328.0,
    "gross_margin": 58.53,

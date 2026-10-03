@@ -927,22 +927,30 @@
   "2026-05": {
    "mom": -8.35,
    "revenue": 2558059,
-   "yoy": 46.62,
-   "yoy_12m": 20.71,
-   "yoy_3m": 48.1
+   "yoy": 2.09,
+   "yoy_12m": 17.0,
+   "yoy_3m": 33.25
   },
   "2026-06": {
    "mom": -2.58,
    "revenue": 2492166,
-   "yoy": 36.34,
-   "yoy_12m": 23.32,
-   "yoy_3m": 48.82
+   "yoy": 3.28,
+   "yoy_12m": 16.86,
+   "yoy_3m": 22.95
+  },
+  "2026-07": {
+   "mom": -2.69,
+   "revenue": 2425194.0,
+   "yoy": 16.84,
+   "yoy_12m": 17.24,
+   "yoy_3m": 7.4
   },
   "2026-08": {
+   "mom": 11.03,
    "revenue": 2692639,
-   "yoy": 47.01,
-   "yoy_12m": 26.22,
-   "yoy_3m": 43.32
+   "yoy": 4.71,
+   "yoy_12m": 17.06,
+   "yoy_3m": 8.28
   }
  },
  "name": "新產",
@@ -2079,7 +2087,6 @@
    "total_liabilities": 41684061.0
   },
   "2026Q1": {
-   "cogs": 220999.0,
    "debt_ratio": 62.41,
    "eps": 3.99,
    "eps_ttm": 14.02,
@@ -2088,16 +2095,7 @@
    "net_income": 1259771.0,
    "net_income_ttm": 4426465.0,
    "net_income_yoy": 76.94,
-   "net_margin": 92.25,
-   "operating_expenses": -79254.0,
-   "operating_income": 1507350.0,
-   "operating_income_yoy": 71.6,
-   "operating_income_yoy_accel": 24.34,
-   "operating_margin": 110.38,
-   "revenue": 1365605.0,
-   "revenue_ttm": 17751224.0,
-   "revenue_yoy": -73.62,
-   "revenue_yoy_accel": -77.07,
+   "pretax_income": 1508204.0,
    "roa_q": 2.17,
    "roa_ttm": 7.62,
    "roe_q": 5.77,
@@ -2106,7 +2104,6 @@
    "total_liabilities": 36260125.0
   },
   "2026Q2": {
-   "cogs": 898046.0,
    "debt_ratio": 63.76,
    "eps": 4.52,
    "eps_ttm": 15.38,
@@ -2115,16 +2112,7 @@
    "net_income": 1427701.0,
    "net_income_ttm": 4856412.0,
    "net_income_yoy": 43.09,
-   "net_margin": 157.15,
-   "operating_expenses": -213230.0,
-   "operating_income": 1593339.0,
-   "operating_income_yoy": 28.55,
-   "operating_income_yoy_accel": -43.05,
-   "operating_margin": 175.38,
-   "revenue": 908523.0,
-   "revenue_ttm": 13379979.0,
-   "revenue_yoy": -82.79,
-   "revenue_yoy_accel": -9.17,
+   "pretax_income": 1592772.0,
    "roa_q": 2.35,
    "roa_ttm": 8.0,
    "roe_q": 6.49,

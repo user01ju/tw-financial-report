@@ -927,30 +927,30 @@
   "2026-05": {
    "mom": -3.84,
    "revenue": 967768,
-   "yoy": 3.04,
+   "yoy": 2.99,
    "yoy_12m": -7.49,
-   "yoy_3m": 3.26
+   "yoy_3m": 3.25
   },
   "2026-06": {
    "mom": 10.19,
    "revenue": 1066422,
-   "yoy": 16.34,
-   "yoy_12m": -4.88,
-   "yoy_3m": 7.24
+   "yoy": 17.53,
+   "yoy_12m": -4.79,
+   "yoy_3m": 7.62
   },
   "2026-07": {
    "mom": -5.84,
    "revenue": 1004144,
-   "yoy": 15.83,
-   "yoy_12m": -1.87,
-   "yoy_3m": 11.74
+   "yoy": 14.61,
+   "yoy_12m": -1.88,
+   "yoy_3m": 11.71
   },
   "2026-08": {
    "mom": -0.62,
    "revenue": 997885,
-   "yoy": 12.1,
-   "yoy_12m": 0.74,
-   "yoy_3m": 14.76
+   "yoy": 12.09,
+   "yoy_12m": 0.73,
+   "yoy_3m": 14.74
   }
  },
  "name": "恒耀國際",
@@ -1972,10 +1972,10 @@
    "current_liabilities": 9078996.0,
    "current_ratio": 115.01,
    "debt_ratio": 68.41,
-   "eps": 0.16,
-   "eps_basis_adj": true,
-   "eps_ttm": 1.86,
-   "eps_yoy": -72.88,
+   "eps": 0.3,
+   "eps_repaired": true,
+   "eps_ttm": 3.65,
+   "eps_yoy": -72.97,
    "equity": 5709660.0,
    "equity_parent": 5079846.0,
    "gross_margin": 15.36,
@@ -2010,7 +2010,6 @@
    "current_ratio": 116.94,
    "debt_ratio": 67.84,
    "eps": 0.71,
-   "eps_basis_adj": true,
    "eps_ttm": 3.56,
    "eps_yoy": -11.25,
    "equity": 5739498.0,
@@ -2043,8 +2042,7 @@
    "cogs": 2575218.0,
    "core_ratio": 75.11,
    "eps": 0.85,
-   "eps_basis_adj": true,
-   "eps_ttm": 2.82,
+   "eps_ttm": 2.85,
    "eps_yoy": -45.51,
    "gross_margin": 17.51,
    "gross_profit": 546816.0,
@@ -2068,8 +2066,7 @@
    "cogs": 2723730.0,
    "core_ratio": 119.75,
    "eps": 1.38,
-   "eps_basis_adj": true,
-   "eps_ttm": 3.21,
+   "eps_ttm": 3.24,
    "eps_yoy": 39.39,
    "gross_margin": 20.46,
    "gross_profit": 700781.0,
@@ -2093,9 +2090,8 @@
    "cogs": 2495618.0,
    "core_ratio": 79.1,
    "eps": 1.21,
-   "eps_basis_adj": true,
    "eps_ttm": 4.15,
-   "eps_yoy": 404.17,
+   "eps_yoy": 303.33,
    "gross_margin": 21.72,
    "gross_profit": 692266.0,
    "net_income": 205987.0,

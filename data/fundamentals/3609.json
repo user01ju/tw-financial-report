@@ -934,23 +934,23 @@
   "2026-06": {
    "mom": 40.32,
    "revenue": 43632,
-   "yoy": -24.76,
+   "yoy": -24.69,
    "yoy_12m": 71.67,
-   "yoy_3m": -1.33
+   "yoy_3m": -1.31
   },
   "2026-07": {
    "mom": -34.23,
    "revenue": 28697,
    "yoy": -58.21,
-   "yoy_12m": 63.04,
-   "yoy_3m": -21.35
+   "yoy_12m": 63.05,
+   "yoy_3m": -21.33
   },
   "2026-08": {
    "mom": -42.54,
    "revenue": 16490,
    "yoy": -0.09,
    "yoy_12m": 63.6,
-   "yoy_3m": -27.69
+   "yoy_3m": -27.66
   }
  },
  "name": "三一東林",
@@ -2107,10 +2107,10 @@
   },
   "2023Q4": {
    "cogs": 130222.0,
-   "eps": -2.92,
-   "eps_basis_adj": true,
-   "eps_ttm": -10.8,
-   "eps_yoy": -33.94,
+   "eps": -1.55,
+   "eps_repaired": true,
+   "eps_ttm": -5.73,
+   "eps_yoy": -28.1,
    "eps_yoy_turn": "虧損擴大",
    "gross_margin": 15.48,
    "gross_profit": 23848.0,
@@ -2135,8 +2135,7 @@
   "2024Q1": {
    "cogs": 79925.0,
    "eps": -1.25,
-   "eps_basis_adj": true,
-   "eps_ttm": -5.92,
+   "eps_ttm": -5.93,
    "eps_yoy": -19.05,
    "eps_yoy_turn": "虧損擴大",
    "gross_margin": 19.98,
@@ -2162,7 +2161,6 @@
   "2024Q2": {
    "cogs": 46557.0,
    "eps": -1.03,
-   "eps_basis_adj": true,
    "eps_ttm": -5.2,
    "eps_yoy": 41.48,
    "eps_yoy_turn": "虧損縮小",
@@ -2193,7 +2191,6 @@
    "current_ratio": 88.26,
    "debt_ratio": 76.69,
    "eps": -1.12,
-   "eps_basis_adj": true,
    "eps_ttm": -4.95,
    "eps_yoy": 18.25,
    "eps_yoy_turn": "虧損縮小",
@@ -2232,7 +2229,6 @@
    "current_ratio": 124.99,
    "debt_ratio": 73.6,
    "eps": -1.3,
-   "eps_basis_adj": true,
    "eps_ttm": -4.7,
    "eps_yoy": 16.13,
    "eps_yoy_turn": "虧損縮小",

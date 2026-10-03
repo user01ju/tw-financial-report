@@ -934,23 +934,23 @@
   "2026-06": {
    "mom": -0.17,
    "revenue": 638861,
-   "yoy": 38.05,
-   "yoy_12m": 7.92,
-   "yoy_3m": 17.81
+   "yoy": 38.84,
+   "yoy_12m": 7.98,
+   "yoy_3m": 18.08
   },
   "2026-07": {
    "mom": 0.93,
    "revenue": 644798,
    "yoy": 2.88,
-   "yoy_12m": 8.46,
-   "yoy_3m": 19.28
+   "yoy_12m": 8.52,
+   "yoy_3m": 19.55
   },
   "2026-08": {
    "mom": 10.12,
    "revenue": 710039,
    "yoy": 20.09,
-   "yoy_12m": 10.5,
-   "yoy_3m": 20.34
+   "yoy_12m": 10.56,
+   "yoy_3m": 20.6
   }
  },
  "name": "中環",
@@ -1844,10 +1844,10 @@
    "current_liabilities": 3395309.0,
    "current_ratio": 386.52,
    "debt_ratio": 23.65,
-   "eps": 0.55,
-   "eps_basis_adj": true,
-   "eps_ttm": 0.56,
-   "eps_yoy": -75.23,
+   "eps": 0.14,
+   "eps_repaired": true,
+   "eps_ttm": 0.14,
+   "eps_yoy": -74.55,
    "equity": 18442422.0,
    "equity_parent": 18109188.0,
    "gross_margin": 23.14,
@@ -1881,7 +1881,6 @@
    "current_ratio": 480.05,
    "debt_ratio": 23.31,
    "eps": -0.12,
-   "eps_basis_adj": true,
    "eps_ttm": 0.19,
    "eps_yoy": 29.41,
    "eps_yoy_turn": "虧損縮小",
@@ -1920,7 +1919,6 @@
    "current_ratio": 398.79,
    "debt_ratio": 24.8,
    "eps": -0.48,
-   "eps_basis_adj": true,
    "eps_ttm": -0.04,
    "eps_yoy": -92.0,
    "eps_yoy_turn": "虧損擴大",
@@ -1959,7 +1957,6 @@
    "current_ratio": 340.63,
    "debt_ratio": 29.38,
    "eps": -0.25,
-   "eps_basis_adj": true,
    "eps_ttm": -0.71,
    "eps_yoy": -159.52,
    "eps_yoy_turn": "轉虧",
@@ -1995,9 +1992,8 @@
    "cogs": 1568008.0,
    "core_ratio": -4484.17,
    "eps": -0.1,
-   "eps_basis_adj": true,
    "eps_ttm": -0.95,
-   "eps_yoy": -166.67,
+   "eps_yoy": -171.43,
    "eps_yoy_turn": "轉虧",
    "gross_margin": 16.19,
    "gross_profit": 302862.0,

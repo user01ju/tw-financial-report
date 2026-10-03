@@ -1277,25 +1277,20 @@
    "eps_ttm": -2.54,
    "eps_yoy": 34.62,
    "eps_yoy_turn": "虧損縮小",
-   "gross_margin": -1.68,
    "gross_profit": 39846.0,
    "net_income": -56051.0,
    "net_income_parent": -30596.0,
    "net_income_ttm": -370995.0,
    "net_income_yoy": 22.45,
    "net_income_yoy_turn": "虧損縮小",
-   "net_margin": 2.37,
    "operating_expenses": -125277.0,
    "operating_income": 165123.0,
    "operating_income_yoy": 324.77,
    "operating_income_yoy_accel": 747.72,
    "operating_income_yoy_turn": "轉盈",
-   "operating_margin": -6.97,
    "pretax_income": 188141.0,
    "revenue": -2369146.0,
-   "revenue_ttm": 1738815.0,
-   "revenue_yoy": -305.46,
-   "revenue_yoy_accel": -301.64
+   "revenue_ttm": 1738815.0
   },
   "2017Q4": {
    "cogs": 51879.0,
@@ -1321,8 +1316,7 @@
    "pretax_income": 9966.0,
    "revenue": 77377.0,
    "revenue_ttm": 485556.0,
-   "revenue_yoy": -94.18,
-   "revenue_yoy_accel": 211.28
+   "revenue_yoy": -94.18
   },
   "2018Q1": {
    "cogs": 282102.0,
@@ -1401,9 +1395,7 @@
    "operating_margin": 11.51,
    "pretax_income": 17539.0,
    "revenue": 132171.0,
-   "revenue_ttm": 573955.0,
-   "revenue_yoy": 105.58,
-   "revenue_yoy_accel": 201.58
+   "revenue_ttm": 573955.0
   },
   "2018Q4": {
    "cogs": 161061.0,
@@ -1434,7 +1426,6 @@
    "revenue": 206145.0,
    "revenue_ttm": 702723.0,
    "revenue_yoy": 166.42,
-   "revenue_yoy_accel": 60.84,
    "roa_q": 1.08,
    "roa_ttm": 3.25,
    "roe_q": 3.28,

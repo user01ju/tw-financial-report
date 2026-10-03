@@ -19,19 +19,31 @@
   },
   "2026-05": {
    "mom": -4.2,
-   "revenue": 509764
+   "revenue": 509764,
+   "yoy": 42.58,
+   "yoy_12m": 42.58,
+   "yoy_3m": 42.58
   },
   "2026-06": {
    "mom": 6.65,
-   "revenue": 543688
+   "revenue": 543688,
+   "yoy": 46.79,
+   "yoy_12m": 44.69,
+   "yoy_3m": 44.69
   },
   "2026-07": {
    "mom": -5.25,
-   "revenue": 515132
+   "revenue": 515132,
+   "yoy": 59.59,
+   "yoy_12m": 49.65,
+   "yoy_3m": 49.65
   },
   "2026-08": {
    "mom": 1.25,
-   "revenue": 521574
+   "revenue": 521574,
+   "yoy": 46.19,
+   "yoy_12m": 48.79,
+   "yoy_3m": 50.86
   }
  },
  "name": "公勝保經",
@@ -525,9 +537,10 @@
    "current_liabilities": 797303.0,
    "current_ratio": 138.31,
    "debt_ratio": 58.94,
-   "eps": 7.86,
+   "eps": 2.0,
    "eps_basis_adj": true,
-   "eps_yoy": -61.45,
+   "eps_repaired": true,
+   "eps_yoy": -61.46,
    "equity": 648279.0,
    "equity_parent": 648279.0,
    "gross_margin": 13.9,
@@ -556,8 +569,7 @@
    "current_ratio": 144.43,
    "debt_ratio": 59.13,
    "eps": 2.48,
-   "eps_basis_adj": true,
-   "eps_ttm": 10.73,
+   "eps_ttm": 10.74,
    "equity": 797224.0,
    "equity_parent": 797224.0,
    "gross_margin": 12.26,
@@ -587,8 +599,7 @@
    "current_ratio": 172.41,
    "debt_ratio": 50.63,
    "eps": 4.98,
-   "eps_basis_adj": true,
-   "eps_ttm": 11.11,
+   "eps_ttm": 11.24,
    "eps_yoy": 11.16,
    "equity": 914819.0,
    "equity_parent": 914819.0,

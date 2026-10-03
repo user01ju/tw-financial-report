@@ -39,22 +39,31 @@
   },
   "2026-05": {
    "mom": 3.85,
-   "revenue": 218370
+   "revenue": 218370,
+   "yoy": -10.98,
+   "yoy_12m": -10.98,
+   "yoy_3m": -10.98
   },
   "2026-06": {
    "mom": 12.27,
-   "revenue": 245172
+   "revenue": 245172,
+   "yoy": -6.26,
+   "yoy_12m": -8.62,
+   "yoy_3m": -8.62
   },
   "2026-07": {
    "mom": 8.38,
-   "revenue": 265715
+   "revenue": 265715,
+   "yoy": -3.24,
+   "yoy_12m": -6.83,
+   "yoy_3m": -6.83
   },
   "2026-08": {
    "mom": 1.0,
    "revenue": 268378,
    "yoy": -6.8,
-   "yoy_12m": -6.8,
-   "yoy_3m": -6.8
+   "yoy_12m": -6.82,
+   "yoy_3m": -5.43
   }
  },
  "name": "皇家可口",
@@ -146,8 +155,9 @@
    "current_liabilities": 540458.0,
    "current_ratio": 153.27,
    "debt_ratio": 18.33,
-   "eps": 2.66,
+   "eps": 7.35,
    "eps_basis_adj": true,
+   "eps_repaired": true,
    "equity": 3231069.0,
    "equity_parent": 3231069.0,
    "gross_margin": 33.93,
@@ -233,10 +243,11 @@
    "current_liabilities": 423170.0,
    "current_ratio": 297.69,
    "debt_ratio": 13.39,
-   "eps": 0.23,
+   "eps": 0.36,
    "eps_basis_adj": true,
-   "eps_ttm": 3.41,
-   "eps_yoy": -80.67,
+   "eps_repaired": true,
+   "eps_ttm": 5.44,
+   "eps_yoy": -80.65,
    "equity": 3635266.0,
    "equity_parent": 3635266.0,
    "gross_margin": 33.38,
@@ -270,8 +281,8 @@
    "debt_ratio": 13.29,
    "eps": 1.87,
    "eps_basis_adj": true,
-   "eps_ttm": 4.75,
-   "eps_yoy": -29.7,
+   "eps_ttm": 4.77,
+   "eps_yoy": -19.74,
    "equity": 3656207.0,
    "gross_margin": 35.86,
    "gross_profit": 174404.0,
@@ -305,7 +316,7 @@
    "debt_ratio": 16.18,
    "eps": 0.84,
    "eps_basis_adj": true,
-   "eps_ttm": 4.34,
+   "eps_ttm": 4.36,
    "eps_yoy": -32.8,
    "equity": 3193061.0,
    "gross_margin": 34.31,
