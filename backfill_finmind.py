@@ -9,18 +9,26 @@ OpenAPI 只有最新一期，歷史靠這支補齊到接點。一次性、可續
     python backfill_finmind.py --start 2018-01-01
     python backfill_finmind.py --codes 2330,2317  # 只補指定股
     python backfill_finmind.py --force            # 忽略進度重抓
+    python backfill_finmind.py --monthly-only     # 月初早鳥：只補上月月營收(見下)
 
 特性:
 - 每檔 3 次呼叫(月營收/損益/資產)，一次抓全區間。
 - 402(限額)自動 sleep 退避重試；可隨時 Ctrl+C，進度存 data/finmind/_progress.json。
 - 月營收併入既有 data/monthly_revenue/(同 TWSE 欄名)；
   損益/資產為 long format，pivot 後存 data/finmind/ 保留來源純淨。
+
+--monthly-only（月初早鳥）:
+  TWSE OpenAPI 的月營收快照要等每月 10 日申報期限後才整批換月，10 號前一筆都拿不到；
+  FinMind 是逐檔即時反映 MOPS 公告。這個模式只打月營收(1 call/檔)、跳過已有該月的股票，
+  所以可以每天重跑補新公告的公司。寫進去的值之後會被 fetch_latest 的 TWSE 官方值蓋掉
+  (existing.update(periods))，不會卡住正式資料。
 """
 import argparse
 import json
 import os
 import sys
 import time
+from datetime import datetime
 
 import requests
 
@@ -112,6 +120,18 @@ def backfill_statement(code, dataset, subdir, start):
     return len(rows)
 
 
+def last_month():
+    """'2026-07'（上個月）。"""
+    t = datetime.now()
+    y, m = (t.year, t.month - 1) if t.month > 1 else (t.year - 1, 12)
+    return f"{y}-{m:02d}"
+
+
+def has_month(code, period):
+    path = os.path.join(config.DATA_DIR, "monthly_revenue", f"{code}.json")
+    return period in load(path)
+
+
 def already_done(code):
     """以實際產出檔為準判斷是否回補過(self-healing，不依賴 _progress.json)。"""
     inc = os.path.join(config.DATA_DIR, "finmind", "income_statement", f"{code}.json")
@@ -133,9 +153,27 @@ def main():
     ap.add_argument("--start", default=START_DATE)
     ap.add_argument("--codes", default="")
     ap.add_argument("--force", action="store_true")
+    ap.add_argument("--monthly-only", action="store_true", help="只補月營收，跳過已有該月的股票")
+    ap.add_argument("--month", default="", help="搭配 --monthly-only，預設上個月 YYYY-MM")
     args = ap.parse_args()
 
     codes = universe(args)
+
+    if args.monthly_only:
+        month = args.month or last_month()
+        todo = [c for c in codes if not has_month(c, month)]
+        print(f"[月營收 {month}] 宇宙 {len(codes)} 檔，缺 {len(todo)} 檔，"
+              f"token={'有' if TOKEN else '無(300/hr)'}，預估 {len(todo)*BASE_SLEEP/60:.0f} 分鐘")
+        got = 0
+        for i, code in enumerate(todo, 1):
+            backfill_monthly(code, args.start)
+            ok = has_month(code, month)
+            got += ok
+            print(f"[{i}/{len(todo)}] {code} {'OK' if ok else '未公告'}")
+            time.sleep(BASE_SLEEP)
+        print(f"完成。新補到 {got} 檔的 {month}，仍缺 {len(todo)-got} 檔(尚未公告)。")
+        return
+
     # resume：progress 檔 ∪ 實際已產出檔，雙保險(progress 壞掉也不重跑)
     progress = set() if args.force else set(load(PROGRESS).get("done", []))
     todo = codes if args.force else [c for c in codes if c not in progress and not already_done(c)]

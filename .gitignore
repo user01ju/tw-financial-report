@@ -8,6 +8,9 @@ raw/
 # FinMind 回補進度(可由實際檔案自我修復，不需版控)
 data/finmind/_progress.json
 
+# monthly_report.py 的輸出(隨時可重生)
+monthly_report.csv
+
 # Node / 前端
 node_modules/
 web/dist/
