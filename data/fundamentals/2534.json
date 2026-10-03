@@ -2286,9 +2286,11 @@
    "current_assets": 17564416.0,
    "current_liabilities": 14233063.0,
    "current_ratio": 123.41,
+   "debt_ratio": 55.61,
    "eps": -0.16,
    "eps_ttm": 0.06,
    "eps_yoy": -119.51,
+   "equity": 14322277.0,
    "equity_parent": 14322277.0,
    "gross_margin": 71.21,
    "gross_profit": 211717.0,
@@ -2305,7 +2307,13 @@
    "revenue": 297328.0,
    "revenue_ttm": 1157995.0,
    "revenue_yoy": -86.82,
-   "revenue_yoy_accel": 1.78
+   "revenue_yoy_accel": 1.78,
+   "roa_q": -0.23,
+   "roa_ttm": 0.08,
+   "roe_q": -0.53,
+   "roe_ttm": 0.18,
+   "total_assets": 32267147.0,
+   "total_liabilities": 17944870.0
   }
  },
  "sector": "營建",

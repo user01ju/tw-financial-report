@@ -2293,9 +2293,11 @@
    "current_assets": 1722622.0,
    "current_liabilities": 331795.0,
    "current_ratio": 519.18,
+   "debt_ratio": 13.27,
    "eps": 0.4,
    "eps_ttm": 1.65,
    "eps_yoy": 273.91,
+   "equity": 2379179.0,
    "equity_parent": 2281182.0,
    "gross_margin": 16.99,
    "gross_profit": 65280.0,
@@ -2312,7 +2314,13 @@
    "revenue": 384246.0,
    "revenue_ttm": 1442063.0,
    "revenue_yoy": 20.71,
-   "revenue_yoy_accel": -13.81
+   "revenue_yoy_accel": -13.81,
+   "roa_q": 1.34,
+   "roa_ttm": 5.51,
+   "roe_q": 1.55,
+   "roe_ttm": 6.36,
+   "total_assets": 2743285.0,
+   "total_liabilities": 364106.0
   }
  },
  "sector": "安全監控",

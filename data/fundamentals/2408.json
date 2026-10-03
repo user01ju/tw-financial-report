@@ -2293,9 +2293,11 @@
    "current_assets": 284521498.0,
    "current_liabilities": 41174906.0,
    "current_ratio": 691.01,
+   "debt_ratio": 16.78,
    "eps": 14.97,
    "eps_ttm": 27.46,
    "eps_yoy": 1234.09,
+   "equity": 322698513.0,
    "equity_parent": 322560603.0,
    "gross_margin": 79.49,
    "gross_profit": 65619208.0,
@@ -2312,7 +2314,13 @@
    "revenue": 82549073.0,
    "revenue_ttm": 180508491.0,
    "revenue_yoy": 684.23,
-   "revenue_yoy_accel": 101.32
+   "revenue_yoy_accel": 101.32,
+   "roa_q": 12.94,
+   "roa_ttm": 22.93,
+   "roe_q": 15.55,
+   "roe_ttm": 27.55,
+   "total_assets": 387758196.0,
+   "total_liabilities": 65059683.0
   }
  },
  "sector": "IC-DRAM製造",

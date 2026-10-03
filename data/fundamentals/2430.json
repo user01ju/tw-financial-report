@@ -2293,8 +2293,10 @@
    "current_assets": 4304478.0,
    "current_liabilities": 4941938.0,
    "current_ratio": 87.1,
+   "debt_ratio": 67.98,
    "eps": 0.02,
    "eps_ttm": 0.5,
+   "equity": 4321013.0,
    "equity_parent": 4321013.0,
    "gross_margin": 14.39,
    "gross_profit": 629572.0,
@@ -2311,7 +2313,13 @@
    "revenue": 4373923.0,
    "revenue_ttm": 17486431.0,
    "revenue_yoy": -3.18,
-   "revenue_yoy_accel": -2.11
+   "revenue_yoy_accel": -2.11,
+   "roa_q": 0.01,
+   "roa_ttm": 0.42,
+   "roe_q": 0.04,
+   "roe_ttm": 1.33,
+   "total_assets": 13495022.0,
+   "total_liabilities": 9174009.0
   }
  },
  "sector": "資訊通路",

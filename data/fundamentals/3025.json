@@ -2293,9 +2293,11 @@
    "current_assets": 966177.0,
    "current_liabilities": 398644.0,
    "current_ratio": 242.37,
+   "debt_ratio": 36.33,
    "eps": 0.66,
    "eps_ttm": 4.71,
    "eps_yoy": 1420.0,
+   "equity": 776086.0,
    "equity_parent": 776086.0,
    "gross_margin": 62.14,
    "gross_profit": 83755.0,
@@ -2312,7 +2314,13 @@
    "revenue": 134794.0,
    "revenue_ttm": 757375.0,
    "revenue_yoy": 48.48,
-   "revenue_yoy_accel": 8.04
+   "revenue_yoy_accel": 8.04,
+   "roa_q": 3.06,
+   "roa_ttm": 21.9,
+   "roe_q": 4.81,
+   "roe_ttm": 34.39,
+   "total_assets": 1218954.0,
+   "total_liabilities": 442868.0
   }
  },
  "sector": "通訊設備",

@@ -2293,9 +2293,11 @@
    "current_assets": 1721241.0,
    "current_liabilities": 1680078.0,
    "current_ratio": 102.45,
+   "debt_ratio": 76.54,
    "eps": 0.03,
    "eps_ttm": 0.42,
    "eps_yoy": -95.77,
+   "equity": 592029.0,
    "equity_parent": 589626.0,
    "gross_margin": 21.0,
    "gross_profit": 171332.0,
@@ -2312,7 +2314,13 @@
    "revenue": 815935.0,
    "revenue_ttm": 3059988.0,
    "revenue_yoy": 12.53,
-   "revenue_yoy_accel": 0.3
+   "revenue_yoy_accel": 0.3,
+   "roa_q": 0.07,
+   "roa_ttm": -3.5,
+   "roe_q": 0.3,
+   "roe_ttm": -14.93,
+   "total_assets": 2523955.0,
+   "total_liabilities": 1931926.0
   }
  },
  "sector": "掃描器",

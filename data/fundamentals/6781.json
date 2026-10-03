@@ -1163,9 +1163,11 @@
    "current_assets": 23810494.0,
    "current_liabilities": 8967283.0,
    "current_ratio": 265.53,
+   "debt_ratio": 35.13,
    "eps": 12.81,
    "eps_ttm": 42.29,
    "eps_yoy": 32.61,
+   "equity": 17698669.0,
    "equity_parent": 17697906.0,
    "gross_margin": 39.06,
    "gross_profit": 1878020.0,
@@ -1182,7 +1184,13 @@
    "revenue": 4808058.0,
    "revenue_ttm": 17928151.0,
    "revenue_yoy": 21.04,
-   "revenue_yoy_accel": -10.7
+   "revenue_yoy_accel": -10.7,
+   "roa_q": 4.01,
+   "roa_ttm": 13.24,
+   "roe_q": 6.18,
+   "roe_ttm": 20.41,
+   "total_assets": 27284012.0,
+   "total_liabilities": 9585343.0
   }
  },
  "sector": "二次電池",

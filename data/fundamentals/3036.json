@@ -2293,9 +2293,11 @@
    "current_assets": 745804028.0,
    "current_liabilities": 671711613.0,
    "current_ratio": 111.03,
+   "debt_ratio": 84.66,
    "eps": 7.68,
    "eps_ttm": 19.9,
    "eps_yoy": 236.84,
+   "equity": 124675240.0,
    "equity_parent": 124406579.0,
    "gross_margin": 3.41,
    "gross_profit": 20142433.0,
@@ -2312,7 +2314,13 @@
    "revenue": 590693698.0,
    "revenue_ttm": 1755987718.0,
    "revenue_yoy": 127.62,
-   "revenue_yoy_accel": 27.85
+   "revenue_yoy_accel": 27.85,
+   "roa_q": 1.2,
+   "roa_ttm": 3.04,
+   "roe_q": 7.8,
+   "roe_ttm": 19.84,
+   "total_assets": 812739198.0,
+   "total_liabilities": 688063958.0
   }
  },
  "sector": "IC-通路",

@@ -2293,9 +2293,11 @@
    "current_assets": 6705005.0,
    "current_liabilities": 3724069.0,
    "current_ratio": 180.05,
+   "debt_ratio": 34.61,
    "eps": 0.19,
    "eps_ttm": 0.14,
    "eps_yoy": 246.15,
+   "equity": 9171238.0,
    "equity_parent": 8913197.0,
    "gross_margin": 24.89,
    "gross_profit": 530514.0,
@@ -2312,7 +2314,13 @@
    "revenue": 2131562.0,
    "revenue_ttm": 7817613.0,
    "revenue_yoy": 7.28,
-   "revenue_yoy_accel": 1.9
+   "revenue_yoy_accel": 1.9,
+   "roa_q": 0.74,
+   "roa_ttm": 0.44,
+   "roe_q": 1.13,
+   "roe_ttm": 0.67,
+   "total_assets": 14025892.0,
+   "total_liabilities": 4854654.0
   }
  },
  "sector": "化學工業",

@@ -2293,9 +2293,11 @@
    "current_assets": 95379958.0,
    "current_liabilities": 81392093.0,
    "current_ratio": 117.19,
+   "debt_ratio": 81.91,
    "eps": 19.92,
    "eps_ttm": 66.35,
    "eps_yoy": 168.83,
+   "equity": 18175286.0,
    "equity_parent": 17913771.0,
    "gross_margin": 23.64,
    "gross_profit": 6164647.0,
@@ -2312,7 +2314,13 @@
    "revenue": 26080492.0,
    "revenue_ttm": 86159434.0,
    "revenue_yoy": 76.4,
-   "revenue_yoy_accel": 0.25
+   "revenue_yoy_accel": 0.25,
+   "roa_q": 3.75,
+   "roa_ttm": 12.49,
+   "roe_q": 20.72,
+   "roe_ttm": 69.04,
+   "total_assets": 100479417.0,
+   "total_liabilities": 82304131.0
   }
  },
  "sector": "儀器設備工程",

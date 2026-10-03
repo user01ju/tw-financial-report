@@ -1040,9 +1040,11 @@
    "current_assets": 1644405.0,
    "current_liabilities": 1364114.0,
    "current_ratio": 120.55,
+   "debt_ratio": 48.43,
    "eps": 0.36,
    "eps_ttm": 0.27,
    "eps_yoy": 228.57,
+   "equity": 3395213.0,
    "equity_parent": 3395213.0,
    "gross_margin": 24.96,
    "gross_profit": 158557.0,
@@ -1059,7 +1061,13 @@
    "revenue": 635155.0,
    "revenue_ttm": 2382999.0,
    "revenue_yoy": 16.58,
-   "revenue_yoy_accel": -7.96
+   "revenue_yoy_accel": -7.96,
+   "roa_q": 0.28,
+   "roa_ttm": 0.21,
+   "roe_q": 0.55,
+   "roe_ttm": 0.4,
+   "total_assets": 6583423.0,
+   "total_liabilities": 3188210.0
   }
  },
  "sector": "IC-其他",

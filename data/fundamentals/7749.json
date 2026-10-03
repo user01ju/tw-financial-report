@@ -282,9 +282,11 @@
    "current_assets": 3785478.0,
    "current_liabilities": 758588.0,
    "current_ratio": 499.02,
+   "debt_ratio": 17.76,
    "eps": 4.01,
    "eps_ttm": 14.44,
    "eps_yoy": 82.27,
+   "equity": 3702064.0,
    "equity_parent": 3702064.0,
    "gross_margin": 68.48,
    "gross_profit": 377806.0,
@@ -301,7 +303,13 @@
    "revenue": 551715.0,
    "revenue_ttm": 2014422.0,
    "revenue_yoy": 57.71,
-   "revenue_yoy_accel": -13.61
+   "revenue_yoy_accel": -13.61,
+   "roa_q": 4.14,
+   "roa_ttm": 14.93,
+   "roe_q": 5.03,
+   "roe_ttm": 18.15,
+   "total_assets": 4501598.0,
+   "total_liabilities": 799534.0
   }
  },
  "sector": "IP/ASIC",

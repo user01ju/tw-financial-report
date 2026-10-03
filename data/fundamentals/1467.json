@@ -2290,9 +2290,11 @@
    "current_assets": 4924787.0,
    "current_liabilities": 3901276.0,
    "current_ratio": 126.24,
+   "debt_ratio": 67.04,
    "eps": -0.2,
    "eps_ttm": 0.26,
    "eps_yoy": 75.9,
+   "equity": 3012351.0,
    "equity_parent": 2837944.0,
    "gross_margin": 17.97,
    "gross_profit": 229789.0,
@@ -2309,7 +2311,13 @@
    "revenue": 1279022.0,
    "revenue_ttm": 5225067.0,
    "revenue_yoy": 11.93,
-   "revenue_yoy_accel": 16.81
+   "revenue_yoy_accel": 16.81,
+   "roa_q": -0.42,
+   "roa_ttm": 0.71,
+   "roe_q": -1.28,
+   "roe_ttm": 2.15,
+   "total_assets": 9138111.0,
+   "total_liabilities": 6125760.0
   }
  },
  "sector": "紡織纖維",

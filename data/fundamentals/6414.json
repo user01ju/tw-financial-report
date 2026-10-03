@@ -2293,9 +2293,11 @@
    "current_assets": 127723109.0,
    "current_liabilities": 99553091.0,
    "current_ratio": 128.3,
+   "debt_ratio": 64.66,
    "eps": 7.16,
    "eps_ttm": 25.44,
    "eps_yoy": 74.21,
+   "equity": 65405695.0,
    "equity_parent": 28501141.0,
    "gross_margin": 19.32,
    "gross_profit": 9347633.0,
@@ -2312,7 +2314,13 @@
    "revenue": 48378680.0,
    "revenue_ttm": 158622292.0,
    "revenue_yoy": 39.45,
-   "revenue_yoy_accel": 31.77
+   "revenue_yoy_accel": 31.77,
+   "roa_q": 1.5,
+   "roa_ttm": 4.8,
+   "roe_q": 4.25,
+   "roe_ttm": 13.59,
+   "total_assets": 185059142.0,
+   "total_liabilities": 119653447.0
   }
  },
  "sector": "工業電腦",

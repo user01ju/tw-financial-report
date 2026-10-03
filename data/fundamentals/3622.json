@@ -2293,9 +2293,11 @@
    "current_assets": 6968221.0,
    "current_liabilities": 1072342.0,
    "current_ratio": 649.81,
+   "debt_ratio": 14.28,
    "eps": 0.01,
    "eps_ttm": 5.1,
    "eps_yoy": -98.67,
+   "equity": 7987066.0,
    "equity_parent": 7895418.0,
    "gross_margin": 36.91,
    "gross_profit": 155655.0,
@@ -2312,7 +2314,13 @@
    "revenue": 421715.0,
    "revenue_ttm": 1700607.0,
    "revenue_yoy": -3.32,
-   "revenue_yoy_accel": -0.5
+   "revenue_yoy_accel": -0.5,
+   "roa_q": 0.08,
+   "roa_ttm": 8.68,
+   "roe_q": 0.09,
+   "roe_ttm": 10.12,
+   "total_assets": 9317460.0,
+   "total_liabilities": 1330394.0
   }
  },
  "sector": "LCD-STN面板",

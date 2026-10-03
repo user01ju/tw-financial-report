@@ -2293,9 +2293,11 @@
    "current_assets": 101417662.0,
    "current_liabilities": 81828349.0,
    "current_ratio": 123.94,
+   "debt_ratio": 73.25,
    "eps": 0.35,
    "eps_ttm": 1.2,
    "eps_yoy": 75.0,
+   "equity": 38589852.0,
    "equity_parent": 24256351.0,
    "gross_margin": 6.89,
    "gross_profit": 2718329.0,
@@ -2312,7 +2314,13 @@
    "revenue": 39426886.0,
    "revenue_ttm": 159206349.0,
    "revenue_yoy": 5.38,
-   "revenue_yoy_accel": 20.41
+   "revenue_yoy_accel": 20.41,
+   "roa_q": 0.54,
+   "roa_ttm": 1.79,
+   "roe_q": 2.02,
+   "roe_ttm": 6.7,
+   "total_assets": 144272249.0,
+   "total_liabilities": 105682397.0
   }
  },
  "sector": "EMS",

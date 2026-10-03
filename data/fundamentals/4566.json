@@ -1941,9 +1941,11 @@
    "current_assets": 5433448.0,
    "current_liabilities": 3783630.0,
    "current_ratio": 143.6,
+   "debt_ratio": 54.24,
    "eps": 0.62,
    "eps_ttm": 2.53,
    "eps_yoy": 162.63,
+   "equity": 5148603.0,
    "equity_parent": 5059588.0,
    "gross_margin": 24.43,
    "gross_profit": 358500.0,
@@ -1960,7 +1962,13 @@
    "revenue": 1467666.0,
    "revenue_ttm": 5307949.0,
    "revenue_yoy": 18.53,
-   "revenue_yoy_accel": 10.37
+   "revenue_yoy_accel": 10.37,
+   "roa_q": 0.59,
+   "roa_ttm": 2.55,
+   "roe_q": 1.29,
+   "roe_ttm": 5.57,
+   "total_assets": 11251294.0,
+   "total_liabilities": 6102691.0
   }
  },
  "sector": "汽車零組件",

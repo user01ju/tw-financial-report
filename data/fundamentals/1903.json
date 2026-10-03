@@ -2293,9 +2293,11 @@
    "current_assets": 3527024.0,
    "current_liabilities": 3496765.0,
    "current_ratio": 100.87,
+   "debt_ratio": 48.02,
    "eps": -0.08,
    "eps_ttm": 1.35,
    "eps_yoy": 46.67,
+   "equity": 5507845.0,
    "equity_parent": 5507845.0,
    "gross_margin": 62.3,
    "gross_profit": 23320.0,
@@ -2312,7 +2314,13 @@
    "revenue": 37432.0,
    "revenue_ttm": 152510.0,
    "revenue_yoy": 0.29,
-   "revenue_yoy_accel": 2.52
+   "revenue_yoy_accel": 2.52,
+   "roa_q": -0.2,
+   "roa_ttm": 3.33,
+   "roe_q": -0.38,
+   "roe_ttm": 6.4,
+   "total_assets": 10595433.0,
+   "total_liabilities": 5087588.0
   }
  },
  "sector": "紙業",

@@ -2293,9 +2293,11 @@
    "current_assets": 11731610.0,
    "current_liabilities": 7249391.0,
    "current_ratio": 161.83,
+   "debt_ratio": 39.64,
    "eps": -0.1,
    "eps_ttm": 0.14,
    "eps_yoy": 89.58,
+   "equity": 11622856.0,
    "equity_parent": 11258413.0,
    "gross_margin": 12.16,
    "gross_profit": 439142.0,
@@ -2312,7 +2314,13 @@
    "revenue": 3612675.0,
    "revenue_ttm": 13867792.0,
    "revenue_yoy": -13.9,
-   "revenue_yoy_accel": 25.72
+   "revenue_yoy_accel": 25.72,
+   "roa_q": -0.16,
+   "roa_ttm": 0.52,
+   "roe_q": -0.27,
+   "roe_ttm": 0.85,
+   "total_assets": 19256597.0,
+   "total_liabilities": 7633741.0
   }
  },
  "sector": "網通",

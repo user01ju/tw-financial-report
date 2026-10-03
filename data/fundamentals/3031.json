@@ -2293,9 +2293,11 @@
    "current_assets": 2027615.0,
    "current_liabilities": 570400.0,
    "current_ratio": 355.47,
+   "debt_ratio": 17.89,
    "eps": 0.44,
    "eps_ttm": 0.92,
    "eps_yoy": -31.25,
+   "equity": 2974942.0,
    "equity_parent": 2892306.0,
    "gross_margin": 29.27,
    "gross_profit": 104539.0,
@@ -2312,7 +2314,13 @@
    "revenue": 357165.0,
    "revenue_ttm": 1250328.0,
    "revenue_yoy": 25.3,
-   "revenue_yoy_accel": 10.76
+   "revenue_yoy_accel": 10.76,
+   "roa_q": 2.06,
+   "roa_ttm": 4.27,
+   "roe_q": 2.51,
+   "roe_ttm": 5.2,
+   "total_assets": 3623013.0,
+   "total_liabilities": 648071.0
   }
  },
  "sector": "LED及光元件",

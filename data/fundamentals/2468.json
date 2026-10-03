@@ -2293,9 +2293,11 @@
    "current_assets": 1990450.0,
    "current_liabilities": 1290293.0,
    "current_ratio": 154.26,
+   "debt_ratio": 51.76,
    "eps": 0.31,
    "eps_ttm": 1.36,
    "eps_yoy": 34.78,
+   "equity": 1248328.0,
    "equity_parent": 1248328.0,
    "gross_margin": 10.87,
    "gross_profit": 72000.0,
@@ -2312,7 +2314,13 @@
    "revenue": 662458.0,
    "revenue_ttm": 2542103.0,
    "revenue_yoy": 0.04,
-   "revenue_yoy_accel": 19.55
+   "revenue_yoy_accel": 19.55,
+   "roa_q": 0.83,
+   "roa_ttm": 3.67,
+   "roe_q": 1.72,
+   "roe_ttm": 7.61,
+   "total_assets": 2588000.0,
+   "total_liabilities": 1339672.0
   }
  },
  "sector": "系統整合",

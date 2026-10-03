@@ -2293,9 +2293,11 @@
    "current_assets": 2824462.0,
    "current_liabilities": 1311395.0,
    "current_ratio": 215.38,
+   "debt_ratio": 23.61,
    "eps": 0.2,
    "eps_ttm": 1.26,
    "eps_yoy": -23.08,
+   "equity": 5701360.0,
    "equity_parent": 5656471.0,
    "gross_margin": 19.7,
    "gross_profit": 273427.0,
@@ -2312,7 +2314,13 @@
    "revenue": 1388101.0,
    "revenue_ttm": 5156814.0,
    "revenue_yoy": -7.15,
-   "revenue_yoy_accel": 2.13
+   "revenue_yoy_accel": 2.13,
+   "roa_q": 0.68,
+   "roa_ttm": 4.37,
+   "roe_q": 0.9,
+   "roe_ttm": 5.72,
+   "total_assets": 7463501.0,
+   "total_liabilities": 1762141.0
   }
  },
  "sector": "消費電子",

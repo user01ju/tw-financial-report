@@ -2292,9 +2292,11 @@
    "current_assets": 3589430.0,
    "current_liabilities": 1784424.0,
    "current_ratio": 201.15,
+   "debt_ratio": 35.39,
    "eps": 0.32,
    "eps_ttm": 1.38,
    "eps_yoy": 140.0,
+   "equity": 3838971.0,
    "equity_parent": 2747340.0,
    "gross_margin": 57.34,
    "gross_profit": 560890.0,
@@ -2311,7 +2313,13 @@
    "revenue": 978111.0,
    "revenue_ttm": 3582040.0,
    "revenue_yoy": 10.66,
-   "revenue_yoy_accel": -6.07
+   "revenue_yoy_accel": -6.07,
+   "roa_q": 1.23,
+   "roa_ttm": 5.29,
+   "roe_q": 1.9,
+   "roe_ttm": 8.19,
+   "total_assets": 5941584.0,
+   "total_liabilities": 2102613.0
   }
  },
  "sector": "PC介面卡",

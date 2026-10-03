@@ -1307,9 +1307,11 @@
    "current_assets": 99256953.0,
    "current_liabilities": 20013769.0,
    "current_ratio": 495.94,
+   "debt_ratio": 34.6,
    "eps": 0.72,
    "eps_ttm": 3.28,
    "eps_yoy": 190.0,
+   "equity": 128876891.0,
    "equity_parent": 128876891.0,
    "gross_margin": 28.28,
    "gross_profit": 4888925.0,
@@ -1326,7 +1328,13 @@
    "revenue": 17290184.0,
    "revenue_ttm": 55198315.0,
    "revenue_yoy": 53.31,
-   "revenue_yoy_accel": 31.22
+   "revenue_yoy_accel": 31.22,
+   "roa_q": 1.67,
+   "roa_ttm": 7.18,
+   "roe_q": 2.55,
+   "roe_ttm": 10.97,
+   "total_assets": 197059525.0,
+   "total_liabilities": 68182634.0
   }
  },
  "sector": "IC-代工",

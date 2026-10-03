@@ -2044,9 +2044,11 @@
   },
   "2026Q1": {
    "cogs": 230681.0,
+   "debt_ratio": 66.24,
    "eps": 1.78,
    "eps_ttm": 6.3,
    "eps_yoy": 1171.43,
+   "equity": 8481841.0,
    "net_income": 397970.0,
    "net_income_ttm": 1409455.0,
    "net_income_yoy": 1204.35,
@@ -2059,13 +2061,21 @@
    "revenue": 325748.0,
    "revenue_ttm": 8918876.0,
    "revenue_yoy": -86.88,
-   "revenue_yoy_accel": -89.51
+   "revenue_yoy_accel": -89.51,
+   "roa_q": 1.58,
+   "roa_ttm": 5.61,
+   "roe_q": 4.69,
+   "roe_ttm": 16.62,
+   "total_assets": 25125030.0,
+   "total_liabilities": 16643189.0
   },
   "2026Q2": {
    "cogs": 1017227.0,
+   "debt_ratio": 64.62,
    "eps": 6.06,
    "eps_ttm": 11.49,
    "eps_yoy": 596.55,
+   "equity": 9638270.0,
    "net_income": 1355743.0,
    "net_income_ttm": 2570823.0,
    "net_income_yoy": 597.49,
@@ -2078,7 +2088,13 @@
    "revenue": 604531.0,
    "revenue_ttm": 6852539.0,
    "revenue_yoy": -77.37,
-   "revenue_yoy_accel": 9.51
+   "revenue_yoy_accel": 9.51,
+   "roa_q": 4.98,
+   "roa_ttm": 9.44,
+   "roe_q": 14.07,
+   "roe_ttm": 26.67,
+   "total_assets": 27241415.0,
+   "total_liabilities": 17603145.0
   }
  },
  "sector": "保險",

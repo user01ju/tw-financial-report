@@ -2292,9 +2292,11 @@
    "current_assets": 2203391.0,
    "current_liabilities": 1055950.0,
    "current_ratio": 208.66,
+   "debt_ratio": 27.41,
    "eps": 0.05,
    "eps_ttm": 0.2,
    "eps_yoy": 25.0,
+   "equity": 3303885.0,
    "equity_parent": 2929210.0,
    "gross_margin": 21.31,
    "gross_profit": 129891.0,
@@ -2311,7 +2313,13 @@
    "revenue": 609551.0,
    "revenue_ttm": 2499033.0,
    "revenue_yoy": -2.42,
-   "revenue_yoy_accel": -5.31
+   "revenue_yoy_accel": -5.31,
+   "roa_q": 0.01,
+   "roa_ttm": 0.25,
+   "roe_q": 0.01,
+   "roe_ttm": 0.35,
+   "total_assets": 4551241.0,
+   "total_liabilities": 1247356.0
   }
  },
  "sector": "玻璃陶瓷",

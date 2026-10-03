@@ -2293,9 +2293,11 @@
    "current_assets": 19666569.0,
    "current_liabilities": 14551639.0,
    "current_ratio": 135.15,
+   "debt_ratio": 77.16,
    "eps": 0.7,
    "eps_ttm": 1.24,
    "eps_yoy": 600.0,
+   "equity": 9036302.0,
    "equity_parent": 7251267.0,
    "gross_margin": 32.55,
    "gross_profit": 2758121.0,
@@ -2312,7 +2314,13 @@
    "revenue": 8473312.0,
    "revenue_ttm": 34510328.0,
    "revenue_yoy": 0.51,
-   "revenue_yoy_accel": -9.37
+   "revenue_yoy_accel": -9.37,
+   "roa_q": 0.97,
+   "roa_ttm": 1.47,
+   "roe_q": 4.25,
+   "roe_ttm": 6.42,
+   "total_assets": 39555735.0,
+   "total_liabilities": 30519433.0
   }
  },
  "sector": "百貨",

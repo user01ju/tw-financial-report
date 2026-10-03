@@ -2292,9 +2292,11 @@
    "current_assets": 1766772.0,
    "current_liabilities": 802357.0,
    "current_ratio": 220.2,
+   "debt_ratio": 20.24,
    "eps": 0.28,
    "eps_ttm": 0.45,
    "eps_yoy": 300.0,
+   "equity": 4041316.0,
    "equity_parent": 4041316.0,
    "gross_margin": 30.79,
    "gross_profit": 79366.0,
@@ -2311,7 +2313,13 @@
    "revenue": 257765.0,
    "revenue_ttm": 1012992.0,
    "revenue_yoy": -7.89,
-   "revenue_yoy_accel": 3.01
+   "revenue_yoy_accel": 3.01,
+   "roa_q": 1.76,
+   "roa_ttm": 2.89,
+   "roe_q": 2.21,
+   "roe_ttm": 3.63,
+   "total_assets": 5067039.0,
+   "total_liabilities": 1025723.0
   }
  },
  "sector": "照明",

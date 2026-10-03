@@ -2293,9 +2293,11 @@
    "current_assets": 30507886.0,
    "current_liabilities": 20713873.0,
    "current_ratio": 147.28,
+   "debt_ratio": 51.32,
    "eps": 2.04,
    "eps_ttm": 7.63,
    "eps_yoy": 14.61,
+   "equity": 62672485.0,
    "equity_parent": 62664065.0,
    "gross_margin": 39.49,
    "gross_profit": 4400123.0,
@@ -2312,7 +2314,13 @@
    "revenue": 11141616.0,
    "revenue_ttm": 40589741.0,
    "revenue_yoy": 33.24,
-   "revenue_yoy_accel": -6.08
+   "revenue_yoy_accel": -6.08,
+   "roa_q": 1.94,
+   "roa_ttm": 7.25,
+   "roe_q": 3.98,
+   "roe_ttm": 14.88,
+   "total_assets": 128748650.0,
+   "total_liabilities": 66076165.0
   }
  },
  "sector": "IC-封測",

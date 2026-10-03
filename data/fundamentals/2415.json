@@ -2293,9 +2293,11 @@
    "current_assets": 9057033.0,
    "current_liabilities": 7098514.0,
    "current_ratio": 127.59,
+   "debt_ratio": 71.54,
    "eps": 0.12,
    "eps_ttm": 1.57,
    "eps_yoy": -74.47,
+   "equity": 3103608.0,
    "equity_parent": 1727938.0,
    "gross_margin": 21.13,
    "gross_profit": 131137.0,
@@ -2312,7 +2314,13 @@
    "revenue": 620666.0,
    "revenue_ttm": 2480509.0,
    "revenue_yoy": 6.31,
-   "revenue_yoy_accel": -8.2
+   "revenue_yoy_accel": -8.2,
+   "roa_q": 0.0,
+   "roa_ttm": 1.66,
+   "roe_q": 0.01,
+   "roe_ttm": 5.83,
+   "total_assets": 10904972.0,
+   "total_liabilities": 7801364.0
   }
  },
  "sector": "聲學元件",

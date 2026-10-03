@@ -2260,9 +2260,11 @@
    "current_assets": 400798.0,
    "current_liabilities": 174081.0,
    "current_ratio": 230.24,
+   "debt_ratio": 15.23,
    "eps": 0.06,
    "eps_ttm": 0.34,
    "eps_yoy": 20.0,
+   "equity": 1068834.0,
    "gross_margin": 14.66,
    "gross_profit": 24669.0,
    "net_income": 4842.0,
@@ -2278,7 +2280,13 @@
    "revenue": 168262.0,
    "revenue_ttm": 684596.0,
    "revenue_yoy": -7.54,
-   "revenue_yoy_accel": -5.09
+   "revenue_yoy_accel": -5.09,
+   "roa_q": 0.38,
+   "roa_ttm": 2.16,
+   "roe_q": 0.45,
+   "roe_ttm": 2.55,
+   "total_assets": 1260923.0,
+   "total_liabilities": 192089.0
   }
  },
  "sector": "鋼鐵",

@@ -2293,9 +2293,11 @@
    "current_assets": 1399867.0,
    "current_liabilities": 83482.0,
    "current_ratio": 1676.85,
+   "debt_ratio": 7.36,
    "eps": 0.19,
    "eps_ttm": 0.2,
    "eps_yoy": 173.08,
+   "equity": 1566775.0,
    "equity_parent": 1459934.0,
    "gross_margin": -18.33,
    "gross_profit": -4643.0,
@@ -2312,7 +2314,13 @@
    "revenue": 25334.0,
    "revenue_ttm": 127798.0,
    "revenue_yoy": -54.0,
-   "revenue_yoy_accel": -0.72
+   "revenue_yoy_accel": -0.72,
+   "roa_q": 1.61,
+   "roa_ttm": 1.81,
+   "roe_q": 1.74,
+   "roe_ttm": 1.95,
+   "total_assets": 1691326.0,
+   "total_liabilities": 124551.0
   }
  },
  "sector": "電源供應器",

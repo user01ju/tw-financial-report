@@ -2293,9 +2293,11 @@
    "current_assets": 4940475.0,
    "current_liabilities": 4153777.0,
    "current_ratio": 118.94,
+   "debt_ratio": 64.01,
    "eps": -0.09,
    "eps_ttm": 1.56,
    "eps_yoy": 97.21,
+   "equity": 3472275.0,
    "equity_parent": 3472215.0,
    "gross_margin": 13.05,
    "gross_profit": 226898.0,
@@ -2312,7 +2314,13 @@
    "revenue": 1738616.0,
    "revenue_ttm": 6650123.0,
    "revenue_yoy": 7.04,
-   "revenue_yoy_accel": 11.76
+   "revenue_yoy_accel": 11.76,
+   "roa_q": -0.07,
+   "roa_ttm": 1.17,
+   "roe_q": -0.18,
+   "roe_ttm": 3.26,
+   "total_assets": 9648156.0,
+   "total_liabilities": 6175881.0
   }
  },
  "sector": "生技",

@@ -21,7 +21,9 @@
    "current_assets": 625973.0,
    "current_liabilities": 48818.0,
    "current_ratio": 1282.26,
+   "debt_ratio": 9.5,
    "eps": 0.6,
+   "equity": 770304.0,
    "gross_margin": 89.15,
    "gross_profit": 64660.0,
    "net_income": 27416.0,
@@ -30,14 +32,20 @@
    "operating_income": 31457.0,
    "operating_margin": 43.37,
    "pretax_income": 33526.0,
-   "revenue": 72530.0
+   "revenue": 72530.0,
+   "roa_q": 3.22,
+   "roe_q": 3.56,
+   "total_assets": 851143.0,
+   "total_liabilities": 80839.0
   },
   "2026Q2": {
    "cogs": 3840.0,
    "current_assets": 956761.0,
    "current_liabilities": 78839.0,
    "current_ratio": 1213.56,
+   "debt_ratio": 9.33,
    "eps": 0.82,
+   "equity": 1068937.0,
    "gross_margin": 95.91,
    "gross_profit": 90022.0,
    "net_income": 38366.0,
@@ -46,7 +54,11 @@
    "operating_income": 51133.0,
    "operating_margin": 54.48,
    "pretax_income": 52635.0,
-   "revenue": 93862.0
+   "revenue": 93862.0,
+   "roa_q": 3.25,
+   "roe_q": 3.59,
+   "total_assets": 1178887.0,
+   "total_liabilities": 109950.0
   }
  },
  "sector": null,

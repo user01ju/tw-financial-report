@@ -2293,9 +2293,11 @@
    "current_assets": 2352424.0,
    "current_liabilities": 505797.0,
    "current_ratio": 465.09,
+   "debt_ratio": 16.68,
    "eps": -0.69,
    "eps_ttm": -1.75,
    "eps_yoy": 31.68,
+   "equity": 3128602.0,
    "equity_parent": 3128602.0,
    "gross_margin": 9.02,
    "gross_profit": 38816.0,
@@ -2312,7 +2314,13 @@
    "revenue": 430141.0,
    "revenue_ttm": 1817586.0,
    "revenue_yoy": -20.71,
-   "revenue_yoy_accel": -15.04
+   "revenue_yoy_accel": -15.04,
+   "roa_q": -1.35,
+   "roa_ttm": -3.42,
+   "roe_q": -1.63,
+   "roe_ttm": -4.1,
+   "total_assets": 3755089.0,
+   "total_liabilities": 626487.0
   }
  },
  "sector": "連接元件",

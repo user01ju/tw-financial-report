@@ -2293,9 +2293,11 @@
    "current_assets": 144236082.0,
    "current_liabilities": 123417456.0,
    "current_ratio": 116.87,
+   "debt_ratio": 55.81,
    "eps": 0.18,
    "eps_ttm": 0.24,
    "eps_yoy": -30.77,
+   "equity": 166902188.0,
    "equity_parent": 154397339.0,
    "gross_margin": 13.05,
    "gross_profit": 9248151.0,
@@ -2312,7 +2314,13 @@
    "revenue": 70891194.0,
    "revenue_ttm": 279971672.0,
    "revenue_yoy": 2.39,
-   "revenue_yoy_accel": 6.65
+   "revenue_yoy_accel": 6.65,
+   "roa_q": 0.56,
+   "roa_ttm": 0.77,
+   "roe_q": 1.27,
+   "roe_ttm": 1.74,
+   "total_assets": 377676390.0,
+   "total_liabilities": 210774202.0
   }
  },
  "sector": "LCD-TFT面板",

@@ -2293,9 +2293,11 @@
    "current_assets": 7564794.0,
    "current_liabilities": 3840729.0,
    "current_ratio": 196.96,
+   "debt_ratio": 44.96,
    "eps": -0.33,
    "eps_ttm": -1.46,
    "eps_yoy": 75.0,
+   "equity": 7071656.0,
    "equity_parent": 7071656.0,
    "gross_margin": 2.46,
    "gross_profit": 50293.0,
@@ -2312,7 +2314,13 @@
    "revenue": 2048225.0,
    "revenue_ttm": 8282849.0,
    "revenue_yoy": -3.15,
-   "revenue_yoy_accel": 10.72
+   "revenue_yoy_accel": 10.72,
+   "roa_q": -1.42,
+   "roa_ttm": -6.38,
+   "roe_q": -2.59,
+   "roe_ttm": -11.59,
+   "total_assets": 12848656.0,
+   "total_liabilities": 5777000.0
   }
  },
  "sector": "LCD-零組件",

@@ -2292,9 +2292,11 @@
    "current_assets": 9689726.0,
    "current_liabilities": 3996922.0,
    "current_ratio": 242.43,
+   "debt_ratio": 44.53,
    "eps": 0.19,
    "eps_ttm": 1.42,
    "eps_yoy": 143.18,
+   "equity": 18790600.0,
    "equity_parent": 18705939.0,
    "gross_margin": 20.33,
    "gross_profit": 135689.0,
@@ -2311,7 +2313,13 @@
    "revenue": 667343.0,
    "revenue_ttm": 2850048.0,
    "revenue_yoy": -13.17,
-   "revenue_yoy_accel": -4.65
+   "revenue_yoy_accel": -4.65,
+   "roa_q": 0.38,
+   "roa_ttm": 2.85,
+   "roe_q": 0.69,
+   "roe_ttm": 5.14,
+   "total_assets": 33873036.0,
+   "total_liabilities": 15082436.0
   }
  },
  "sector": "水泥",

@@ -2293,9 +2293,11 @@
    "current_assets": 678291.0,
    "current_liabilities": 665281.0,
    "current_ratio": 101.96,
+   "debt_ratio": 26.94,
    "eps": -0.39,
    "eps_ttm": -0.07,
    "eps_yoy": 32.76,
+   "equity": 2612242.0,
    "equity_parent": 2612242.0,
    "gross_margin": 17.24,
    "gross_profit": 58578.0,
@@ -2312,7 +2314,13 @@
    "revenue": 339781.0,
    "revenue_ttm": 1848798.0,
    "revenue_yoy": 1.73,
-   "revenue_yoy_accel": -3.99
+   "revenue_yoy_accel": -3.99,
+   "roa_q": -0.94,
+   "roa_ttm": -0.15,
+   "roe_q": -1.29,
+   "roe_ttm": -0.21,
+   "total_assets": 3575495.0,
+   "total_liabilities": 963253.0
   }
  },
  "sector": "食品",

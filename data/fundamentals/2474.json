@@ -2293,9 +2293,11 @@
    "current_assets": 107292448.0,
    "current_liabilities": 80141405.0,
    "current_ratio": 133.88,
+   "debt_ratio": 38.16,
    "eps": 2.51,
    "eps_ttm": 18.18,
    "eps_yoy": 256.87,
+   "equity": 141613829.0,
    "equity_parent": 138382810.0,
    "gross_margin": 28.86,
    "gross_profit": 773884.0,
@@ -2312,7 +2314,13 @@
    "revenue": 2681204.0,
    "revenue_ttm": 15679364.0,
    "revenue_yoy": -47.27,
-   "revenue_yoy_accel": -34.02
+   "revenue_yoy_accel": -34.02,
+   "roa_q": 0.62,
+   "roa_ttm": 3.62,
+   "roe_q": 1.0,
+   "roe_ttm": 5.85,
+   "total_assets": 228984651.0,
+   "total_liabilities": 87370822.0
   }
  },
  "sector": "機殼",

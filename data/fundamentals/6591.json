@@ -1943,9 +1943,11 @@
    "current_assets": 1594682.0,
    "current_liabilities": 637856.0,
    "current_ratio": 250.01,
+   "debt_ratio": 36.24,
    "eps": -0.02,
    "eps_ttm": 3.25,
    "eps_yoy": -101.75,
+   "equity": 2161240.0,
    "equity_parent": 2156171.0,
    "gross_margin": 22.29,
    "gross_profit": 48832.0,
@@ -1962,7 +1964,13 @@
    "revenue": 219047.0,
    "revenue_ttm": 1372043.0,
    "revenue_yoy": -55.19,
-   "revenue_yoy_accel": -29.74
+   "revenue_yoy_accel": -29.74,
+   "roa_q": -0.04,
+   "roa_ttm": 3.83,
+   "roe_q": -0.06,
+   "roe_ttm": 6.01,
+   "total_assets": 3389851.0,
+   "total_liabilities": 1228611.0
   }
  },
  "sector": "散熱零組件",

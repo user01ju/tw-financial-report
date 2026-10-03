@@ -1555,9 +1555,11 @@
    "current_assets": 3417206.0,
    "current_liabilities": 1997513.0,
    "current_ratio": 171.07,
+   "debt_ratio": 50.16,
    "eps": 0.57,
    "eps_ttm": 3.3,
    "eps_yoy": 14.0,
+   "equity": 2174932.0,
    "equity_parent": 2174932.0,
    "gross_margin": 22.62,
    "gross_profit": 179210.0,
@@ -1574,7 +1576,13 @@
    "revenue": 792355.0,
    "revenue_ttm": 3224143.0,
    "revenue_yoy": -19.16,
-   "revenue_yoy_accel": -2.65
+   "revenue_yoy_accel": -2.65,
+   "roa_q": 0.86,
+   "roa_ttm": 5.0,
+   "roe_q": 1.72,
+   "roe_ttm": 10.04,
+   "total_assets": 4363403.0,
+   "total_liabilities": 2188471.0
   }
  },
  "sector": "其他",

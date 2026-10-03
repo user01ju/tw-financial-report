@@ -2238,9 +2238,11 @@
    "current_assets": 1221776.0,
    "current_liabilities": 931681.0,
    "current_ratio": 131.14,
+   "debt_ratio": 58.31,
    "eps": 0.17,
    "eps_ttm": 0.04,
    "eps_yoy": -22.73,
+   "equity": 3358969.0,
    "equity_parent": 3155510.0,
    "gross_margin": 40.51,
    "gross_profit": 90950.0,
@@ -2257,7 +2259,13 @@
    "revenue": 224524.0,
    "revenue_ttm": 940701.0,
    "revenue_yoy": 2.7,
-   "revenue_yoy_accel": -51.51
+   "revenue_yoy_accel": -51.51,
+   "roa_q": 0.29,
+   "roa_ttm": 0.19,
+   "roe_q": 0.71,
+   "roe_ttm": 0.45,
+   "total_assets": 8057302.0,
+   "total_liabilities": 4698333.0
   }
  },
  "sector": "太陽能",

@@ -2291,9 +2291,11 @@
    "current_assets": 707160.0,
    "current_liabilities": 197129.0,
    "current_ratio": 358.73,
+   "debt_ratio": 19.84,
    "eps": 0.03,
    "eps_ttm": -0.32,
    "eps_yoy": 106.67,
+   "equity": 896342.0,
    "equity_parent": 896342.0,
    "gross_margin": 21.51,
    "gross_profit": 34990.0,
@@ -2310,7 +2312,13 @@
    "revenue": 162633.0,
    "revenue_ttm": 689643.0,
    "revenue_yoy": -15.29,
-   "revenue_yoy_accel": -7.19
+   "revenue_yoy_accel": -7.19,
+   "roa_q": 0.23,
+   "roa_ttm": -2.07,
+   "roe_q": 0.29,
+   "roe_ttm": -2.59,
+   "total_assets": 1118240.0,
+   "total_liabilities": 221898.0
   }
  },
  "sector": "塑膠",

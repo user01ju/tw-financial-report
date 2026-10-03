@@ -2292,9 +2292,11 @@
    "current_assets": 796620.0,
    "current_liabilities": 369802.0,
    "current_ratio": 215.42,
+   "debt_ratio": 35.31,
    "eps": 0.73,
    "eps_ttm": 1.33,
    "eps_yoy": 235.19,
+   "equity": 681514.0,
    "equity_parent": 681514.0,
    "gross_margin": 15.03,
    "gross_profit": 62062.0,
@@ -2311,7 +2313,13 @@
    "revenue": 413012.0,
    "revenue_ttm": 1317700.0,
    "revenue_yoy": 69.55,
-   "revenue_yoy_accel": 23.76
+   "revenue_yoy_accel": 23.76,
+   "roa_q": 4.46,
+   "roa_ttm": 8.09,
+   "roe_q": 6.89,
+   "roe_ttm": 12.51,
+   "total_assets": 1053445.0,
+   "total_liabilities": 371931.0
   }
  },
  "sector": "PCB-製造",

@@ -2293,9 +2293,11 @@
    "current_assets": 253932735.0,
    "current_liabilities": 175770017.0,
    "current_ratio": 144.47,
+   "debt_ratio": 74.46,
    "eps": 9.87,
    "eps_ttm": 26.72,
    "eps_yoy": 116.92,
+   "equity": 69273572.0,
    "equity_parent": 66520674.0,
    "gross_margin": 9.62,
    "gross_profit": 13873129.0,
@@ -2312,7 +2314,13 @@
    "revenue": 144214433.0,
    "revenue_ttm": 418202877.0,
    "revenue_yoy": 41.03,
-   "revenue_yoy_accel": -18.76
+   "revenue_yoy_accel": -18.76,
+   "roa_q": 2.75,
+   "roa_ttm": 7.24,
+   "roe_q": 10.78,
+   "roe_ttm": 28.34,
+   "total_assets": 271256869.0,
+   "total_liabilities": 201983297.0
   }
  },
  "sector": "主機板",

@@ -2293,9 +2293,11 @@
    "current_assets": 25003001.0,
    "current_liabilities": 11625609.0,
    "current_ratio": 215.07,
+   "debt_ratio": 40.75,
    "eps": 1.93,
    "eps_ttm": 5.93,
    "eps_yoy": -32.52,
+   "equity": 17397986.0,
    "equity_parent": 14863136.0,
    "gross_margin": 18.39,
    "gross_profit": 1476569.0,
@@ -2312,7 +2314,13 @@
    "revenue": 8028375.0,
    "revenue_ttm": 28366462.0,
    "revenue_yoy": 16.22,
-   "revenue_yoy_accel": 1.43
+   "revenue_yoy_accel": 1.43,
+   "roa_q": 2.12,
+   "roa_ttm": 6.64,
+   "roe_q": 3.58,
+   "roe_ttm": 11.21,
+   "total_assets": 29364997.0,
+   "total_liabilities": 11967011.0
   }
  },
  "sector": "光學鏡片",

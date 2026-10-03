@@ -2293,9 +2293,11 @@
    "current_assets": 3264442.0,
    "current_liabilities": 719059.0,
    "current_ratio": 453.99,
+   "debt_ratio": 19.25,
    "eps": 0.53,
    "eps_ttm": 1.39,
    "eps_yoy": 581.82,
+   "equity": 4108339.0,
    "equity_parent": 4102444.0,
    "gross_margin": 26.71,
    "gross_profit": 175207.0,
@@ -2312,7 +2314,13 @@
    "revenue": 655840.0,
    "revenue_ttm": 2376831.0,
    "revenue_yoy": 1.05,
-   "revenue_yoy_accel": 7.71
+   "revenue_yoy_accel": 7.71,
+   "roa_q": 1.69,
+   "roa_ttm": 4.35,
+   "roe_q": 2.09,
+   "roe_ttm": 5.38,
+   "total_assets": 5087481.0,
+   "total_liabilities": 979142.0
   }
  },
  "sector": "被動元件",

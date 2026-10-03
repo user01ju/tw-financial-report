@@ -2293,9 +2293,11 @@
    "current_assets": 3466527.0,
    "current_liabilities": 3597428.0,
    "current_ratio": 96.36,
+   "debt_ratio": 51.78,
    "eps": 0.05,
    "eps_ttm": 1.49,
    "eps_yoy": 110.64,
+   "equity": 3926045.0,
    "equity_parent": 3901606.0,
    "gross_margin": 13.03,
    "gross_profit": 152777.0,
@@ -2312,7 +2314,13 @@
    "revenue": 1172193.0,
    "revenue_ttm": 5434669.0,
    "revenue_yoy": -1.72,
-   "revenue_yoy_accel": -5.25
+   "revenue_yoy_accel": -5.25,
+   "roa_q": 0.1,
+   "roa_ttm": 3.31,
+   "roe_q": 0.21,
+   "roe_ttm": 6.86,
+   "total_assets": 8141920.0,
+   "total_liabilities": 4215875.0
   }
  },
  "sector": "運動休閒",

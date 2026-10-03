@@ -2293,9 +2293,11 @@
    "current_assets": 36811814.0,
    "current_liabilities": 24324927.0,
    "current_ratio": 151.33,
+   "debt_ratio": 63.19,
    "eps": 1.02,
    "eps_ttm": 2.07,
    "eps_yoy": 525.0,
+   "equity": 18373432.0,
    "equity_parent": 18373432.0,
    "gross_margin": 18.99,
    "gross_profit": 1746331.0,
@@ -2312,7 +2314,13 @@
    "revenue": 9195773.0,
    "revenue_ttm": 36556631.0,
    "revenue_yoy": 12.98,
-   "revenue_yoy_accel": 12.34
+   "revenue_yoy_accel": 12.34,
+   "roa_q": 1.93,
+   "roa_ttm": 3.9,
+   "roe_q": 5.25,
+   "roe_ttm": 10.59,
+   "total_assets": 49919084.0,
+   "total_liabilities": 31545652.0
   }
  },
  "sector": "航運",
