@@ -957,6 +957,7 @@
  "quarterly": {
   "2015Q1": {
    "cogs": 447980.0,
+   "core_ratio": 102.7,
    "current_assets": 2367165.0,
    "current_liabilities": 1350155.0,
    "current_ratio": 175.33,
@@ -980,6 +981,7 @@
   },
   "2015Q2": {
    "cogs": 535500.0,
+   "core_ratio": 111.54,
    "current_assets": 2635658.0,
    "current_liabilities": 1671050.0,
    "current_ratio": 157.72,
@@ -1003,6 +1005,7 @@
   },
   "2015Q3": {
    "cogs": 568383.0,
+   "core_ratio": 85.68,
    "current_assets": 2646912.0,
    "current_liabilities": 1476019.0,
    "current_ratio": 179.33,
@@ -1026,6 +1029,7 @@
   },
   "2015Q4": {
    "cogs": 609978.0,
+   "core_ratio": 129.04,
    "current_assets": 2702610.0,
    "current_liabilities": 1399879.0,
    "current_ratio": 193.06,
@@ -1054,6 +1058,7 @@
   },
   "2016Q1": {
    "cogs": 532252.0,
+   "core_ratio": 105.53,
    "current_assets": 2905626.0,
    "current_liabilities": 1206888.0,
    "current_ratio": 240.75,
@@ -1086,6 +1091,7 @@
   },
   "2016Q2": {
    "cogs": 532239.0,
+   "core_ratio": 93.49,
    "current_assets": 3064411.0,
    "current_liabilities": 1515029.0,
    "current_ratio": 202.27,
@@ -1120,6 +1126,7 @@
   },
   "2016Q3": {
    "cogs": 590519.0,
+   "core_ratio": 111.68,
    "current_assets": 2953649.0,
    "current_liabilities": 1237721.0,
    "current_ratio": 238.64,
@@ -1154,6 +1161,7 @@
   },
   "2016Q4": {
    "cogs": 554482.0,
+   "core_ratio": 81.23,
    "eps": 1.18,
    "eps_ttm": 4.51,
    "eps_yoy": 24.21,
@@ -1176,6 +1184,7 @@
   },
   "2017Q1": {
    "cogs": 578085.0,
+   "core_ratio": 143.33,
    "current_assets": 3110866.0,
    "current_liabilities": 1199377.0,
    "current_ratio": 259.37,
@@ -1210,6 +1219,7 @@
   },
   "2017Q2": {
    "cogs": 579047.0,
+   "core_ratio": 89.42,
    "current_assets": 3068611.0,
    "current_liabilities": 1511893.0,
    "current_ratio": 202.96,
@@ -1244,6 +1254,7 @@
   },
   "2017Q3": {
    "cogs": 553671.0,
+   "core_ratio": 96.26,
    "eps": 1.08,
    "eps_ttm": 4.26,
    "eps_yoy": -1.82,
@@ -1266,6 +1277,7 @@
   },
   "2017Q4": {
    "cogs": 513287.0,
+   "core_ratio": 92.83,
    "eps": 0.94,
    "eps_ttm": 4.02,
    "eps_yoy": -20.34,
@@ -1288,6 +1300,7 @@
   },
   "2018Q1": {
    "cogs": 514257.0,
+   "core_ratio": 113.4,
    "eps": 0.82,
    "eps_ttm": 3.9,
    "eps_yoy": -12.77,
@@ -1310,6 +1323,7 @@
   },
   "2018Q2": {
    "cogs": 389748.0,
+   "core_ratio": 50.47,
    "eps": 0.61,
    "eps_ttm": 3.45,
    "eps_yoy": -42.45,
@@ -1332,6 +1346,7 @@
   },
   "2018Q3": {
    "cogs": 731270.0,
+   "core_ratio": 91.4,
    "eps": 0.59,
    "eps_ttm": 2.96,
    "eps_yoy": -45.37,
@@ -1354,6 +1369,7 @@
   },
   "2018Q4": {
    "cogs": 1053881.0,
+   "core_ratio": 105.7,
    "current_assets": 2811642.0,
    "current_liabilities": 1754241.0,
    "current_ratio": 160.28,
@@ -1388,6 +1404,7 @@
   },
   "2019Q1": {
    "cogs": 883703.0,
+   "core_ratio": 79.38,
    "eps": 0.99,
    "eps_ttm": 2.74,
    "eps_yoy": 20.73,
@@ -1410,6 +1427,7 @@
   },
   "2019Q2": {
    "cogs": 730549.0,
+   "core_ratio": 76.47,
    "eps": 0.44,
    "eps_ttm": 2.57,
    "eps_yoy": -27.87,
@@ -1432,6 +1450,7 @@
   },
   "2019Q3": {
    "cogs": 630966.0,
+   "core_ratio": 94.03,
    "current_assets": 2673611.0,
    "current_liabilities": 1680452.0,
    "current_ratio": 159.1,
@@ -1466,6 +1485,7 @@
   },
   "2019Q4": {
    "cogs": 650066.0,
+   "core_ratio": 114.64,
    "current_assets": 2418667.0,
    "current_liabilities": 1338322.0,
    "current_ratio": 180.72,
@@ -1500,6 +1520,7 @@
   },
   "2020Q1": {
    "cogs": 674423.0,
+   "core_ratio": 92.03,
    "current_assets": 2394259.0,
    "current_liabilities": 1216941.0,
    "current_ratio": 196.74,
@@ -1534,6 +1555,7 @@
   },
   "2020Q2": {
    "cogs": 597389.0,
+   "core_ratio": 89.43,
    "current_assets": 2405248.0,
    "current_liabilities": 1402525.0,
    "current_ratio": 171.49,
@@ -1575,6 +1597,7 @@
    "eps": -3.39,
    "eps_ttm": -0.85,
    "eps_yoy": -870.45,
+   "eps_yoy_turn": "轉虧",
    "equity": 2917122.0,
    "equity_parent": 2917122.0,
    "gross_margin": 22.85,
@@ -1582,11 +1605,13 @@
    "net_income": -399716.0,
    "net_income_ttm": -100910.0,
    "net_income_yoy": -873.68,
+   "net_income_yoy_turn": "轉虧",
    "net_margin": -56.49,
    "operating_expenses": 98540.0,
    "operating_income": -390523.0,
    "operating_income_yoy": -748.66,
    "operating_income_yoy_accel": -886.89,
+   "operating_income_yoy_turn": "轉虧",
    "operating_margin": -55.19,
    "pretax_income": -376209.0,
    "revenue": 707634.0,
@@ -1602,6 +1627,7 @@
   },
   "2020Q4": {
    "cogs": 557849.0,
+   "core_ratio": 107.22,
    "current_assets": 2233745.0,
    "current_liabilities": 1475254.0,
    "current_ratio": 151.41,
@@ -1636,6 +1662,7 @@
   },
   "2021Q1": {
    "cogs": 523858.0,
+   "core_ratio": 92.92,
    "current_assets": 2461579.0,
    "current_liabilities": 1625305.0,
    "current_ratio": 151.45,
@@ -1670,6 +1697,7 @@
   },
   "2021Q2": {
    "cogs": 637685.0,
+   "core_ratio": 93.15,
    "current_assets": 2766669.0,
    "current_liabilities": 1628424.0,
    "current_ratio": 169.9,
@@ -1704,6 +1732,7 @@
   },
   "2021Q3": {
    "cogs": 847184.0,
+   "core_ratio": 104.81,
    "current_assets": 3484981.0,
    "current_liabilities": 1653547.0,
    "current_ratio": 210.76,
@@ -1711,6 +1740,7 @@
    "eps": 0.74,
    "eps_ttm": 2.39,
    "eps_yoy": 121.83,
+   "eps_yoy_turn": "轉盈",
    "equity": 3944491.0,
    "equity_parent": 3540972.0,
    "gross_margin": 22.83,
@@ -1718,11 +1748,13 @@
    "net_income": 94933.0,
    "net_income_ttm": 295956.0,
    "net_income_yoy": 123.75,
+   "net_income_yoy_turn": "轉盈",
    "net_margin": 8.65,
    "operating_expenses": 117052.0,
    "operating_income": 126558.0,
    "operating_income_yoy": 132.41,
    "operating_income_yoy_accel": 129.6,
+   "operating_income_yoy_turn": "轉盈",
    "operating_margin": 11.53,
    "pretax_income": 120755.0,
    "revenue": 1097794.0,
@@ -1738,6 +1770,7 @@
   },
   "2021Q4": {
    "cogs": 658962.0,
+   "core_ratio": 82.71,
    "current_assets": 3642937.0,
    "current_liabilities": 1731762.0,
    "current_ratio": 210.36,
@@ -1772,6 +1805,7 @@
   },
   "2022Q1": {
    "cogs": 668552.0,
+   "core_ratio": 80.82,
    "current_assets": 4052841.0,
    "current_liabilities": 1593291.0,
    "current_ratio": 254.37,
@@ -1806,6 +1840,7 @@
   },
   "2022Q2": {
    "cogs": 769060.0,
+   "core_ratio": 56.36,
    "current_assets": 3850095.0,
    "current_liabilities": 1518436.0,
    "current_ratio": 253.56,
@@ -1840,6 +1875,7 @@
   },
   "2022Q3": {
    "cogs": 879470.0,
+   "core_ratio": 59.07,
    "current_assets": 3738092.0,
    "current_liabilities": 1264393.0,
    "current_ratio": 295.64,
@@ -1874,9 +1910,11 @@
   },
   "2022Q4": {
    "cogs": 839014.0,
+   "core_ratio": 160.8,
    "eps": -0.01,
    "eps_ttm": 2.62,
    "eps_yoy": -101.92,
+   "eps_yoy_turn": "轉虧",
    "gross_margin": 13.28,
    "gross_profit": 128497.0,
    "net_income": 10646.0,
@@ -1896,6 +1934,7 @@
   },
   "2023Q1": {
    "cogs": 666237.0,
+   "core_ratio": 85.02,
    "current_assets": 3182678.0,
    "current_liabilities": 881577.0,
    "current_ratio": 361.02,
@@ -1930,6 +1969,7 @@
   },
   "2023Q2": {
    "cogs": 525273.0,
+   "core_ratio": 40.98,
    "current_assets": 3068350.0,
    "current_liabilities": 1154264.0,
    "current_ratio": 265.83,
@@ -1964,6 +2004,7 @@
   },
   "2023Q3": {
    "cogs": 422993.0,
+   "core_ratio": 78.58,
    "eps": 0.76,
    "eps_ttm": 1.07,
    "eps_yoy": -23.23,
@@ -1986,9 +2027,11 @@
   },
   "2023Q4": {
    "cogs": 385921.0,
+   "core_ratio": 129.4,
    "eps": 0.41,
    "eps_ttm": 1.49,
    "eps_yoy": 4200.0,
+   "eps_yoy_turn": "轉盈",
    "gross_margin": 30.33,
    "gross_profit": 168036.0,
    "net_income": 54340.0,
@@ -2008,6 +2051,7 @@
   },
   "2024Q1": {
    "cogs": 428628.0,
+   "core_ratio": 62.86,
    "eps": 0.84,
    "eps_ttm": 2.11,
    "eps_yoy": 281.82,
@@ -2030,6 +2074,7 @@
   },
   "2024Q2": {
    "cogs": 451837.0,
+   "core_ratio": 84.38,
    "eps": 0.9,
    "eps_ttm": 2.91,
    "eps_yoy": 800.0,
@@ -2052,6 +2097,7 @@
   },
   "2024Q3": {
    "cogs": 517769.0,
+   "core_ratio": 114.04,
    "current_assets": 3324683.0,
    "current_liabilities": 1660017.0,
    "current_ratio": 200.28,
@@ -2086,6 +2132,7 @@
   },
   "2024Q4": {
    "cogs": 637969.0,
+   "core_ratio": 80.23,
    "current_assets": 2959631.0,
    "current_liabilities": 1208030.0,
    "current_ratio": 245.0,
@@ -2120,6 +2167,7 @@
   },
   "2025Q1": {
    "cogs": 571537.0,
+   "core_ratio": 103.38,
    "current_assets": 2996858.0,
    "current_liabilities": 1160830.0,
    "current_ratio": 258.17,
@@ -2154,6 +2202,7 @@
   },
   "2025Q2": {
    "cogs": 555038.0,
+   "core_ratio": 161.73,
    "current_assets": 2930180.0,
    "current_liabilities": 1531599.0,
    "current_ratio": 191.32,
@@ -2188,6 +2237,7 @@
   },
   "2025Q3": {
    "cogs": 620170.0,
+   "core_ratio": 68.57,
    "current_assets": 3107755.0,
    "current_liabilities": 1665377.0,
    "current_ratio": 186.61,
@@ -2222,6 +2272,7 @@
   },
   "2025Q4": {
    "cogs": 654059.0,
+   "core_ratio": 82.88,
    "current_assets": 3001859.0,
    "current_liabilities": 1458988.0,
    "current_ratio": 205.75,
@@ -2256,6 +2307,7 @@
   },
   "2026Q1": {
    "cogs": 741978.0,
+   "core_ratio": 85.04,
    "current_assets": 3312173.0,
    "current_liabilities": 1636862.0,
    "current_ratio": 202.35,
@@ -2290,13 +2342,14 @@
   },
   "2026Q2": {
    "cogs": 1092212.0,
+   "core_ratio": 74.52,
    "current_assets": 3531250.0,
    "current_liabilities": 1922156.0,
    "current_ratio": 183.71,
    "debt_ratio": 37.35,
-   "eps": 1.62,
-   "eps_ttm": 4.99,
-   "eps_yoy": 315.38,
+   "eps": 1.55,
+   "eps_ttm": 4.92,
+   "eps_yoy": 297.44,
    "equity": 4516608.0,
    "equity_parent": 3809746.0,
    "gross_margin": 22.49,

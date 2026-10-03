@@ -64,6 +64,7 @@
   },
   "2023Q4": {
    "cogs": 322561.0,
+   "core_ratio": 93.69,
    "eps": 7.36,
    "gross_margin": 48.09,
    "gross_profit": 298853.0,
@@ -77,6 +78,7 @@
   },
   "2024Q2": {
    "cogs": 99329.0,
+   "core_ratio": 54.89,
    "eps": 2.46,
    "gross_margin": 45.73,
    "gross_profit": 83687.0,
@@ -100,6 +102,7 @@
   },
   "2024Q4": {
    "cogs": 149917.0,
+   "core_ratio": 78.39,
    "current_assets": 653700.0,
    "current_liabilities": 176448.0,
    "current_ratio": 370.48,
@@ -127,6 +130,7 @@
   },
   "2025Q1": {
    "cogs": 54510.0,
+   "core_ratio": 54.59,
    "current_assets": 671249.0,
    "current_liabilities": 178794.0,
    "current_ratio": 375.43,
@@ -156,12 +160,14 @@
    "debt_ratio": 45.44,
    "eps": -0.26,
    "eps_yoy": -110.57,
+   "eps_yoy_turn": "轉虧",
    "equity": 380550.0,
    "equity_parent": 380550.0,
    "gross_margin": 35.5,
    "gross_profit": 52302.0,
    "net_income": -6946.0,
    "net_income_yoy": -110.67,
+   "net_income_yoy_turn": "轉虧",
    "net_margin": -4.71,
    "operating_expenses": 18166.0,
    "operating_income": 34136.0,
@@ -177,6 +183,7 @@
   },
   "2025Q3": {
    "cogs": 104713.0,
+   "core_ratio": 56.99,
    "current_assets": 506702.0,
    "current_liabilities": 150872.0,
    "current_ratio": 335.85,
@@ -205,6 +212,7 @@
   },
   "2025Q4": {
    "cogs": 78432.0,
+   "core_ratio": 38.55,
    "current_assets": 652129.0,
    "current_liabilities": 90784.0,
    "current_ratio": 718.33,
@@ -237,6 +245,7 @@
   },
   "2026Q1": {
    "cogs": 37904.0,
+   "core_ratio": -54.33,
    "current_assets": 645675.0,
    "current_liabilities": 78493.0,
    "current_ratio": 822.59,
@@ -256,6 +265,7 @@
    "operating_income": -3327.0,
    "operating_income_yoy": -121.74,
    "operating_income_yoy_accel": -43.62,
+   "operating_income_yoy_turn": "轉虧",
    "operating_margin": -6.23,
    "pretax_income": 6124.0,
    "revenue": 53394.0,
@@ -271,6 +281,7 @@
   },
   "2026Q2": {
    "cogs": 44863.0,
+   "core_ratio": 73.78,
    "current_assets": 644297.0,
    "current_liabilities": 124507.0,
    "current_ratio": 517.48,
@@ -278,6 +289,7 @@
    "eps": 0.22,
    "eps_ttm": 2.75,
    "eps_yoy": 184.62,
+   "eps_yoy_turn": "轉盈",
    "equity": 568448.0,
    "equity_parent": 568448.0,
    "gross_margin": 35.91,
@@ -285,6 +297,7 @@
    "net_income": 6589.0,
    "net_income_ttm": 76361.0,
    "net_income_yoy": 194.86,
+   "net_income_yoy_turn": "轉盈",
    "net_margin": 9.41,
    "operating_expenses": 19547.0,
    "operating_income": 5594.0,

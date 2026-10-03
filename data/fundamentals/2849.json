@@ -1237,6 +1237,7 @@
    "eps": -0.28,
    "eps_ttm": 0.54,
    "eps_yoy": -216.67,
+   "eps_yoy_turn": "轉虧",
    "operating_expenses": 744664.0
   },
   "2023Q1": {
@@ -1244,6 +1245,7 @@
    "eps": -0.3,
    "eps_ttm": -0.11,
    "eps_yoy": -185.71,
+   "eps_yoy_turn": "轉虧",
    "equity": 32394532.0,
    "operating_expenses": 763324.0,
    "total_assets": 338140825.0,
@@ -1269,12 +1271,14 @@
    "eps": 0.17,
    "eps_ttm": 0.56,
    "eps_yoy": 160.71,
+   "eps_yoy_turn": "轉盈",
    "operating_expenses": 820564.0
   },
   "2024Q1": {
    "eps": 0.16,
    "eps_ttm": 1.02,
    "eps_yoy": 153.33,
+   "eps_yoy_turn": "轉盈",
    "operating_expenses": 823098.0
   },
   "2024Q2": {

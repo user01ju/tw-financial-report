@@ -1063,6 +1063,7 @@
    "eps": -0.09,
    "eps_ttm": 0.47,
    "eps_yoy": -147.37,
+   "eps_yoy_turn": "轉虧",
    "operating_expenses": 485275.0
   },
   "2018Q1": {
@@ -1088,6 +1089,7 @@
    "eps": 0.11,
    "eps_ttm": 0.46,
    "eps_yoy": 222.22,
+   "eps_yoy_turn": "轉盈",
    "equity": 14445012.0,
    "operating_expenses": 581082.0,
    "total_assets": 267999101.0,
@@ -1360,9 +1362,9 @@
   },
   "2026Q2": {
    "debt_ratio": 92.04,
-   "eps": 0.19,
-   "eps_ttm": 0.76,
-   "eps_yoy": 18.75,
+   "eps": 0.2,
+   "eps_ttm": 0.77,
+   "eps_yoy": 25.0,
    "equity": 27968998.0,
    "net_income": 379635.0,
    "operating_expenses": 805935.0,
