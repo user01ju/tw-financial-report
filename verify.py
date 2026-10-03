@@ -39,6 +39,13 @@ FUND = os.path.join(DATA, "fundamentals")
 # 非交易日一樣會有新的 updated_at。3 天 = 容許連兩次排程被 GitHub 丟掉。
 FRESHNESS_MAX_DAYS = 3
 
+# _latest.json 關鍵欄位 non-null 覆蓋率下限。2026-10 TWSE t187ap07 把「資產總額/
+# 負債總額/權益總額」改成「…總計」，BALANCE_MAP 沒跟上 → roe_ttm 只剩 6/1981 檔有值，
+# 其他檢查全綠、動能頁卻 0 檔。正常時 roe_ttm 約 98%（新上市湊不滿四季會缺），
+# 85% 留給季報申報期間部分公司還沒出新季的落差；欄名再被改會直接掉到個位數 %。
+FIELD_COVERAGE_MIN = 0.85
+COVERAGE_FIELDS = ("total_assets", "equity", "roe_ttm", "operating_margin", "eps_ttm")
+
 # mg_score 全市場中位數合理區間。8 個因子各自做百分位(0-100)再加權平均，
 # 百分位本身近似均勻分佈 → 加權平均的中位數必然逼近 50。偏離就是 rank 邏輯壞了。
 # ±5 的餘裕留給「部分因子缺值使加權分母不同」造成的不對稱。實測 2026-08-01 = 49.1。
@@ -495,6 +502,22 @@ def check_cross_section_size():
     return ("FAIL" if frac < 0.80 else "PASS"), msg
 
 
+def check_field_coverage():
+    """上游改欄名時 extract() 靜默拿不到值、欄位整片變 None，前端篩選直接 0 檔。"""
+    latest = load(os.path.join(FUND, "_latest.json")) or {}
+    if not latest:
+        return "FAIL", "_latest.json 為空"
+    n = len(latest)
+    cov = {f: sum(1 for v in latest.values() if v.get(f) is not None) / n
+           for f in COVERAGE_FIELDS}
+    bad = [f"{f} {c:.1%}" for f, c in cov.items() if c < FIELD_COVERAGE_MIN]
+    msg = "、".join(f"{f} {c:.1%}" for f, c in cov.items())
+    if bad:
+        return "FAIL", (f"覆蓋率低於 {FIELD_COVERAGE_MIN:.0%}：{'、'.join(bad)}"
+                        f"（n={n}；多半是 TWSE/TPEX 改欄名，查 metrics.py 的 *_MAP）")
+    return "PASS", f"n={n}，{msg}"
+
+
 # ---------------------------------------------------------------- Tier B
 def check_quarterly_vs_monthly():
     """季營收 ≈ Σ 該季三個月月營收。金融保險業一併納入統計但通常會超標
@@ -659,6 +682,7 @@ CHECKS = [
     ("a", "prices-latest-key", check_prices_latest_key),
     ("a", "price-return-recompute", check_price_return_recompute),
     ("a", "cross-section-size", check_cross_section_size),
+    ("a", "field-coverage", check_field_coverage),
     ("b", "quarterly-vs-monthly-revenue", check_quarterly_vs_monthly),
     ("b", "quarterly-revenue-cumulative-leak", check_quarterly_revenue_leak),
     ("b", "eps-ttm-consistency", check_eps_ttm),

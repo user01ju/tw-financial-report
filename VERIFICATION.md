@@ -36,6 +36,7 @@ exit code：`0` 全過（或只有 SKIP）／`1` 至少一條 FAIL／`2` 沒 FAI
 | `prices-latest-key` | 各檔最新 key = 本月或上月 |
 | `price-return-recompute` | `price_return_1y` 與 prices.json 月序列一致 |
 | `cross-section-size` | `_latest.json` 檔數 vs per-code 檔數 |
+| `field-coverage` | `_latest.json` 的 total_assets / equity / roe_ttm / operating_margin / eps_ttm non-null ≥ 85%（抓上游改欄名） |
 
 `mg-score-median` 的 45–55 是 percentile 加權的數學性質，偏了就是 rank 邏輯壞——這條是 2026-08-01 修的同值 tie bug 的迴歸測試。
 

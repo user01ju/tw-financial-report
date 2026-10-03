@@ -36,9 +36,9 @@ INCOME_MAP = {
     "eps": (["EPS"], ["基本每股盈餘（元）"]),
 }
 BALANCE_MAP = {
-    "total_assets": (["TotalAssets"], ["資產總額"]),
-    "total_liabilities": (["Liabilities"], ["負債總額"]),
-    "equity": (["Equity"], ["權益總額"]),
+    "total_assets": (["TotalAssets"], ["資產總額", "資產總計"]),
+    "total_liabilities": (["Liabilities"], ["負債總額", "負債總計"]),
+    "equity": (["Equity"], ["權益總額", "權益總計"]),
     "equity_parent": (["EquityAttributableToOwnersOfParent"], ["歸屬於母公司業主之權益合計"]),
     "current_assets": (["CurrentAssets"], ["流動資產"]),
     "current_liabilities": (["CurrentLiabilities"], ["流動負債"]),
