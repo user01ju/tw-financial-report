@@ -12,6 +12,7 @@
   data/fundamentals/<code>.json       { quarterly:{...}, monthly:{...} }  ← 準靜態
   data/fundamentals/_latest.json      全市場最新季橫斷面(排行/篩選用)
   data/fundamentals/_price_returns.json  {code: 近一年報酬%}  ← 天天變的欄位獨立放
+                                      (優先用 data/price_returns_adj.json 的還原報酬)
 
 用法:
   python metrics.py                 # 全部
@@ -26,13 +27,16 @@ import config
 
 # canonical 欄 -> 來源欄名候選(取第一個有值的)。TWSE 優先用官方期間，FinMind 補歷史。
 INCOME_MAP = {
-    "revenue": (["Revenue"], ["營業收入"]),
+    "revenue": (["Revenue"], ["營業收入", "收入"]),  # 收入 = 異業(mim)格式，已對帳≈月營收
     "cogs": (["CostOfGoodsSold"], ["營業成本"]),
     "gross_profit": (["GrossProfit"], ["營業毛利（毛損）淨額", "營業毛利（毛損）"]),
     "operating_expenses": (["OperatingExpenses"], ["營業費用"]),
     "operating_income": (["OperatingIncome"], ["營業利益（損失）"]),
-    "pretax_income": (["PreTaxIncome"], ["稅前淨利（淨損）"]),
+    "pretax_income": (["PreTaxIncome", "IncomeBeforeTaxFromContinuingOperations"],
+                      ["稅前淨利（淨損）", "繼續營業單位稅前淨利（淨損）"]),
     "net_income": (["IncomeAfterTaxes"], ["本期淨利（淨損）"]),
+    # EPS 的分子是母公司淨利；合併淨利含少數股權，拿來推股數會隨少數股權占比亂跳
+    "net_income_parent": (["EquityAttributableToOwnersOfParent"], ["淨利（淨損）歸屬於母公司業主"]),
     "eps": (["EPS"], ["基本每股盈餘（元）"]),
 }
 BALANCE_MAP = {
@@ -147,6 +151,11 @@ def cum_to(inc, src, y, q):
             if isinstance(v, (int, float)) and (q == 1 or isinstance(base.get(k), (int, float)))}
 
 
+def parent_ni_key(rec):
+    """有母公司淨利就用它，沒有(無少數股權的公司 TWSE 常留空)才退回合併淨利。"""
+    return "net_income_parent" if isinstance(rec.get("net_income_parent"), (int, float)) else "net_income"
+
+
 def decumulate(inc, src):
     """TWSE t187ap06 損益是年初至今累計(Q2=H1、Q3=前三季、Q4=全年) → 還原單季：
     single(Qn) = cum(Qn) − cum(Qn−1)，Q1 累計即單季。FinMind 本來就是單季，不動。
@@ -166,12 +175,36 @@ def decumulate(inc, src):
             continue
         single = {k: round(v - base[k], 4) for k, v in rec.items()
                   if isinstance(v, (int, float)) and isinstance(base.get(k), (int, float))}
-        eps, ni = rec.get("eps"), rec.get("net_income")
-        if "net_income" in single and isinstance(eps, (int, float)) and isinstance(ni, (int, float)) \
-                and eps * ni > 0:  # 同號才可靠(合併淨利含少數股權,號不同代表比例失真)
-            single["eps"] = round(single["net_income"] * eps / ni, 2)
+        k = parent_ni_key(rec)
+        eps, ni = rec.get("eps"), rec.get(k)
+        if k in single and isinstance(eps, (int, float)) and isinstance(ni, (int, float)) \
+                and eps * ni > 0:  # 同號才可靠
+            single["eps"] = round(single[k] * eps / ni, 2)
         out[p] = single
     return out
+
+
+# 隱含股數(淨利/EPS)跨期變動超過這個倍數 → 視為配股/面額變更，舊期 EPS 換算到本期股數基礎。
+# 現增很少一次 >25%；1 拆 10(5904 寶雅 2026-08)、大額配股(5386 青雲 ×1.5)都遠超過。
+SHARE_BASIS_RATIO = 1.25
+
+
+def implied_shares(rec):
+    eps, ni = rec.get("eps"), rec.get(parent_ni_key(rec))
+    if not isinstance(eps, (int, float)) or not isinstance(ni, (int, float)):
+        return None
+    if eps * ni <= 0 or abs(eps) < 0.1:  # 異號或 EPS 太小(捨入雜訊)不可靠
+        return None
+    return ni / eps
+
+
+def eps_on_basis(inc, q, p):
+    """q 期 EPS 換算到 p 期的股數基礎 → (eps, 是否有換算)。股數不可推或變動不大就原樣。"""
+    e = inc.get(q, {}).get("eps")
+    sq, sp = implied_shares(inc.get(q, {})), implied_shares(inc.get(p, {}))
+    if e is None or not sq or not sp or 1 / SHARE_BASIS_RATIO < sq / sp < SHARE_BASIS_RATIO:
+        return e, False
+    return round(e * sq / sp, 2), True
 
 
 def quarterly_metrics(inc, bal):
@@ -204,6 +237,10 @@ def quarterly_metrics(inc, bal):
             rec["revenue_yoy"] = pct_change(rev, inc[py].get("revenue"))
             for f in ("operating_income", "eps", "net_income"):
                 now, before = i.get(f), inc[py].get(f)
+                if f == "eps":
+                    before, adj = eps_on_basis(inc, py, p)
+                    if adj:
+                        rec["eps_basis_adj"] = True
                 rec[f + "_yoy"] = pct_change(now, before)
                 rec[f + "_yoy_turn"] = yoy_turn(now, before)
         # 成長加速度(本季 YoY - 前季 YoY)：抓「加速中」的成長
@@ -219,7 +256,10 @@ def quarterly_metrics(inc, bal):
             ni_ttm = sum_or_none(inc.get(q, {}).get("net_income") for q in t4)
             rec["revenue_ttm"] = sum_or_none(inc.get(q, {}).get("revenue") for q in t4)
             rec["net_income_ttm"] = ni_ttm
-            eps_ttm = sum_or_none(inc.get(q, {}).get("eps") for q in t4)
+            on_basis = [eps_on_basis(inc, q, p) for q in t4]  # 四季 EPS 統一到本期股數基礎
+            if any(adj for _, adj in on_basis):
+                rec["eps_basis_adj"] = True
+            eps_ttm = sum_or_none(e for e, _ in on_basis)
             rec["eps_ttm"] = round(eps_ttm, 2) if eps_ttm is not None else None
             rec["roe_ttm"] = pct(ni_ttm, eq)  # TTM 淨利 / 期末權益
             rec["roa_ttm"] = pct(ni_ttm, b.get("total_assets"))
@@ -415,9 +455,19 @@ def load_sectors():
 
 
 def load_price_returns():
-    """code -> 近一年報酬(%)。用月底收盤序列：最新月 / 12 個月前同月 - 1。"""
+    """code -> 近一年報酬(%)。
+    優先：sector_gainer 每日還原鏈的 m12(含息；配股/分割/面額變更不會變成假暴跌)。
+    退回：月底收盤序列 最新月 / 12 個月前同月 - 1(未還原)。
+    還原檔的日期不得早於 prices.json 最新月的上個月——用資料而非時鐘判斷，verify 才能重現。"""
+    prices = load(os.path.join(config.DATA_DIR, "prices.json"))
+    adj = load(os.path.join(config.DATA_DIR, "price_returns_adj.json"))
+    max_ym = max((max(s) for s in prices.values() if s), default=None)
+    use_adj = bool(max_ym and adj.get("date") and adj["date"][:7] >= prev_month(max_ym))
     out = {}
-    for code, s in load(os.path.join(config.DATA_DIR, "prices.json")).items():
+    for code, s in prices.items():
+        if use_adj and code in adj.get("m12", {}):
+            out[code] = adj["m12"][code]
+            continue
         if not s:
             continue
         latest = max(s)

@@ -5,7 +5,7 @@ import {
   ResponsiveContainer, ComposedChart, Bar, Line, LineChart,
   XAxis, YAxis, CartesianGrid, Tooltip, ReferenceLine, Legend,
 } from "recharts";
-import { getCompany, getValuation, getPriceReturns, getLatest } from "../lib/data.js";
+import { getCompany, getValuation, getPriceReturns, getLatest, cleanVal } from "../lib/data.js";
 import { fmtPct, fmtNum, fmtMoneyK, signClass, qKey, fmtYoy, yoyClass, fmtCore, CORE_LOW } from "../lib/format.js";
 
 const C = { amber: "#e3a84a", sky: "#6db1d9", mauve: "#c98bb9", grid: "rgba(236,228,212,0.08)", dim: "#998f7e" };
@@ -50,7 +50,7 @@ function Peers({ code, sector }) {
         setRows(
           Object.entries(d)
             .filter(([, v]) => v.sector === sector)
-            .map(([c, v]) => ({ code: c, ...v, ...(val[c] || {}) }))
+            .map(([c, v]) => ({ code: c, ...v, ...cleanVal(val[c], v.roe_ttm) }))
             .sort((a, b) => (b.mg_score ?? -1) - (a.mg_score ?? -1))
         )
       )
@@ -153,6 +153,7 @@ export default function Company() {
   const qN = q.slice(-16);
   const mN = m.slice(-24).map((r) => ({ ...r, revYi: r.revenue }));
   const last = q.at(-1) || {};
+  const v = val && cleanVal(val, last.roe_ttm);
 
   return (
     <motion.div className="page" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.35 }}>
@@ -177,11 +178,11 @@ export default function Company() {
         <Stat k="毛利率" v={fmtPct(last.gross_margin)} cls="num" />
         <Stat k="淨利率" v={fmtPct(last.net_margin)} cls="num" />
         <Stat k="負債比" v={fmtPct(last.debt_ratio)} cls="num" />
-        <Stat k="EPS (TTM)" v={fmtNum(last.eps_ttm)} cls="num" />
+        <Stat k="EPS (TTM)" v={fmtNum(last.eps_ttm)} cls="num" sub={last.eps_basis_adj ? "舊季已依配股/面額變更換算" : ""} />
         <Stat k="營收YoY" v={fmtPct(last.revenue_yoy)} cls={`num ${signClass(last.revenue_yoy)}`} sub={`單季 ${last.p || ""}`} />
-        <Stat k="本益比" v={fmtNum(val?.pe, 1)} cls="num" sub={val?.date ? `收盤 ${val.date}` : ""} />
-        <Stat k="股價淨值比" v={fmtNum(val?.pb, 2)} cls="num" />
-        <Stat k="殖利率" v={fmtPct(val?.yield)} cls="num" />
+        <Stat k="本益比" v={fmtNum(v?.pe, 1)} cls="num" sub={v?.date ? `收盤 ${v.date}` : ""} />
+        <Stat k="股價淨值比" v={fmtNum(v?.pb, 2)} cls="num" sub={val?.pb != null && v.pb == null ? "官方值疑誤，未顯示" : ""} />
+        <Stat k="殖利率" v={fmtPct(v?.yield)} cls="num" sub={val?.yield != null && v.yield == null ? "官方值疑誤，未顯示" : ""} />
         <Stat k="近一年報酬" v={fmtPct(ret1y)} cls={`num ${signClass(ret1y)}`} />
       </div>
 

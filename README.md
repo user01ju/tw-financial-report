@@ -35,11 +35,25 @@ raw/                           每次抓取原始備份(稽核/重跑)
 |---|---|
 | `data/fundamentals/<code>.json` | **準靜態**，只有新一季/新一月財報才動 |
 | `data/prices.json` | 每交易日 1 個 blob |
-| `data/fundamentals/_price_returns.json` | 每交易日 1 個 blob（`{code: 近一年報酬%}`） |
+| `data/price_returns_adj.json` | 每交易日 1 個 blob（sector_gainer 每日還原鏈的近 12 月報酬） |
+| `data/fundamentals/_price_returns.json` | 每交易日 1 個 blob（`{code: 近一年報酬%}`，優先取上一列的還原值） |
 | `_latest.json` / `_latest_monthly.json` / `_meta.json` | 本來就每天重生 |
 
-典型一天（價格變、財報沒變）只動 **5 個檔**。改動前是 ~3850 個。
+典型一天（價格變、財報沒變）只動 **6 個檔**。改動前是 ~3850 個。
 新增「天天變」的欄位時請沿用這個原則，別塞回 per-code 檔。
+
+## 近一年報酬為什麼借 sector_gainer 的
+
+本 repo 只有月底收盤，配股、減資、面額變更都會變成假漲跌（5904 寶雅 1 拆 10 → -85%，
+實際 +40%；2380 虹光減資 → +180%，實際 -11%）。sector_gainer 有每日收盤 + 除權息/減資/
+面額變更參考價的還原鏈，`fetch_prices.py` 每天抓它的 `docs/report.json` 的 `m12`。
+還原檔日期早於 `prices.json` 最新月的上個月（sector_gainer 停擺）就整批退回月底收盤算法。
+
+## ⚠️ EPS 遇配股/面額變更要換算股數基礎
+
+- 去累計：單季 EPS = 單季**母公司**淨利 × 本期累計 EPS ÷ 本期累計母公司淨利（直接相減在配股後會得到負 EPS）。
+- 跨季（YoY、TTM）：隱含股數（母公司淨利 ÷ EPS）變動超過 1.25 倍時，舊季 EPS 換算到本期股數，
+  該期標 `eps_basis_adj`（verify 的 eps-ttm 恆等式會跳過它）。
 
 ## ⚠️ t187ap06 損益是「年初至今累計」不是單季
 

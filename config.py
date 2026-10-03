@@ -10,8 +10,10 @@
 TWSE_BASE = "https://openapi.twse.com.tw/v1/opendata"
 TPEX_BASE = "https://www.tpex.org.tw/openapi/v1"
 
-# 產業別表單後綴：一般業 / 金控 / 銀行 / 證券期貨 / 保險（後綴需自行驗證）
-INDUSTRY_SUFFIXES = ("ci", "fh", "basi", "bd", "ins")
+# 產業別表單後綴：一般業 / 金控 / 銀行 / 證券期貨 / 保險 / 異業
+# mim(異業，2026-10-03 補)：2207 和泰車、1409 新纖、1718 中纖、2905 三商…沒抓它就只剩 FinMind 舊季，
+# 在橫斷面裡永遠停在上一季。欄名不同(「收入」而非「營業收入」、無營業利益)，見 metrics.INCOME_MAP。
+INDUSTRY_SUFFIXES = ("ci", "fh", "basi", "bd", "ins", "mim")
 
 DATASETS = {
     "monthly_revenue": {

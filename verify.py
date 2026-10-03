@@ -87,10 +87,17 @@ QM_LEAK_HARD_PCT = 80.0    # 單檔已逼近 Q2 污染的 +100%，孤例也不�
 
 # 單季 EPS 與淨利異號的比例。metrics 直接相減累計 EPS 時，配股/增資追溯重算股數會造成
 # 「淨利為正、EPS 為負」(2026-10-03 修前 25/1981=1.26%，例 5386 青雲 -0.12 vs +7.7 億)。
-# 修後剩 7 檔(0.35%)，是合併淨利含少數股權、母公司 EPS 本來就異號的合法個案。
+# 修後改對母公司淨利比，0 檔異號(對合併淨利比會剩 ~15 檔少數股權造成的合法異號)。
 EPS_SIGN_FAIL_FRAC = 0.01
 
-EPS_TTM_TOL = 0.02   # eps_ttm = round(Σ4 單季 EPS, 2)，只留捨入誤差
+EPS_TTM_TOL = 0.02
+
+# 官方估值(BWIBBU / TPEX peratio_analysis)合理性。2026-10-03 實測兩種上游錯誤：
+# 5904 寶雅 1 拆 10 後 TPEX 的 PB 沒調(1.00，實際 ~10)；5314 世紀* 股票股利換算錯，
+# 殖利率 105.75%(實際現金殖利率 0.16%)。都是上游的錯，不擋 commit，只 WARN 讓人知道。
+VAL_YIELD_MAX = 20.0    # 台股現金殖利率 >20% 幾乎只會是資料錯
+VAL_PB_RATIO_MAX = 3.0  # PB vs 本益比×ROE(TTM) 差超過 3 倍
+VAL_PE_MAX = 100.0      # 本益比太高時分母小、TTM ROE 易被一次性損益墊高，交叉比不可靠   # eps_ttm = round(Σ4 單季 EPS, 2)，只留捨入誤差
 YOY_TOL_PP = 0.02    # revenue_yoy 是 round(…, 2) 的百分點
 
 # decumulate() 湊不出前季累計時會丟棄該期。目前實測 0 期被丟；開始大量丟就是
@@ -248,7 +255,8 @@ def scan():
                 r["qm"].append((code, lp, rev, sum(vals), ind))
 
         # --- eps_ttm == Σ 近 4 個單季 EPS ---
-        if "eps_ttm" in q[lp]:
+        # eps_basis_adj：配股/面額變更時舊季 EPS 已換算到本期股數，Σ存值本來就不會相等
+        if "eps_ttm" in q[lp] and not q[lp].get("eps_basis_adj"):
             y, nq = q_key(lp)
             seq = []
             for _ in range(4):
@@ -405,8 +413,10 @@ def check_mg_score_recompute():
 
 def check_eps_sign():
     latest = load(os.path.join(FUND, "_latest.json")) or {}
-    pairs = [(c, v["eps"], v["net_income"]) for c, v in latest.items()
-             if isinstance(v.get("eps"), (int, float)) and isinstance(v.get("net_income"), (int, float))]
+    # EPS 的分子是母公司淨利；沒有(無少數股權)才用合併淨利
+    ni = lambda v: v.get("net_income_parent") if isinstance(v.get("net_income_parent"), (int, float))         else v.get("net_income")
+    pairs = [(c, v["eps"], ni(v)) for c, v in latest.items()
+             if isinstance(v.get("eps"), (int, float)) and isinstance(ni(v), (int, float))]
     if not pairs:
         return "SKIP", "_latest 沒有同時具 eps 與 net_income 的檔"
     bad = [p for p in pairs if p[1] * p[2] < 0]
@@ -415,7 +425,27 @@ def check_eps_sign():
     if frac > EPS_SIGN_FAIL_FRAC:
         ex = "、".join(f"{c} eps={e} ni={n:.0f}" for c, e, n in bad[:5])
         return "FAIL", f"{msg}，超過 {EPS_SIGN_FAIL_FRAC:.0%}（EPS 去累計回歸？見 metrics.decumulate）：{ex}"
-    return "PASS", f"{msg}（少數股權造成的合法個案）"
+    return "PASS", msg
+
+
+def check_valuation_sanity():
+    val = load(os.path.join(DATA, "valuation", "_latest.json")) or {}
+    latest = load(os.path.join(FUND, "_latest.json")) or {}
+    if not val:
+        return "SKIP", "data/valuation/_latest.json 不存在"
+    hy = [(c, v["yield"]) for c, v in val.items() if (v.get("yield") or 0) > VAL_YIELD_MAX]
+    pb_bad = []
+    for c, v in val.items():
+        pe, pb, roe = v.get("pe"), v.get("pb"), (latest.get(c) or {}).get("roe_ttm")
+        if pe and pb and roe and 0 < pe < VAL_PE_MAX and roe > 3:
+            implied = pe * roe / 100
+            if max(pb / implied, implied / pb) > VAL_PB_RATIO_MAX:
+                pb_bad.append((c, pb, round(implied, 2)))
+    msg = (f"殖利率 >{VAL_YIELD_MAX:.0f}%：{len(hy)} 檔 {hy[:5]}；"
+           f"PB 與本益比×ROE 差 >{VAL_PB_RATIO_MAX:.0f} 倍：{len(pb_bad)} 檔 {pb_bad[:5]}")
+    if hy or pb_bad:
+        return "WARN", msg + "（上游官方資料錯誤，前端已顯示為 —）"
+    return "PASS", f"{len(val)} 檔估值無明顯矛盾"
 
 
 def check_period_keys():
@@ -487,13 +517,20 @@ def check_price_return_recompute():
     stored = load(os.path.join(FUND, "_price_returns.json"))
     if stored is None:
         return "FAIL", "找不到 data/fundamentals/_price_returns.json"
+    # 規則與 metrics.load_price_returns 相同：還原檔夠新就優先用 sector_gainer m12
+    adj = load(os.path.join(DATA, "price_returns_adj.json")) or {}
+    max_ym = max((max(s) for s in prices.values() if s), default=None)
+    use_adj = bool(max_ym and adj.get("date") and adj["date"][:7] >= shift_month(max_ym, -1))
     bad, n = [], 0
     for code, s in prices.items():
-        if not s:
-            continue
-        lt = max(s)
-        ref = f"{int(lt[:4]) - 1}-{lt[5:7]}"
-        exp = round((s[lt] / s[ref] - 1) * 100, 2) if s.get(ref) else None
+        if use_adj and code in adj.get("m12", {}):
+            exp = adj["m12"][code]
+        else:
+            if not s:
+                continue
+            lt = max(s)
+            ref = f"{int(lt[:4]) - 1}-{lt[5:7]}"
+            exp = round((s[lt] / s[ref] - 1) * 100, 2) if s.get(ref) else None
         got = stored.get(code)
         if exp is None and got is None:
             continue
@@ -503,7 +540,8 @@ def check_price_return_recompute():
     if bad:
         ex = "、".join(f"{c} 應={e} 實={g}" for c, e, g in bad[:3])
         return "FAIL", f"{len(bad)}/{n} 檔 price_return_1y 與 prices.json 重算不符：{ex}"
-    return "PASS", f"{n} 檔 price_return_1y 與 prices.json 月序列重算一致"
+    src = f"sector_gainer 還原 {adj.get('date')} 優先" if use_adj else "還原檔過舊，全用月序列"
+    return "PASS", f"{n} 檔 price_return_1y 重算一致（{src}）"
 
 
 def check_cross_section_size():
@@ -708,6 +746,7 @@ CHECKS = [
     ("b", "quarterly-revenue-cumulative-leak", check_quarterly_revenue_leak),
     ("b", "eps-ttm-consistency", check_eps_ttm),
     ("b", "revenue-yoy-recompute", check_revenue_yoy),
+    ("b", "valuation-sanity", check_valuation_sanity),
     ("b", "price-return-vs-sector-gainer", check_price_vs_sector_gainer),
 ]
 

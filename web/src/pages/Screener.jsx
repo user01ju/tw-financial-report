@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
-import { getLatest, getValuation, isFinOrBuild } from "../lib/data.js";
+import { getLatest, getValuation, isFinOrBuild, cleanVal } from "../lib/data.js";
 import { useUrlState } from "../lib/useUrlState.js";
 import { useScrollRestore } from "../lib/useScrollRestore.js";
 import TvButton from "../components/TvButton.jsx";
@@ -56,7 +56,7 @@ export default function Screener() {
     Promise.all([getLatest(), getValuation()])
       .then(([d, val]) =>
         setRows(
-          Object.entries(d).map(([code, v]) => ({ code, ...v, ...(val[code] || {}) }))
+          Object.entries(d).map(([code, v]) => ({ code, ...v, ...cleanVal(val[code], v.roe_ttm) }))
         )
       )
       .catch((e) => setErr(String(e)));
@@ -245,7 +245,9 @@ export default function Screener() {
                     <span className="cname">{r.name}</span>{" "}
                     <span className="cind">{r.sector || r.industry}</span>
                   </td>
-                  <td className="num">{r.period || "—"}</td>
+                  <td className="num">
+                    {r.period === periods[0] ? r.period : <span style={{ opacity: 0.45 }} title="尚未公布最新季，與其他公司不同期">{r.period || "—"}</span>}
+                  </td>
                   <td className="num" style={{ color: "var(--amber)", fontWeight: 600 }}>
                     {fmtNum(r.mg_score, 1)}
                   </td>

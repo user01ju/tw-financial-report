@@ -16,6 +16,10 @@ import requests
 
 import config
 
+# sector_gainer 每日還原鏈算好的近 12 月報酬(含息、分割/減資/面額變更價值中性)。
+# 本 repo 只有月底收盤，配股/1 拆 10 會變成假暴跌(5904 寶雅 -85%，實際 +40%)，自己還原不了。
+SG_REPORT = "https://raw.githubusercontent.com/user01ju/sector_gainer/main/docs/report.json"
+
 SOURCES = [
     ("https://openapi.twse.com.tw/v1/exchangeReport/STOCK_DAY_ALL", "Code", "ClosingPrice"),
     ("https://www.tpex.org.tw/openapi/v1/tpex_mainboard_daily_close_quotes", "SecuritiesCompanyCode", "Close"),
@@ -71,6 +75,24 @@ def main():
         json.dump(all_prices, f, ensure_ascii=False, indent=1, sort_keys=True)
     print(f"更新收盤 {len(closes)} 檔 ({sorted({ym for ym, _ in closes.values()})})，"
           f"prices.json 共 {len(all_prices)} 檔")
+    fetch_adjusted_returns()
+
+
+def fetch_adjusted_returns():
+    """→ data/price_returns_adj.json {date, m12:{code:%}}。抓不到就保留舊檔(metrics 會看日期判斷新鮮度)。"""
+    try:
+        rep = requests.get(SG_REPORT, timeout=30).json()
+    except Exception as e:
+        print(f"! sector_gainer report: {e}（沿用舊的還原報酬檔）")
+        return
+    m12 = {}
+    for sec in rep.get("sectors", []):
+        for s in sec.get("stocks", []):
+            if isinstance(s.get("m12"), (int, float)):
+                m12[str(s["id"])] = round(s["m12"], 2)
+    with open(os.path.join(config.DATA_DIR, "price_returns_adj.json"), "w", encoding="utf-8") as f:
+        json.dump({"date": rep.get("date"), "m12": m12}, f, ensure_ascii=False, indent=1, sort_keys=True)
+    print(f"還原近一年報酬 {len(m12)} 檔（sector_gainer {rep.get('date')}）")
 
 
 if __name__ == "__main__":

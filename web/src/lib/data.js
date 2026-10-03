@@ -26,3 +26,16 @@ export const isFinOrBuild = (r) =>
   r.sector
     ? r.sector_parent === "金融" || r.sector === "營建"
     : /金融|建材營造/.test(r.industry || "");
+
+// 官方估值的已知上游錯誤 → 顯示「—」(門檻同 verify.py valuation-sanity)：
+// TPEX 面額變更後 PB 沒調(5904 寶雅 1.00，實際 ~10)、股票股利換算錯(5314 世紀* 殖利率 105%)
+export function cleanVal(v, roe) {
+  if (!v) return {};
+  const o = { ...v };
+  if (o.yield > 20) o.yield = null;
+  if (o.pe > 0 && o.pe < 100 && o.pb && roe > 3) {
+    const implied = (o.pe * roe) / 100;
+    if (Math.max(o.pb / implied, implied / o.pb) > 3) o.pb = null;
+  }
+  return o;
+}
