@@ -85,6 +85,11 @@ QM_LEAK_FAIL_FRAC = 0.005  # 洩漏檔數 >0.5%＝系統性（孤例 1/1934=0.05
 QM_LEAK_FAIL_MIN = 3       # 樣本小時的絕對下限，至少 3 檔才談得上系統性
 QM_LEAK_HARD_PCT = 80.0    # 單檔已逼近 Q2 污染的 +100%，孤例也不放行
 
+# 單季 EPS 與淨利異號的比例。metrics 直接相減累計 EPS 時，配股/增資追溯重算股數會造成
+# 「淨利為正、EPS 為負」(2026-10-03 修前 25/1981=1.26%，例 5386 青雲 -0.12 vs +7.7 億)。
+# 修後剩 7 檔(0.35%)，是合併淨利含少數股權、母公司 EPS 本來就異號的合法個案。
+EPS_SIGN_FAIL_FRAC = 0.01
+
 EPS_TTM_TOL = 0.02   # eps_ttm = round(Σ4 單季 EPS, 2)，只留捨入誤差
 YOY_TOL_PP = 0.02    # revenue_yoy 是 round(…, 2) 的百分點
 
@@ -398,6 +403,21 @@ def check_mg_score_recompute():
     return "PASS", f"{n} 檔 mg_score 與獨立重算逐檔相符（8 因子平均名次百分位加權）"
 
 
+def check_eps_sign():
+    latest = load(os.path.join(FUND, "_latest.json")) or {}
+    pairs = [(c, v["eps"], v["net_income"]) for c, v in latest.items()
+             if isinstance(v.get("eps"), (int, float)) and isinstance(v.get("net_income"), (int, float))]
+    if not pairs:
+        return "SKIP", "_latest 沒有同時具 eps 與 net_income 的檔"
+    bad = [p for p in pairs if p[1] * p[2] < 0]
+    frac = len(bad) / len(pairs)
+    msg = f"{len(bad)}/{len(pairs)} 檔（{frac:.2%}）單季 EPS 與淨利異號"
+    if frac > EPS_SIGN_FAIL_FRAC:
+        ex = "、".join(f"{c} eps={e} ni={n:.0f}" for c, e, n in bad[:5])
+        return "FAIL", f"{msg}，超過 {EPS_SIGN_FAIL_FRAC:.0%}（EPS 去累計回歸？見 metrics.decumulate）：{ex}"
+    return "PASS", f"{msg}（少數股權造成的合法個案）"
+
+
 def check_period_keys():
     r = scan()
     if r["key_errors"]:
@@ -683,6 +703,7 @@ CHECKS = [
     ("a", "price-return-recompute", check_price_return_recompute),
     ("a", "cross-section-size", check_cross_section_size),
     ("a", "field-coverage", check_field_coverage),
+    ("a", "eps-sign-vs-net-income", check_eps_sign),
     ("b", "quarterly-vs-monthly-revenue", check_quarterly_vs_monthly),
     ("b", "quarterly-revenue-cumulative-leak", check_quarterly_revenue_leak),
     ("b", "eps-ttm-consistency", check_eps_ttm),

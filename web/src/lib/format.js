@@ -22,3 +22,15 @@ export function fmtMoneyK(vK) {
 
 // 季 period 排序鍵 "2026Q1" -> 2026.1
 export const qKey = (p) => parseInt(p.slice(0, 4)) * 10 + parseInt(p.slice(-1));
+
+// 獲利 YoY：負基期/跨正負號時 % 沒可讀性(-0.01→1 = +10100%)，改顯示 metrics 給的標籤
+export const fmtYoy = (r, key) => r[key + "_turn"] || fmtPct(r[key]);
+export const yoyClass = (r, key) => {
+  const t = r[key + "_turn"];
+  if (!t) return signClass(r[key]);
+  return t === "轉盈" || t === "虧損縮小" ? "up" : "down";
+};
+
+// 本業占比 < 50% = 獲利主要靠業外(處分/投資收益)，ROE、淨利率會被灌水
+export const CORE_LOW = 50;
+export const fmtCore = (v) => (v == null ? "—" : `${v.toFixed(0)}%`);

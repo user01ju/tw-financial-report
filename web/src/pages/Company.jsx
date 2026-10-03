@@ -1,12 +1,12 @@
-import { useEffect, useState } from "react";
-import { useParams, useLocation, Link } from "react-router-dom";
+import { useEffect, useMemo, useState } from "react";
+import { useParams, useLocation, useNavigate, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
   ResponsiveContainer, ComposedChart, Bar, Line, LineChart,
   XAxis, YAxis, CartesianGrid, Tooltip, ReferenceLine, Legend,
 } from "recharts";
-import { getCompany, getValuation, getPriceReturns } from "../lib/data.js";
-import { fmtPct, fmtNum, fmtMoneyK, signClass, qKey } from "../lib/format.js";
+import { getCompany, getValuation, getPriceReturns, getLatest } from "../lib/data.js";
+import { fmtPct, fmtNum, fmtMoneyK, signClass, qKey, fmtYoy, yoyClass, fmtCore, CORE_LOW } from "../lib/format.js";
 
 const C = { amber: "#e3a84a", sky: "#6db1d9", mauve: "#c98bb9", grid: "rgba(236,228,212,0.08)", dim: "#998f7e" };
 const axis = { stroke: "rgba(236,228,212,0.25)", fontSize: 11, fontFamily: "IBM Plex Mono", fill: "#998f7e" };
@@ -22,6 +22,103 @@ function Stat({ k, v, cls, sub }) {
       <div className="k">{k}</div>
       <div className={`v ${cls || ""}`}>{v}</div>
       {sub && <div className="sub">{sub}</div>}
+    </div>
+  );
+}
+
+// 同業比較欄位(子類股內)
+const PEER_COLS = [
+  { key: "mg_score", t: "動能分", f: (v) => fmtNum(v, 1) },
+  { key: "pe", t: "本益比", f: (v) => fmtNum(v, 1) },
+  { key: "roe_ttm", t: "ROE(TTM)", f: (v) => fmtPct(v) },
+  { key: "gross_margin", t: "毛利率", f: (v) => fmtPct(v) },
+  { key: "operating_margin", t: "營益率", f: (v) => fmtPct(v) },
+  { key: "revenue_yoy", t: "營收YoY", f: (v) => fmtPct(v), color: true },
+  { key: "eps_yoy", t: "EPS YoY", yoy: true },
+  { key: "core_ratio", t: "本業比", f: fmtCore },
+];
+const PEER_MAX = 30;
+
+// 子類股內排名：同業中位數 + 依動能分排序的同業表(超過上限時保證本檔在列)
+function Peers({ code, sector }) {
+  const nav = useNavigate();
+  const loc = useLocation();
+  const [rows, setRows] = useState(null);
+  useEffect(() => {
+    Promise.all([getLatest(), getValuation()])
+      .then(([d, val]) =>
+        setRows(
+          Object.entries(d)
+            .filter(([, v]) => v.sector === sector)
+            .map(([c, v]) => ({ code: c, ...v, ...(val[c] || {}) }))
+            .sort((a, b) => (b.mg_score ?? -1) - (a.mg_score ?? -1))
+        )
+      )
+      .catch(() => setRows([]));
+  }, [sector]);
+
+  const med = useMemo(() => {
+    if (!rows) return {};
+    const m = {};
+    for (const c of PEER_COLS) {
+      const xs = rows.map((r) => r[c.key]).filter((v) => typeof v === "number").sort((a, b) => a - b);
+      m[c.key] = xs.length ? xs[Math.floor((xs.length - 1) / 2)] : null;
+    }
+    return m;
+  }, [rows]);
+
+  if (!rows || rows.length < 2) return null;
+  const rank = rows.findIndex((r) => r.code === code) + 1;
+  const shown = rows.slice(0, PEER_MAX);
+  if (rank > PEER_MAX) shown.push(rows[rank - 1]);
+
+  return (
+    <div className="chartcard" style={{ padding: "18px 0 0" }}>
+      <h3 style={{ padding: "0 18px" }}>同業比較 · {sector}</h3>
+      <p className="note" style={{ padding: "0 18px" }}>
+        共 {rows.length} 檔，依動能分排序{rank > 0 && <>，本檔第 <b>{rank}</b> 名</>}；最上列為同業中位數
+      </p>
+      <div className="tablewrap" style={{ border: "none" }}>
+        <table className="data">
+          <thead>
+            <tr>
+              <th className="l">代號</th>
+              <th className="l">名稱</th>
+              {PEER_COLS.map((c) => <th key={c.key}>{c.t}</th>)}
+            </tr>
+          </thead>
+          <tbody>
+            <tr style={{ cursor: "default", color: "var(--ink-dim)" }}>
+              <td className="l" colSpan={2}>中位數</td>
+              {PEER_COLS.map((c) => (
+                <td key={c.key} className="num">{c.yoy ? fmtPct(med[c.key]) : c.f(med[c.key])}</td>
+              ))}
+            </tr>
+            {shown.map((r) => (
+              <tr
+                key={r.code}
+                style={r.code === code ? { background: "rgba(227,168,74,0.12)", cursor: "default" } : undefined}
+                onClick={() => r.code !== code && nav(`/c/${r.code}`, { state: loc.state })}
+              >
+                <td className="l"><span className="code">{r.code}</span></td>
+                <td className="l"><span className="cname">{r.name}</span></td>
+                {PEER_COLS.map((c) =>
+                  c.yoy ? (
+                    <td key={c.key} className={`num ${yoyClass(r, c.key)}`}>{fmtYoy(r, c.key)}</td>
+                  ) : (
+                    <td
+                      key={c.key}
+                      className={`num ${c.color ? signClass(r[c.key]) : ""} ${c.key === "core_ratio" && r.core_ratio < CORE_LOW ? "down" : ""}`}
+                    >
+                      {c.f(r[c.key])}
+                    </td>
+                  )
+                )}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }
@@ -101,6 +198,7 @@ export default function Company() {
                 <th>營業利益成長率</th>
                 <th>營業利益率</th>
                 <th>稅後淨利率</th>
+                <th>本業比</th>
                 <th>單季ROE</th>
               </tr>
             </thead>
@@ -110,9 +208,10 @@ export default function Company() {
                   <td className="l"><span className="code">{r.p}</span></td>
                   <td className="num">{fmtNum(r.eps)}</td>
                   <td className={`num ${signClass(r.revenue_yoy)}`}>{fmtPct(r.revenue_yoy)}</td>
-                  <td className={`num ${signClass(r.operating_income_yoy)}`}>{fmtPct(r.operating_income_yoy)}</td>
+                  <td className={`num ${yoyClass(r, "operating_income_yoy")}`}>{fmtYoy(r, "operating_income_yoy")}</td>
                   <td className="num">{fmtPct(r.operating_margin)}</td>
                   <td className="num">{fmtPct(r.net_margin)}</td>
+                  <td className={`num ${r.core_ratio < CORE_LOW ? "down" : ""}`}>{fmtCore(r.core_ratio)}</td>
                   <td className="num">{fmtPct(r.roe_q)}</td>
                 </tr>
               ))}
@@ -120,6 +219,8 @@ export default function Company() {
           </table>
         </div>
       </div>
+
+      {d.sector && <Peers code={d.code} sector={d.sector} />}
 
       <div className="grid2">
         <div className="chartcard">

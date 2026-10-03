@@ -150,7 +150,10 @@ def cum_to(inc, src, y, q):
 def decumulate(inc, src):
     """TWSE t187ap06 損益是年初至今累計(Q2=H1、Q3=前三季、Q4=全年) → 還原單季：
     single(Qn) = cum(Qn) − cum(Qn−1)，Q1 累計即單季。FinMind 本來就是單季，不動。
-    全欄位含 EPS 都相減(股本變動會有小誤差,業界標準近似)。資產負債表是時點數不套用。
+    資產負債表是時點數不套用。
+    EPS 不能直接相減：配股/增資後本期累計 EPS 用新加權股數追溯重算，前期累計沒重算，
+    相減會出現「淨利為正、EPS 為負」(5386 青雲 2026Q2: 43.05→42.93 得 -0.12)。
+    改用本期累計的每股比例 cum_eps/cum_ni × 單季淨利；股本沒變時與相減結果完全相同。
     前一季累計湊不出來就丟掉該期——寧可少一期,也別讓累計值污染 YoY/TTM/mg_score。"""
     out = {}
     for p, rec in inc.items():
@@ -161,8 +164,13 @@ def decumulate(inc, src):
         base = cum_to(inc, src, y, q - 1)
         if base is None:
             continue
-        out[p] = {k: round(v - base[k], 4) for k, v in rec.items()
+        single = {k: round(v - base[k], 4) for k, v in rec.items()
                   if isinstance(v, (int, float)) and isinstance(base.get(k), (int, float))}
+        eps, ni = rec.get("eps"), rec.get("net_income")
+        if "net_income" in single and isinstance(eps, (int, float)) and isinstance(ni, (int, float)) \
+                and eps * ni > 0:  # 同號才可靠(合併淨利含少數股權,號不同代表比例失真)
+            single["eps"] = round(single["net_income"] * eps / ni, 2)
+        out[p] = single
     return out
 
 
@@ -186,14 +194,18 @@ def quarterly_metrics(inc, bal):
             "current_ratio": pct(b.get("current_assets"), b.get("current_liabilities")),
             "roe_q": pct(ni, eq),
             "roa_q": pct(ni, b.get("total_assets")),
+            # 本業占比 = 營業利益 / 稅前淨利；稅前 ≤0 時無意義。<50% 代表獲利主要靠業外
+            "core_ratio": pct(i.get("operating_income"), i.get("pretax_income"))
+            if (i.get("pretax_income") or 0) > 0 else None,
         }
         # YoY(單季)
         py = prev_year_q(p)
         if py in inc:
             rec["revenue_yoy"] = pct_change(rev, inc[py].get("revenue"))
-            rec["operating_income_yoy"] = pct_change(i.get("operating_income"), inc[py].get("operating_income"))
-            rec["eps_yoy"] = pct_change(i.get("eps"), inc[py].get("eps"))
-            rec["net_income_yoy"] = pct_change(ni, inc[py].get("net_income"))
+            for f in ("operating_income", "eps", "net_income"):
+                now, before = i.get(f), inc[py].get(f)
+                rec[f + "_yoy"] = pct_change(now, before)
+                rec[f + "_yoy_turn"] = yoy_turn(now, before)
         # 成長加速度(本季 YoY - 前季 YoY)：抓「加速中」的成長
         pq = prev_q(p)
         if pq in out:
@@ -219,6 +231,17 @@ def pct_change(now, before):
     if now is None or before in (None, 0):
         return None
     return round((now - before) / abs(before) * 100, 2)
+
+
+def yoy_turn(now, before):
+    """跨正負號或負基期時 YoY% 沒有可讀性(-0.01→1 會是 +10100%)，改給文字標籤。"""
+    if now is None or before is None:
+        return None
+    if before < 0:
+        return "轉盈" if now > 0 else ("虧損縮小" if now > before else "虧損擴大")
+    if before > 0 and now < 0:
+        return "轉虧"
+    return None
 
 
 def sum_or_none(vals):

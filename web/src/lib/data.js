@@ -19,3 +19,10 @@ export const getPriceReturns = () => fetchJson("fundamentals/_price_returns.json
 export const getValuation = () => fetchJson("valuation/_latest.json");
 export const getMeta = () => fetchJson("fundamentals/_meta.json");
 export const getMarkets = () => fetchJson("markets.json"); // {code: "TWSE"|"TPEX"}，推 TV 用
+
+// 金融(營收/利潤率定義不同，負債比天生高) + 營建(完工認列失真)：跨產業比較時排除。
+// 少數沒有 CMoney 子類股的退回用證交所產業別判斷
+export const isFinOrBuild = (r) =>
+  r.sector
+    ? r.sector_parent === "金融" || r.sector === "營建"
+    : /金融|建材營造/.test(r.industry || "");

@@ -1,28 +1,28 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
-import { getLatest } from "../lib/data.js";
+import { getLatest, isFinOrBuild } from "../lib/data.js";
 import { useUrlState } from "../lib/useUrlState.js";
 import { useScrollRestore } from "../lib/useScrollRestore.js";
 import TvButton from "../components/TvButton.jsx";
-import { fmtPct, fmtNum, signClass } from "../lib/format.js";
+import { fmtPct, fmtNum, signClass, fmtYoy, yoyClass } from "../lib/format.js";
 
 // 動能成長頁欄位
 const COLS = [
   { key: "revenue_yoy", t: "營收YoY", f: (v) => fmtPct(v), color: true },
   { key: "revenue_yoy_accel", t: "營收加速", f: (v) => fmtNum(v, 0), color: true },
-  { key: "operating_income_yoy", t: "營益YoY", f: (v) => fmtPct(v), color: true },
+  { key: "operating_income_yoy", t: "營益YoY", yoy: true },
   { key: "mrev_yoy_3m", t: "月營收動能", f: (v) => fmtPct(v), color: true },
   { key: "mrev_streak", t: "連續月", f: (v) => (v == null ? "—" : `${v}`) },
   { key: "price_return_1y", t: "1Y報酬", f: (v) => fmtPct(v), color: true },
-  { key: "eps_yoy", t: "EPS YoY", f: (v) => fmtPct(v), color: true },
+  { key: "eps_yoy", t: "EPS YoY", yoy: true },
   { key: "roe_ttm", t: "ROE(TTM)", f: (v) => fmtPct(v) },
   { key: "operating_margin", t: "營益率", f: (v) => fmtPct(v) },
 ];
 
 const DEFAULTS = {
   q: "", sector: "", period: "",
-  score: "", roe: "10", opm: "5",
+  roe: "10", opm: "5", ex: true,
   sk: "mg_score", sd: "-1",
 };
 
@@ -32,7 +32,7 @@ export default function Momentum() {
   const [rows, setRows] = useState(null);
   const [err, setErr] = useState(null);
   const [f, setF] = useUrlState(DEFAULTS);
-  const { q, sector: ind, period, score: minScore, roe: minRoe, opm: minOpm } = f;
+  const { q, sector: ind, period, roe: minRoe, opm: minOpm, ex: exFinBuild } = f;
   const sort = { k: f.sk, dir: +f.sd };
   const setSort = (k) =>
     setF({ sk: k, sd: sort.k === k ? String(-sort.dir) : "-1" });
@@ -70,14 +70,13 @@ export default function Momentum() {
     const qq = q.trim();
     const mr = minRoe === "" ? null : +minRoe;
     const mo = minOpm === "" ? null : +minOpm;
-    const ms = minScore === "" ? null : +minScore;
     let out = rows.filter((r) => {
+      if (exFinBuild && isFinOrBuild(r)) return false;
       if (ind && r.sector !== ind) return false;
       if (period && r.period !== period) return false;
       if (qq && !r.code.includes(qq) && !(r.name || "").includes(qq)) return false;
       if (mr != null && !(r.roe_ttm >= mr)) return false;
       if (mo != null && !(r.operating_margin >= mo)) return false;
-      if (ms != null && !(r.mg_score >= ms)) return false;
       return true;
     });
     const { k, dir } = sort;
@@ -89,7 +88,7 @@ export default function Momentum() {
       return (x - y) * dir;
     });
     return out;
-  }, [rows, q, ind, period, minRoe, minOpm, minScore, sort]);
+  }, [rows, q, ind, period, minRoe, minOpm, exFinBuild, sort]);
 
   const shown = view.slice(0, 250);
   const th = (k, label, cls) => (
@@ -107,7 +106,7 @@ export default function Momentum() {
       <h1>動能成長</h1>
       <p className="lede">
         綜合分數＝營收/營益/EPS 成長 + 成長加速度 + 月營收動能（各因子全市場百分位後加權，0–100）。
-        預設套品質護欄。<span className="up">紅為正/加速</span>、<span className="down">綠為轉弱</span>。
+        分數只拿來排序、不當門檻：先用品質護欄過濾，再看排名與本益比。<span className="up">紅為正/加速</span>、<span className="down">綠為轉弱</span>。
       </p>
 
       <div className="controls">
@@ -138,10 +137,6 @@ export default function Momentum() {
           </select>
         </div>
         <div className="field range">
-          <label>動能成長分 ≥</label>
-          <input type="number" value={minScore} onChange={(e) => setF({ score: e.target.value })} placeholder="80" />
-        </div>
-        <div className="field range">
           <label>ROE(TTM) ≥</label>
           <input type="number" value={minRoe} onChange={(e) => setF({ roe: e.target.value })} />
         </div>
@@ -149,6 +144,10 @@ export default function Momentum() {
           <label>營益率 ≥</label>
           <input type="number" value={minOpm} onChange={(e) => setF({ opm: e.target.value })} />
         </div>
+        <label className="toggle">
+          <input type="checkbox" checked={exFinBuild} onChange={(e) => setF({ ex: e.target.checked })} />
+          排除金融/營建
+        </label>
         <div className="count">
           符合 <b>{view.length}</b> 檔{view.length > 250 && <> · 顯示前 250</>}
         </div>
@@ -193,11 +192,15 @@ export default function Momentum() {
                   <td className="num" style={{ color: "var(--amber)", fontWeight: 600 }}>
                     {fmtNum(r.mg_score, 1)}
                   </td>
-                  {COLS.map((c) => (
-                    <td key={c.key} className={`num ${c.color ? signClass(r[c.key]) : ""}`}>
-                      {c.f(r[c.key])}
-                    </td>
-                  ))}
+                  {COLS.map((c) =>
+                    c.yoy ? (
+                      <td key={c.key} className={`num ${yoyClass(r, c.key)}`}>{fmtYoy(r, c.key)}</td>
+                    ) : (
+                      <td key={c.key} className={`num ${c.color ? signClass(r[c.key]) : ""}`}>
+                        {c.f(r[c.key])}
+                      </td>
+                    )
+                  )}
                 </tr>
               ))}
             </tbody>

@@ -1,13 +1,13 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
-import { getLatest, getValuation } from "../lib/data.js";
+import { getLatest, getValuation, isFinOrBuild } from "../lib/data.js";
 import { useUrlState } from "../lib/useUrlState.js";
 import { useScrollRestore } from "../lib/useScrollRestore.js";
 import TvButton from "../components/TvButton.jsx";
-import { fmtPct, fmtNum, fmtMoneyK, signClass } from "../lib/format.js";
+import { fmtPct, fmtNum, signClass, fmtYoy, yoyClass, fmtCore, CORE_LOW } from "../lib/format.js";
 
-// 欄位定義：key, 標題, 取值, 格式, 是否套漲跌色(紅漲綠跌)
+// 欄位定義：key, 標題, 格式, color=套漲跌色(紅漲綠跌), yoy=負基期改顯示轉盈/轉虧標籤
 const COLS = [
   { key: "pe", t: "本益比", f: (v) => fmtNum(v, 1) },
   { key: "pb", t: "股價淨值比", f: (v) => fmtNum(v, 2) },
@@ -17,16 +17,23 @@ const COLS = [
   { key: "operating_margin", t: "營益率", f: (v) => fmtPct(v) },
   { key: "net_margin", t: "淨利率", f: (v) => fmtPct(v) },
   { key: "debt_ratio", t: "負債比", f: (v) => fmtPct(v) },
+  { key: "core_ratio", t: "本業比", f: fmtCore },
   { key: "revenue_yoy", t: "營收YoY", f: (v) => fmtPct(v), color: true },
-  { key: "operating_income_yoy", t: "營益YoY", f: (v) => fmtPct(v), color: true },
+  { key: "operating_income_yoy", t: "營益YoY", yoy: true },
   { key: "eps_ttm", t: "EPS(TTM)", f: (v) => fmtNum(v) },
-  { key: "eps_yoy", t: "EPS YoY", f: (v) => fmtPct(v), color: true },
+  { key: "eps_yoy", t: "EPS YoY", yoy: true },
 ];
 
+// 動能分只拿來排序、不當門檻：先用品質條件過濾 → 照動能分排 → 最後看本益比
 const DEFAULTS = {
   q: "", sector: "", period: "",
-  roe: "", debt: "", yoy: "", pe: "", opm: "", nm: "", score: "", accel: "",
-  sk: "roe_ttm", sd: "-1",
+  roe: "", debt: "", yoy: "", pe: "", opm: "", nm: "", accel: "", core: "",
+  ex: true,
+  sk: "mg_score", sd: "-1",
+};
+const QUALITY_PRESET = {
+  roe: "15", opm: "10", yoy: "20", accel: "0", pe: "30", core: String(CORE_LOW),
+  debt: "", nm: "", ex: true, sk: "mg_score", sd: "-1",
 };
 
 export default function Screener() {
@@ -38,7 +45,7 @@ export default function Screener() {
   const {
     q, sector: ind, period,
     roe: minRoe, debt: maxDebt, yoy: minYoy, pe: maxPe,
-    opm: minOpm, nm: minNm, score: minScore, accel: minRevAccel,
+    opm: minOpm, nm: minNm, accel: minRevAccel, core: minCore, ex: exFinBuild,
   } = f;
   const sort = { k: f.sk, dir: +f.sd };
   const setSort = (k) =>
@@ -82,9 +89,10 @@ export default function Screener() {
     const mp = maxPe === "" ? null : +maxPe;
     const mo = minOpm === "" ? null : +minOpm;
     const mn = minNm === "" ? null : +minNm;
-    const ms = minScore === "" ? null : +minScore;
     const ma = minRevAccel === "" ? null : +minRevAccel;
+    const mc = minCore === "" ? null : +minCore;
     let out = rows.filter((r) => {
+      if (exFinBuild && isFinOrBuild(r)) return false;
       if (ind && r.sector !== ind) return false;
       if (period && r.period !== period) return false;
       if (qq && !r.code.includes(qq) && !(r.name || "").includes(qq)) return false;
@@ -94,8 +102,8 @@ export default function Screener() {
       if (mp != null && !(r.pe != null && r.pe > 0 && r.pe <= mp)) return false;
       if (mo != null && !(r.operating_margin >= mo)) return false;
       if (mn != null && !(r.net_margin >= mn)) return false;
-      if (ms != null && !(r.mg_score >= ms)) return false;
       if (ma != null && !(r.revenue_yoy_accel >= ma)) return false;
+      if (mc != null && !(r.core_ratio >= mc)) return false;
       return true;
     });
     const { k, dir } = sort;
@@ -107,7 +115,7 @@ export default function Screener() {
       return (x - y) * dir;
     });
     return out;
-  }, [rows, q, ind, period, minRoe, maxDebt, minYoy, maxPe, minOpm, minNm, minScore, minRevAccel, sort]);
+  }, [rows, q, ind, period, minRoe, maxDebt, minYoy, maxPe, minOpm, minNm, minRevAccel, minCore, exFinBuild, sort]);
 
   const shown = view.slice(0, 250);
 
@@ -127,6 +135,7 @@ export default function Screener() {
       <p className="lede">
         以最新一季財報計算的獲利能力、財務結構與成長性。台股慣例
         <span className="up"> 紅為正成長</span>、<span className="down">綠為衰退</span>。點任一列看個股全貌。
+        預設照<b>動能分</b>排序；用門檻篩品質，再看本益比。<b>本業比</b>＝營業利益／稅前淨利，低於 {CORE_LOW}% 代表獲利靠業外。
       </p>
 
       <div className="controls">
@@ -181,13 +190,21 @@ export default function Screener() {
           <input type="number" value={minNm} onChange={(e) => setF({ nm: e.target.value })} placeholder="5" />
         </div>
         <div className="field range">
-          <label>動能成長分 ≥</label>
-          <input type="number" value={minScore} onChange={(e) => setF({ score: e.target.value })} placeholder="80" />
-        </div>
-        <div className="field range">
           <label>營收加速 ≥</label>
           <input type="number" value={minRevAccel} onChange={(e) => setF({ accel: e.target.value })} placeholder="0" />
         </div>
+        <div className="field range">
+          <label>本業比 ≥</label>
+          <input type="number" value={minCore} onChange={(e) => setF({ core: e.target.value })} placeholder={String(CORE_LOW)} />
+        </div>
+        <label className="toggle">
+          <input type="checkbox" checked={exFinBuild} onChange={(e) => setF({ ex: e.target.checked })} />
+          排除金融/營建
+        </label>
+        <button className="tvbtn" style={{ marginLeft: 0 }} onClick={() => setF(QUALITY_PRESET)}
+          title="ROE≥15 營益率≥10 營收YoY≥20 營收加速≥0 本益比≤30 本業比≥50，照動能分排序">
+          品質成長預設
+        </button>
         <div className="count">
           符合 <b>{view.length}</b> 檔{view.length > 250 && <> · 顯示前 250</>}
         </div>
@@ -232,11 +249,18 @@ export default function Screener() {
                   <td className="num" style={{ color: "var(--amber)", fontWeight: 600 }}>
                     {fmtNum(r.mg_score, 1)}
                   </td>
-                  {COLS.map((c) => (
-                    <td key={c.key} className={`num ${c.color ? signClass(r[c.key]) : ""}`}>
-                      {c.f(r[c.key])}
-                    </td>
-                  ))}
+                  {COLS.map((c) =>
+                    c.yoy ? (
+                      <td key={c.key} className={`num ${yoyClass(r, c.key)}`}>{fmtYoy(r, c.key)}</td>
+                    ) : (
+                      <td
+                        key={c.key}
+                        className={`num ${c.color ? signClass(r[c.key]) : ""} ${c.key === "core_ratio" && r.core_ratio < CORE_LOW ? "down" : ""}`}
+                      >
+                        {c.f(r[c.key])}
+                      </td>
+                    )
+                  )}
                 </tr>
               ))}
             </tbody>
