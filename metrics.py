@@ -27,16 +27,21 @@ import config
 
 # canonical 欄 -> 來源欄名候選(取第一個有值的)。TWSE 優先用官方期間，FinMind 補歷史。
 INCOME_MAP = {
-    "revenue": (["Revenue"], ["營業收入", "收入"]),  # 收入 = 異業(mim)格式，已對帳≈月營收
+    # 收入 = 異業(mim)、收益 = 證券(bd)；銀行/金控沒有單一營收欄，見 REVENUE_SUMS
+    "revenue": (["Revenue", "Income"], ["營業收入", "收入", "收益"]),
     "cogs": (["CostOfGoodsSold"], ["營業成本"]),
     "gross_profit": (["GrossProfit"], ["營業毛利（毛損）淨額", "營業毛利（毛損）"]),
     "operating_expenses": (["OperatingExpenses"], ["營業費用"]),
     "operating_income": (["OperatingIncome"], ["營業利益（損失）"]),
     "pretax_income": (["PreTaxIncome", "IncomeBeforeTaxFromContinuingOperations"],
-                      ["稅前淨利（淨損）", "繼續營業單位稅前淨利（淨損）"]),
-    "net_income": (["IncomeAfterTaxes"], ["本期淨利（淨損）"]),
+                      ["稅前淨利（淨損）", "繼續營業單位稅前淨利（淨損）", "繼續營業單位稅前損益",
+                       "繼續營業單位稅前純益（純損）"]),
+    # IncomeAfterTax(無 s) = FinMind 銀行/金控；本期稅後淨利 = TWSE 金控；純益 = TWSE 保險
+    "net_income": (["IncomeAfterTaxes", "IncomeAfterTax"],
+                   ["本期淨利（淨損）", "本期稅後淨利（淨損）", "繼續營業單位本期純益（純損）"]),
     # EPS 的分子是母公司淨利；合併淨利含少數股權，拿來推股數會隨少數股權占比亂跳
-    "net_income_parent": (["EquityAttributableToOwnersOfParent"], ["淨利（淨損）歸屬於母公司業主"]),
+    "net_income_parent": (["EquityAttributableToOwnersOfParent"],
+                          ["淨利（淨損）歸屬於母公司業主", "淨利（損）歸屬於母公司業主"]),
     "eps": (["EPS"], ["基本每股盈餘（元）"]),
 }
 BALANCE_MAP = {
@@ -77,9 +82,47 @@ def pct(a, b):
 MONETARY = (set(INCOME_MAP) | set(BALANCE_MAP)) - {"eps"}
 
 
+# 銀行營收 = 利息淨收益 + 利息以外淨損益；FinMind 銀行/金控沒有可靠的 Revenue，一律用兩欄和
+REVENUE_SUMS = (
+    (["NetInterestIncome", "NetNonInterestIncome"],),
+    (["利息淨收益", "利息以外淨損益"],),
+)
+# TWSE 保險格式(以這個欄判斷)的「營業收入」不是總收入：跟 FinMind Revenue、月營收差 5~10 倍，
+# 用 營業利益+成本+費用 也兜不回來(2867 甚至推出負值)。混用會讓營收 YoY 變 -80%
+# → 保險業的營收類欄位只信 FinMind，TWSE 這幾欄捨棄。
+TWSE_INS_KEY = "繼續營業單位本期純益（純損）"
+TWSE_INS_DROP = ("revenue", "cogs", "gross_profit", "operating_expenses", "operating_income")
+# TWSE 金控格式(t187ap06_*_fh，以這個欄判斷)欄位整排錯一格(2026-10-03 實測 14 家×2 季全中)：
+# 「利息以外淨收益」放的是淨收益總額、「營業費用」放的是稅前、「繼續營業單位稅前損益」放的是所得稅。
+# 用恆等式驗過：淨收益−呆帳−準備−費用 = 「營業費用」欄、再−「稅前」欄 = 稅後淨利。淨利/母公司淨利/EPS 是對的。
+# 金控 2025→2026 損益表表達方式也變了(保險負債準備改淨額，營收從 ~1400 億變 ~660 億)，營收 YoY 本來就不可比
+# → 只取淨利類與 EPS。
+TWSE_FH_KEY = "利息以外淨收益"
+TWSE_FH_DROP = ("revenue", "pretax_income", "operating_expenses", "cogs", "gross_profit", "operating_income")
+
+
 def extract(rec, mapping, source):
     """從單期 record 依 source(finmind/twse) 取 canonical 欄，金額統一成仟元。"""
     idx = 0 if source == "finmind" else 1
+    out = _extract(rec, mapping, source, idx)
+    if mapping is INCOME_MAP:
+        # FinMind 金控的 Revenue 定義前後不一(2881：2025Q4 = 兩欄和、2026Q1 只有利息以外淨收益)
+        # → 兩欄都在就一律用和；TWSE 本來就沒有單一營收欄
+        has_sum = any(all(isinstance(rec.get(k), (int, float)) for k in cols) for cols in REVENUE_SUMS[idx])
+        if "revenue" not in out or (source == "finmind" and has_sum):
+            for cols in REVENUE_SUMS[idx]:
+                vs = [rec.get(k) for k in cols]
+                if all(isinstance(v, (int, float)) for v in vs):
+                    out["revenue"] = sum(vs) / (1000 if source == "finmind" else 1)
+                    break
+        if source == "twse":
+            drop = TWSE_INS_DROP if TWSE_INS_KEY in rec else TWSE_FH_DROP if TWSE_FH_KEY in rec else ()
+            for k in drop:
+                out.pop(k, None)
+    return out
+
+
+def _extract(rec, mapping, source, idx):
     out = {}
     for canon, candidates in mapping.items():
         for col in candidates[idx]:
@@ -207,6 +250,29 @@ def eps_on_basis(inc, q, p):
     return round(e * sq / sp, 2), True
 
 
+def repair_eps_outliers(inc):
+    """FinMind 單季 EPS 約 1% 是孤立錯值(1608 華榮 2025Q4：母公司淨利 3.2 億、EPS 4.49，實應 ~0.75；
+    或跟淨利異號)。特徵：只有這一季的隱含股數跳開，前後季股數彼此一致 —— 真的配股會延續，不會彈回。
+    → 用前後季平均股數 × 本季母公司淨利重算。最新一季沒有後一季可對照，不動(那期是 TWSE 比例法)。"""
+    ps = sorted(inc, key=q_tuple)
+    for a, p, b in zip(ps, ps[1:], ps[2:]):
+        if prev_q(p) != a or prev_q(b) != p:
+            continue
+        sa, sb = implied_shares(inc[a]), implied_shares(inc[b])
+        if not sa or not sb or not 1 / SHARE_BASIS_RATIO < sa / sb < SHARE_BASIS_RATIO:
+            continue
+        r = inc[p]
+        eps, ni = r.get("eps"), r.get(parent_ni_key(r))
+        if not isinstance(eps, (int, float)) or not isinstance(ni, (int, float)) or ni == 0:
+            continue
+        sp = implied_shares(r)
+        ref = (sa + sb) / 2
+        if (sp and 1 / 1.5 < sp / ref < 1.5) or (not sp and abs(eps) < 0.1 and eps * ni >= 0):
+            continue  # 本季股數正常，或 EPS 太小推不出股數但沒有異號
+        inc[p] = {**r, "eps": round(ni / ref, 2), "eps_repaired": True}
+    return inc
+
+
 def quarterly_metrics(inc, bal):
     periods = sorted(set(inc) | set(bal), key=q_tuple)
     out = {}
@@ -219,14 +285,16 @@ def quarterly_metrics(inc, bal):
             **{k: i.get(k) for k in INCOME_MAP},
             **{k: b.get(k) for k in BALANCE_MAP},
             # 單季獲利能力(%)
-            "gross_margin": pct(i.get("gross_profit"), rev),
-            "operating_margin": pct(i.get("operating_income"), rev),
-            "net_margin": pct(ni, rev),
+            # 單季營收 ≤0(FinMind 原始就有 ~50 筆負營收，多半是「全年−前三季」推出的 Q4)→ 比率無意義
+            "gross_margin": pct(i.get("gross_profit"), rev_ok(rev)),
+            "operating_margin": pct(i.get("operating_income"), rev_ok(rev)),
+            "net_margin": pct(ni, rev_ok(rev)),
             # 財務結構(時點)
             "debt_ratio": pct(b.get("total_liabilities"), b.get("total_assets")),
             "current_ratio": pct(b.get("current_assets"), b.get("current_liabilities")),
             "roe_q": pct(ni, eq),
             "roa_q": pct(ni, b.get("total_assets")),
+            "eps_repaired": i.get("eps_repaired"),
             # 本業占比 = 營業利益 / 稅前淨利；稅前 ≤0 時無意義。<50% 代表獲利主要靠業外
             "core_ratio": pct(i.get("operating_income"), i.get("pretax_income"))
             if (i.get("pretax_income") or 0) > 0 else None,
@@ -234,7 +302,7 @@ def quarterly_metrics(inc, bal):
         # YoY(單季)
         py = prev_year_q(p)
         if py in inc:
-            rec["revenue_yoy"] = pct_change(rev, inc[py].get("revenue"))
+            rec["revenue_yoy"] = pct_change(rev_ok(rev), rev_ok(inc[py].get("revenue")))
             for f in ("operating_income", "eps", "net_income"):
                 now, before = i.get(f), inc[py].get(f)
                 if f == "eps":
@@ -265,6 +333,10 @@ def quarterly_metrics(inc, bal):
             rec["roa_ttm"] = pct(ni_ttm, b.get("total_assets"))
         out[p] = {k: v for k, v in rec.items() if v is not None}
     return out
+
+
+def rev_ok(v):
+    return v if isinstance(v, (int, float)) and v > 0 else None
 
 
 def pct_change(now, before):
@@ -302,7 +374,14 @@ def monthly_metrics(code):
             v = v / 1000
         rev_by_m[m] = v
     months = sorted(rev_by_m)
-    yoys = [pct_change(rev_by_m[m], rev_by_m.get(f"{int(m[:4]) - 1}{m[4:]}")) for m in months]
+    # 去年同月優先用 TWSE 官方欄「去年當月營收」：公司重編(合併等)後官方基期會追溯調整，
+    # 我們存的去年值(常是 FinMind 舊值)不會(2608 大榮 2025-08：10.8 億 vs 官方 13.2 億)
+    def ly(m):
+        v = data[m].get("營業收入-去年當月營收")
+        if isinstance(v, (int, float)) and data[m].get("_src") != "finmind":
+            return v
+        return rev_by_m.get(f"{int(m[:4]) - 1}{m[4:]}")
+    yoys = [pct_change(rev_by_m[m], ly(m)) for m in months]
     out = {}
     for i, m in enumerate(months):
         rev = rev_by_m[m]
@@ -502,7 +581,7 @@ def main():
             os.path.join(config.DATA_DIR, "finmind", "income_statement", f"{code}.json"),
             INCOME_MAP,
         )
-        inc = decumulate(inc, inc_src)
+        inc = repair_eps_outliers(decumulate(inc, inc_src))
         bal, _ = merge_periods(
             os.path.join(config.DATA_DIR, "balance_sheet", f"{code}.json"),
             os.path.join(config.DATA_DIR, "finmind", "balance_sheet", f"{code}.json"),
