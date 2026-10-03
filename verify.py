@@ -97,7 +97,13 @@ EPS_TTM_TOL = 0.02
 # 殖利率 105.75%(實際現金殖利率 0.16%)。都是上游的錯，不擋 commit，只 WARN 讓人知道。
 VAL_YIELD_MAX = 20.0    # 台股現金殖利率 >20% 幾乎只會是資料錯
 VAL_PB_RATIO_MAX = 3.0  # PB vs 本益比×ROE(TTM) 差超過 3 倍
-VAL_PE_MAX = 100.0      # 本益比太高時分母小、TTM ROE 易被一次性損益墊高，交叉比不可靠   # eps_ttm = round(Σ4 單季 EPS, 2)，只留捨入誤差
+VAL_PE_MAX = 100.0      # 本益比太高時分母小、TTM ROE 易被一次性損益墊高，交叉比不可靠
+
+# eps_ttm vs 收盤÷官方本益比(官方用的近四季 EPS)。2026-10-03 實測差 >30% 有 15/1529 檔(1%)，
+# 全部可解釋：面額變更、財報日後股本變動(EPS 與淨值同比例偏)、EPS 極小、投控成立前後。
+# 單季 EPS 修補邏輯修壞(7642 昶瑞把對的 0.52 改成 3.16)這類回歸只有這條外部交叉抓得到。
+EPS_OFF_DIFF = 0.30
+EPS_OFF_WARN_FRAC = 0.02   # eps_ttm = round(Σ4 單季 EPS, 2)，只留捨入誤差
 YOY_TOL_PP = 0.02    # revenue_yoy 是 round(…, 2) 的百分點
 
 # decumulate() 湊不出前季累計時會丟棄該期。目前實測 0 期被丟；開始大量丟就是
@@ -448,6 +454,27 @@ def check_valuation_sanity():
     return "PASS", f"{len(val)} 檔估值無明顯矛盾"
 
 
+def check_eps_vs_official_pe():
+    val = load(os.path.join(DATA, "valuation", "_latest.json")) or {}
+    latest = load(os.path.join(FUND, "_latest.json")) or {}
+    prices = load(os.path.join(DATA, "prices.json")) or {}
+    rows = []
+    for c, v in latest.items():
+        pe, e, s = (val.get(c) or {}).get("pe"), v.get("eps_ttm"), prices.get(c) or {}
+        if pe and pe > 0 and e and e > 0 and s:
+            off = s[max(s)] / pe
+            rows.append((abs(e / off - 1), c, e, round(off, 2)))
+    if not rows:
+        return "SKIP", "沒有可比對的 eps_ttm / 官方本益比"
+    bad = sorted((r for r in rows if r[0] > EPS_OFF_DIFF), reverse=True)
+    frac = len(bad) / len(rows)
+    msg = (f"{len(bad)}/{len(rows)} 檔（{frac:.1%}）eps_ttm 與 收盤÷官方本益比 差 >{EPS_OFF_DIFF:.0%}："
+           + "、".join(f"{c} {e}/{o}" for _, c, e, o in bad[:6]))
+    if frac > EPS_OFF_WARN_FRAC:
+        return "WARN", msg + "（比例異常，查 metrics.decumulate / repair_eps_outliers 是否回歸）"
+    return "PASS", msg + "（多為面額變更、財報日後股本變動）"
+
+
 def check_period_keys():
     r = scan()
     if r["key_errors"]:
@@ -747,6 +774,7 @@ CHECKS = [
     ("b", "eps-ttm-consistency", check_eps_ttm),
     ("b", "revenue-yoy-recompute", check_revenue_yoy),
     ("b", "valuation-sanity", check_valuation_sanity),
+    ("b", "eps-vs-official-pe", check_eps_vs_official_pe),
     ("b", "price-return-vs-sector-gainer", check_price_vs_sector_gainer),
 ]
 

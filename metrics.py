@@ -128,6 +128,8 @@ def _extract(rec, mapping, source, idx):
         for col in candidates[idx]:
             v = rec.get(col)
             if v is not None and v != "":
+                if canon in ("total_assets", "equity") and v == 0:
+                    continue  # FinMind 缺值時填 0(3708/3709/6616… 2015-2020 數期)，不是真的 0
                 if source == "finmind" and canon in MONETARY and isinstance(v, (int, float)):
                     v = v / 1000
                 out[canon] = v
@@ -250,25 +252,62 @@ def eps_on_basis(inc, q, p):
     return round(e * sq / sp, 2), True
 
 
+def shares_by(rec, key):
+    eps, ni = rec.get("eps"), rec.get(key)
+    if not isinstance(eps, (int, float)) or not isinstance(ni, (int, float)) or eps * ni <= 0 or abs(eps) < 0.1:
+        return None
+    return ni / eps
+
+
+def sign_flipped(rec):
+    eps = rec.get("eps")
+    nis = [rec.get(k) for k in ("net_income_parent", "net_income") if isinstance(rec.get(k), (int, float))]
+    return isinstance(eps, (int, float)) and abs(eps) >= 0.05 and bool(nis) and all(eps * n < 0 for n in nis)
+
+
 def repair_eps_outliers(inc):
-    """FinMind 單季 EPS 約 1% 是孤立錯值(1608 華榮 2025Q4：母公司淨利 3.2 億、EPS 4.49，實應 ~0.75；
-    或跟淨利異號)。特徵：只有這一季的隱含股數跳開，前後季股數彼此一致 —— 真的配股會延續，不會彈回。
-    → 用前後季平均股數 × 本季母公司淨利重算。最新一季沒有後一季可對照，不動(那期是 TWSE 比例法)。"""
+    """FinMind 單季值的兩種孤立錯值(2026-10-03 稽核)：
+    1. 母公司淨利欄偶爾放「年初至今累計」(7642 昶瑞 2025Q4：9473 萬 = 四季合計，合併淨利 1647 萬才對)
+       → 跟合併淨利差 >50% 且 ≈ 同年合併淨利累計 → 丟掉該期母公司淨利(退回合併淨利)。
+    2. EPS 錯(1608 華榮 2025Q4：淨利 3.2 億、EPS 4.49，實應 ~0.75；或跟淨利異號)。
+       特徵：只有這一季的隱含股數跳開，前後季股數彼此一致 —— 真的配股會延續，不會彈回。
+       合併淨利或母公司淨利任一推得出正常股數 → EPS 沒錯(是那個淨利欄錯)，不動 EPS。
+       兩個都推不出 → 用前後季平均股數 × 淨利重算 EPS。最新一季沒有後一季可對照，不動。"""
+    for p, r in inc.items():
+        y, q = q_tuple(p)
+        par, con = r.get("net_income_parent"), r.get("net_income")
+        if q == 1 or not isinstance(par, (int, float)) or not isinstance(con, (int, float)):
+            continue
+        ytd = [inc.get(f"{y}Q{k}", {}).get("net_income") for k in range(1, q + 1)]
+        if all(isinstance(v, (int, float)) for v in ytd):
+            cum = sum(ytd)
+            if abs(par - con) > abs(con) * 0.5 and abs(par - cum) <= abs(cum) * 0.02:
+                inc[p] = {k: v for k, v in r.items() if k != "net_income_parent"}
     ps = sorted(inc, key=q_tuple)
     for a, p, b in zip(ps, ps[1:], ps[2:]):
         if prev_q(p) != a or prev_q(b) != p:
             continue
         sa, sb = implied_shares(inc[a]), implied_shares(inc[b])
-        if not sa or not sb or not 1 / SHARE_BASIS_RATIO < sa / sb < SHARE_BASIS_RATIO:
-            continue
         r = inc[p]
+        if sa and sb and 1 / SHARE_BASIS_RATIO < sa / sb < SHARE_BASIS_RATIO:
+            ref = (sa + sb) / 2
+        elif sa and sign_flipped(r):
+            ref = sa  # 前後季股數不一致(中間配股/面額變更)，但 EPS 與兩種淨利都異號 → 必錯，用前一季股數
+        else:
+            continue
+        normal = lambda s_: s_ and 1 / 1.5 < s_ / ref < 1.5
+        sp_par, sp_con = shares_by(r, "net_income_parent"), shares_by(r, "net_income")
+        if normal(sp_par):
+            continue
+        if normal(sp_con):  # EPS 沒錯，是母公司淨利欄錯
+            if "net_income_parent" in r:
+                inc[p] = {k: v for k, v in r.items() if k != "net_income_parent"}
+            continue
         eps, ni = r.get("eps"), r.get(parent_ni_key(r))
         if not isinstance(eps, (int, float)) or not isinstance(ni, (int, float)) or ni == 0:
             continue
-        sp = implied_shares(r)
-        ref = (sa + sb) / 2
-        if (sp and 1 / 1.5 < sp / ref < 1.5) or (not sp and abs(eps) < 0.1 and eps * ni >= 0):
-            continue  # 本季股數正常，或 EPS 太小推不出股數但沒有異號
+        if abs(eps) < 0.1 and eps * ni >= 0:
+            continue  # EPS 太小推不出股數、但沒有異號
         inc[p] = {**r, "eps": round(ni / ref, 2), "eps_repaired": True}
     return inc
 
