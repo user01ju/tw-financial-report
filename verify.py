@@ -186,7 +186,7 @@ def scan():
 
     r = {
         "codes": [], "key_errors": [], "future_periods": [],
-        "decum_checked": 0, "decum_skipped": 0, "decum_violations": [],
+        "decum_checked": 0, "decum_skipped": 0, "decum_violations": [], "decum_restated": [],
         "dropped": [], "inc_periods": 0,
         "qm": [], "qm_missing": 0,
         "eps_checked": 0, "eps_bad": [],
@@ -234,7 +234,9 @@ def scan():
             r["decum_checked"] += 1
             s = sum(parts)
             if abs(raw) > 1 and abs(s - raw) / abs(raw) > 1e-4:
-                r["decum_violations"].append((code, p, raw, s))
+                # MOPS 單季覆蓋的期別：差額 = 公司重編了前季(TWSE 快照留的是原始前季)，MOPS 才對
+                key = "decum_restated" if q.get(p, {}).get("src_mops") else "decum_violations"
+                r[key].append((code, p, raw, s))
 
         if not q:
             continue
@@ -277,11 +279,16 @@ def scan():
                     r["eps_bad"].append((code, lp, round(sum(eps), 2), q[lp]["eps_ttm"]))
 
         # --- revenue_yoy 從存值重算（全部期別，不只最新） ---
+        mops = None
         for p, rec in q.items():
             if "revenue_yoy" not in rec or rec.get("revenue") is None:
                 continue
             py = f"{int(p[:4]) - 1}Q{p[-1]}"
             base = q.get(py, {}).get("revenue")
+            if rec.get("src_mops"):  # metrics 用 MOPS 重編後的去年同季當基期
+                if mops is None:
+                    mops = load(os.path.join(DATA, "mops_income", f"{code}.json")) or {}
+                base = ((mops.get(p) or {}).get("ly") or {}).get("revenue", base)
             if base in (None, 0):
                 continue
             r["yoy_checked"] += 1
@@ -499,6 +506,10 @@ def check_decumulation():
         return "FAIL", (f"{len(r['decum_violations'])}/{r['decum_checked']} 期去累計恆等式不成立，"
                         f"例：{c} {p} 原始累計={raw:.0f} 但單季合計={s:.0f}"
                         "（累計 YTD 污染回歸？見 metrics.decumulate）")
+    if r["decum_restated"]:
+        ex = "、".join(f"{c}/{p}" for c, p, _, _ in r["decum_restated"][:5])
+        return "WARN", (f"{r['decum_checked']} 期恆等式成立；另 {len(r['decum_restated'])} 期是 MOPS 單季覆蓋、"
+                        f"前季有重編所以 TWSE 累計 ≠ 原始前季+本季（MOPS 為準）：{ex}")
     return "PASS", (f"{r['decum_checked']} 期非 Q1 損益的去累計恆等式成立"
                     f"（skipped={r['decum_skipped']}）")
 

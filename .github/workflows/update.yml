@@ -44,6 +44,13 @@ jobs:
       - name: 抓收盤更新月價序列 (動能用)
         run: python fetch_prices.py
 
+      # MOPS 單季 + 重編後去年同季（見 fetch_mops_income.py）。只抓已申報、還沒抓過的公司；
+      # 每次上限 400 家（約 10 分鐘），季報申報期分幾天補齊。MOPS 掛掉/封 IP 不擋整個更新。
+      - name: 抓 MOPS 單季損益 (重編後去年同季)
+        continue-on-error: true
+        timeout-minutes: 20
+        run: python fetch_mops_income.py --max 400
+
       - name: 重算基本面指標
         run: python metrics.py
 

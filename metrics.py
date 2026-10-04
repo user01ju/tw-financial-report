@@ -312,7 +312,23 @@ def repair_eps_outliers(inc):
     return inc
 
 
-def quarterly_metrics(inc, bal):
+def apply_mops(inc, code):
+    """MOPS 單季值覆蓋去累計結果，回傳 {period: 去年同季(重編後)}。見 fetch_mops_income.py。"""
+    mops = load(os.path.join(config.DATA_DIR, "mops_income", f"{code}.json"))
+    ly = {}
+    for p, d in mops.items():
+        cur = {k: v for k, v in (d.get("cur") or {}).items() if isinstance(v, (int, float))}
+        if cur:
+            base = {k: v for k, v in inc.get(p, {}).items() if k not in ("eps_repaired",)}
+            inc[p] = {**base, **cur, "src_mops": True}
+            if "net_income_parent" not in cur:  # MOPS 沒有就別留著可能錯的舊值
+                inc[p].pop("net_income_parent", None)
+        if d.get("ly"):
+            ly[p] = d["ly"]
+    return ly
+
+
+def quarterly_metrics(inc, bal, mops_ly=None):
     periods = sorted(set(inc) | set(bal), key=q_tuple)
     out = {}
     for p in periods:
@@ -334,13 +350,20 @@ def quarterly_metrics(inc, bal):
             "roe_q": pct(ni, eq),
             "roa_q": pct(ni, b.get("total_assets")),
             "eps_repaired": i.get("eps_repaired"),
+            "src_mops": i.get("src_mops"),
             # 本業占比 = 營業利益 / 稅前淨利；稅前 ≤0 時無意義。<50% 代表獲利主要靠業外
             "core_ratio": pct(i.get("operating_income"), i.get("pretax_income"))
             if (i.get("pretax_income") or 0) > 0 else None,
         }
         # YoY(單季)
         py = prev_year_q(p)
-        if py in inc:
+        mly = (mops_ly or {}).get(p)
+        if mly:  # MOPS 去年同季是追溯重編後的(IFRS 17、合併、配股調整 EPS)，比我們存的舊值可比
+            rec["revenue_yoy"] = pct_change(rev_ok(rev), rev_ok(mly.get("revenue")))
+            for f in ("operating_income", "eps", "net_income"):
+                rec[f + "_yoy"] = pct_change(i.get(f), mly.get(f))
+                rec[f + "_yoy_turn"] = yoy_turn(i.get(f), mly.get(f))
+        elif py in inc:
             rec["revenue_yoy"] = pct_change(rev_ok(rev), rev_ok(inc[py].get("revenue")))
             for f in ("operating_income", "eps", "net_income"):
                 now, before = i.get(f), inc[py].get(f)
@@ -621,12 +644,13 @@ def main():
             INCOME_MAP,
         )
         inc = repair_eps_outliers(decumulate(inc, inc_src))
+        mops_ly = apply_mops(inc, code)
         bal, _ = merge_periods(
             os.path.join(config.DATA_DIR, "balance_sheet", f"{code}.json"),
             os.path.join(config.DATA_DIR, "finmind", "balance_sheet", f"{code}.json"),
             BALANCE_MAP,
         )
-        q = quarterly_metrics(inc, bal)
+        q = quarterly_metrics(inc, bal, mops_ly)
         mo, msum = monthly_metrics(code)
         if not q and not mo:
             continue
