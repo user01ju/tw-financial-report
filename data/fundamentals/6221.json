@@ -2398,7 +2398,6 @@
    "current_ratio": 177.71,
    "debt_ratio": 53.03,
    "eps": 0.87,
-   "eps_basis_adj": true,
    "eps_ttm": 2.35,
    "eps_yoy": 35.94,
    "equity": 3041549.0,
@@ -2424,6 +2423,7 @@
    "roa_ttm": 6.1,
    "roe_q": 4.82,
    "roe_ttm": 13.0,
+   "src_mops": true,
    "total_assets": 6475508.0,
    "total_liabilities": 3433959.0
   }

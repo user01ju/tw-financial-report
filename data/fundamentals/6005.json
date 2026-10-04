@@ -2181,19 +2181,23 @@
    "total_liabilities": 340347500.0
   },
   "2026Q2": {
+   "core_ratio": 70.35,
    "current_assets": 500153116.0,
    "current_liabilities": 460652986.0,
    "current_ratio": 108.57,
    "debt_ratio": 89.2,
    "eps": 2.05,
    "eps_ttm": 5.1,
-   "eps_yoy": 286.79,
+   "eps_yoy": 345.65,
    "equity": 56799613.0,
    "net_income": 5328055.0,
    "net_income_parent": 5040253.0,
    "net_income_ttm": 12475229.0,
    "net_income_yoy": 314.93,
    "net_margin": 44.15,
+   "operating_income": 4372215.0,
+   "operating_income_yoy": 354.24,
+   "operating_margin": 36.23,
    "pretax_income": 6215090.0,
    "revenue": 12066734.0,
    "revenue_ttm": 29986329.0,
@@ -2203,6 +2207,7 @@
    "roa_ttm": 2.37,
    "roe_q": 9.38,
    "roe_ttm": 21.96,
+   "src_mops": true,
    "total_assets": 526140638.0,
    "total_liabilities": 469341025.0
   }

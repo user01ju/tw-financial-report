@@ -2391,7 +2391,8 @@
    "debt_ratio": 50.5,
    "eps": 0.45,
    "eps_ttm": 1.41,
-   "eps_yoy": 40.62,
+   "eps_yoy": 350.0,
+   "eps_yoy_turn": "轉盈",
    "equity": 3487512.0,
    "equity_parent": 3487512.0,
    "gross_margin": 31.92,
@@ -2399,7 +2400,8 @@
    "net_income": 89647.0,
    "net_income_parent": 89647.0,
    "net_income_ttm": 280764.0,
-   "net_income_yoy": 41.93,
+   "net_income_yoy": 347.75,
+   "net_income_yoy_turn": "轉盈",
    "net_margin": 7.15,
    "operating_expenses": 307988.0,
    "operating_income": 91946.0,
@@ -2415,6 +2417,7 @@
    "roa_ttm": 3.98,
    "roe_q": 2.57,
    "roe_ttm": 8.05,
+   "src_mops": true,
    "total_assets": 7045640.0,
    "total_liabilities": 3558128.0
   }

@@ -2177,6 +2177,7 @@
    "total_liabilities": 8887834.0
   },
   "2026Q2": {
+   "core_ratio": 107.58,
    "current_assets": 15137015.0,
    "current_liabilities": 10978151.0,
    "current_ratio": 137.88,
@@ -2192,6 +2193,10 @@
    "net_income_yoy": 1989.27,
    "net_income_yoy_turn": "轉盈",
    "net_margin": 56.81,
+   "operating_income": 481671.0,
+   "operating_income_yoy": 2576.84,
+   "operating_income_yoy_turn": "轉盈",
+   "operating_margin": 68.48,
    "pretax_income": 447720.0,
    "revenue": 703411.0,
    "revenue_ttm": 1793958.0,
@@ -2201,6 +2206,7 @@
    "roa_ttm": 6.3,
    "roe_q": 6.34,
    "roe_ttm": 17.37,
+   "src_mops": true,
    "total_assets": 17386050.0,
    "total_liabilities": 11084339.0
   }

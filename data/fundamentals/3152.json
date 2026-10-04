@@ -2308,9 +2308,10 @@
    "current_liabilities": 754917.0,
    "current_ratio": 354.77,
    "debt_ratio": 17.41,
-   "eps": 1.6,
-   "eps_ttm": 5.32,
-   "eps_yoy": -71.58,
+   "eps": 1.89,
+   "eps_basis_adj": true,
+   "eps_ttm": 6.95,
+   "eps_yoy": -66.43,
    "equity": 3645766.0,
    "gross_margin": 42.71,
    "gross_profit": 173561.0,
@@ -2332,6 +2333,7 @@
    "roa_ttm": 7.98,
    "roe_q": 2.63,
    "roe_ttm": 9.66,
+   "src_mops": true,
    "total_assets": 4414415.0,
    "total_liabilities": 768649.0
   }

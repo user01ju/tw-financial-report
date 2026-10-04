@@ -2390,7 +2390,7 @@
    "eps": 0.34,
    "eps_basis_adj": true,
    "eps_ttm": 0.97,
-   "eps_yoy": 0.0,
+   "eps_yoy": -15.0,
    "equity": 11737373.0,
    "equity_parent": 10273704.0,
    "gross_margin": 31.74,
@@ -2414,6 +2414,7 @@
    "roa_ttm": 4.64,
    "roe_q": 3.61,
    "roe_ttm": 10.49,
+   "src_mops": true,
    "total_assets": 26499317.0,
    "total_liabilities": 14761944.0
   }

@@ -2467,9 +2467,8 @@
    "current_ratio": 111.85,
    "debt_ratio": 81.72,
    "eps": -0.75,
-   "eps_basis_adj": true,
    "eps_ttm": -1.59,
-   "eps_yoy": -66.67,
+   "eps_yoy": -50.0,
    "eps_yoy_turn": "虧損擴大",
    "equity": 207952.0,
    "equity_parent": 207952.0,
@@ -2496,6 +2495,7 @@
    "roa_ttm": -8.41,
    "roe_q": -22.04,
    "roe_ttm": -46.0,
+   "src_mops": true,
    "total_assets": 1137774.0,
    "total_liabilities": 929822.0
   }
