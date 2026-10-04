@@ -225,6 +225,8 @@ def scan():
                 continue
             if p.endswith("Q1"):
                 continue  # Q1 累計即單季，無可驗證的恆等式
+            if "繼續營業單位本期純益（純損）" in rec:
+                continue  # 保險格式：TWSE「營業收入」非總收入，fundamentals 營收改用 MOPS 保險收入，恆等式不適用
             raw = rec.get("營業收入")
             y, nq = p[:4], int(p[-1])
             parts = [q.get(f"{y}Q{k}", {}).get("revenue") for k in range(1, nq + 1)]
@@ -288,7 +290,7 @@ def scan():
             if rec.get("src_mops"):  # metrics 用 MOPS 重編後的去年同季當基期
                 if mops is None:
                     mops = load(os.path.join(DATA, "mops_income", f"{code}.json")) or {}
-                base = ((mops.get(p) or {}).get("ly") or {}).get("revenue", base)
+                base = mops_ly_revenue(mops, p, base)
             if base in (None, 0):
                 continue
             r["yoy_checked"] += 1
@@ -480,6 +482,21 @@ def check_eps_vs_official_pe():
     if frac > EPS_OFF_WARN_FRAC:
         return "WARN", msg + "（比例異常，查 metrics.decumulate / repair_eps_outliers 是否回歸）"
     return "PASS", msg + "（多為面額變更、財報日後股本變動）"
+
+
+def mops_ly_revenue(mops, p, default):
+    """與 metrics.apply_mops 同規則的去年同季營收：ly；上櫃 Q1 只有累計；Q4 = 去年全年 − 去年前三季累計。"""
+    d = mops.get(p) or {}
+    if (d.get("ly") or {}).get("revenue") is not None:
+        return d["ly"]["revenue"]
+    if p.endswith("Q1") and (d.get("ytd_ly") or {}).get("revenue") is not None:
+        return d["ytd_ly"]["revenue"]
+    if p.endswith("Q4"):
+        a = (d.get("ytd_ly") or {}).get("revenue")
+        b = ((mops.get(p[:4] + "Q3") or {}).get("ytd_ly") or {}).get("revenue")
+        if a is not None and b is not None:
+            return a - b
+    return default
 
 
 def check_period_keys():

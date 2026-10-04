@@ -312,17 +312,47 @@ def repair_eps_outliers(inc):
     return inc
 
 
+def mops_q4_single(year_total, q3_ytd):
+    """MOPS Q4 只有全年數：單季 = 全年 − 前三季累計。EPS 不能相減(配股追溯會錯)，
+    用 單季母公司淨利 × 全年 EPS/全年母公司淨利。"""
+    if not year_total or not q3_ytd:
+        return {}
+    out = {k: v - q3_ytd[k] for k, v in year_total.items()
+           if k != "eps" and isinstance(v, (int, float)) and isinstance(q3_ytd.get(k), (int, float))}
+    e, e3 = year_total.get("eps"), q3_ytd.get("eps")
+    if not isinstance(e, (int, float)):
+        return out
+    # 預設 全年 EPS − 前三季累計 EPS(業界/官方本益比的算法)；只有前三季→全年股數變動 >1.25 倍(配股追溯)
+    # 時才改用 單季淨利 × 全年 EPS/全年淨利。比例法在全年淨利很小、有少數股權時會失準(5309)
+    # 只信母公司淨利推的股數；合併淨利含少數股權，推出來的股數會亂跳(8050 廣積 2.4 倍)→ 誤判配股
+    k = "net_income_parent"
+    has_k = isinstance(year_total.get(k), (int, float)) and isinstance(q3_ytd.get(k), (int, float))
+    sa, s3 = (shares_by(year_total, k), shares_by(q3_ytd, k)) if has_k else (None, None)
+    if isinstance(e3, (int, float)) and not (sa and s3 and not 1 / SHARE_BASIS_RATIO < sa / s3 < SHARE_BASIS_RATIO):
+        out["eps"] = round(e - e3, 2)
+    elif k in out and sa:
+        out["eps"] = round(out[k] / sa, 2)
+    return out
+
+
 def apply_mops(inc, code):
     """MOPS 單季值覆蓋去累計結果，回傳 {period: 去年同季(重編後)}。見 fetch_mops_income.py。"""
     mops = load(os.path.join(config.DATA_DIR, "mops_income", f"{code}.json"))
+    for p, d in mops.items():  # Q4 沒有單季欄 → 用前三季累計推；上櫃 Q1 只有累計 = 單季
+        if p.endswith("Q1") and not d.get("cur") and d.get("ytd"):
+            d["cur"], d["ly"] = d["ytd"], d.get("ytd_ly") or {}
+        if p.endswith("Q4") and not d.get("cur"):
+            q3 = mops.get(p[:4] + "Q3") or {}
+            d["cur"] = mops_q4_single(d.get("ytd"), q3.get("ytd"))
+            d["ly"] = mops_q4_single(d.get("ytd_ly"), q3.get("ytd_ly"))
     ly = {}
     for p, d in mops.items():
         cur = {k: v for k, v in (d.get("cur") or {}).items() if isinstance(v, (int, float))}
         if cur:
             base = {k: v for k, v in inc.get(p, {}).items() if k not in ("eps_repaired",)}
+            # MOPS 沒有母公司淨利時保留舊值(FinMind 母公司淨利對帳 TWSE 1786/1787 一致，累計型錯值
+            # 已由 repair_eps_outliers 丟掉)。丟掉會讓有少數股權的公司用合併淨利推股數 → 誤判配股
             inc[p] = {**base, **cur, "src_mops": True}
-            if "net_income_parent" not in cur:  # MOPS 沒有就別留著可能錯的舊值
-                inc[p].pop("net_income_parent", None)
         if d.get("ly"):
             ly[p] = d["ly"]
     return ly

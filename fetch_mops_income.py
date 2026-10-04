@@ -9,7 +9,15 @@
   共同控制合併、配股追溯調整 EPS。舊值當基期，YoY 對這些公司是錯的。
 - 單季 EPS 也是公司自己報的值，不必再用比例近似。
 
-輸出 data/mops_income/<code>.json  {"2026Q2": {"cur": {...}, "ly": {...}}}（金額仟元，EPS 元）
+輸出 data/mops_income/<code>.json  {"2026Q2": {"cur", "ly", "ytd", "ytd_ly"}}（金額仟元，EPS 元）
+  cur/ly = 本季/去年同季單季；ytd/ytd_ly = 本年/去年累計。
+
+⚠️ 欄位順序依季別不同，一律看 result.titles 判斷（2026-10-04 踩過：照 Q2 的順序寫死，Q1 的「去年同季」
+其實讀到本季）：
+  Q1: [115年01月01日至03月31日, 115年第1季, 114年…, 114年第1季]
+  Q2/Q3: [115年第2季, 114年第2季, 115年01月01日至06月30日, 114年…]
+  Q4: [114年度, 113年度]  ← 沒有單季；metrics 用 Q4 年度 − Q3 累計推單季
+  上櫃 Q1: [115年01月01日至03月31日, 114年…] ← 只有累計，Q1 累計 = 單季
 
 用法:
     python fetch_mops_income.py                 # TWSE 已申報的最新一季、只抓已申報的公司，已有的跳過
@@ -70,19 +78,37 @@ def num(s):
     return -v if neg else v
 
 
-def parse(report):
-    rows = [(r[0].strip().replace("　", ""), num(r[1]), num(r[3])) for r in report if len(r) >= 4]
-    cur, ly = {}, {}
+def columns(titles, roc, season):
+    """titles(不含「會計項目」) → {cur, ly, ytd, ytd_ly: 該欄在 reportList 列中的索引}"""
+    want = {"cur": f"{roc}年第{season}季", "ly": f"{roc - 1}年第{season}季",
+            "ytd": (f"{roc}年01月01日", f"{roc}年度"), "ytd_ly": (f"{roc - 1}年01月01日", f"{roc - 1}年度")}
+    out = {}
+    for i, t in enumerate(t["main"].strip() for t in titles if t["main"].strip() != "會計項目"):
+        for k, w in want.items():
+            if k not in out and (t == w if isinstance(w, str) else t.startswith(w)):
+                out[k] = 1 + 2 * i
+    return out
+
+
+def parse(result, roc, season):
+    cols = columns(result.get("titles") or [], roc, season)
+    # 2025 年報表用「∕」(U+2215)、2026 年用全形「／」：不統一的話 2025 的母公司淨利整欄對不到
+    norm = lambda n: n.strip().replace("　", "").replace("∕", "／").replace("/", "／")
+    rows = [(norm(r[0]), r) for r in result.get("reportList") or []]
+    out = {k: {} for k in cols}
     for canon, names in ROWS.items():
         for name in names:
-            hit = next((r for r in rows if r[0] == name and (r[1] is not None or r[2] is not None)), None)
+            hit = next((r for n, r in rows if n == name
+                        and any(i < len(r) and num(r[i]) is not None for i in cols.values())), None)
             if hit:
-                if hit[1] is not None:
-                    cur[canon] = hit[1]
-                if hit[2] is not None:
-                    ly[canon] = hit[2]
+                for k, i in cols.items():
+                    if i < len(hit) and num(hit[i]) is not None:
+                        out[k][canon] = num(hit[i])
                 break
-    return cur, ly
+    out = {k: v for k, v in out.items() if v}
+    if season == "1" and "cur" not in out and "ytd" in out:  # 上櫃 Q1 只列累計區間，Q1 累計 = 單季
+        out["cur"], out["ly"] = out["ytd"], out.get("ytd_ly", {})
+    return out
 
 
 def load(p):
@@ -139,14 +165,13 @@ def main():
                 break
             continue
         fails = 0
-        report = ((j.get("result") or {}).get("reportList")) or []
-        cur, ly = parse(report)
-        if not cur:
+        got_ = parse(j.get("result") or {}, int(roc), season)
+        if not (got_.get("cur") or got_.get("ytd")):
             empty += 1  # 尚未申報 / 查無資料
         else:
             p = os.path.join(OUT_DIR, f"{c}.json")
             d = load(p)
-            d[period] = {"cur": cur, "ly": ly}
+            d[period] = got_
             with open(p, "w", encoding="utf-8") as f:
                 json.dump(d, f, ensure_ascii=False, indent=1, sort_keys=True)
             got += 1
