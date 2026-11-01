@@ -11,7 +11,39 @@
   }
  },
  "name": "中光電投控",
- "quarterly": {},
+ "quarterly": {
+  "2026Q3": {
+   "cogs": 8735779.0,
+   "core_ratio": -31.84,
+   "current_assets": 37055492.0,
+   "current_liabilities": 29508948.0,
+   "current_ratio": 125.57,
+   "debt_ratio": 46.59,
+   "eps": 0.03,
+   "eps_yoy": -87.5,
+   "equity": 35162250.0,
+   "equity_parent": 33245233.0,
+   "gross_margin": 15.57,
+   "gross_profit": 1611462.0,
+   "net_income": 14832.0,
+   "net_income_parent": 13001.0,
+   "net_income_yoy": -82.95,
+   "net_margin": 0.14,
+   "operating_expenses": 1631317.0,
+   "operating_income": -19855.0,
+   "operating_income_yoy": 91.53,
+   "operating_income_yoy_turn": "虧損縮小",
+   "operating_margin": -0.19,
+   "pretax_income": 62366.0,
+   "revenue": 10347241.0,
+   "revenue_yoy": 4.01,
+   "roa_q": 0.02,
+   "roe_q": 0.04,
+   "src_mops": true,
+   "total_assets": 65839733.0,
+   "total_liabilities": 30677483.0
+  }
+ },
  "sector": "LCD-零組件",
  "sector_parent": "電子中游"
 }
