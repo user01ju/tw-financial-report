@@ -26,6 +26,9 @@ export const isFinOrBuild = (r) =>
   r.sector
     ? r.sector_parent === "金融" || r.sector === "營建"
     : /金融|建材營造/.test(r.industry || "");
+// 月營收頁只排營建(完工認列 → 月營收一跳一跳，YoY/新高訊號全是雜訊)
+export const isBuild = (r) =>
+  r.sector ? r.sector === "營建" : /建材營造/.test(r.industry || "");
 
 // 官方估值的已知上游錯誤 → 顯示「—」(門檻同 verify.py valuation-sanity)：
 // TPEX 面額變更後 PB 沒調(5904 寶雅 1.00，實際 ~10)、股票股利換算錯(5314 世紀* 殖利率 105%)

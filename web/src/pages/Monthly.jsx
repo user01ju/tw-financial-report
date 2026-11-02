@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
-import { getLatestMonthly } from "../lib/data.js";
+import { getLatestMonthly, isBuild } from "../lib/data.js";
 import { useUrlState } from "../lib/useUrlState.js";
 import { useScrollRestore } from "../lib/useScrollRestore.js";
 import TvButton from "../components/TvButton.jsx";
@@ -17,8 +17,8 @@ const COLS = [
 ];
 
 const DEFAULTS = {
-  q: "", sector: "", yoy: "",
-  turn: false, high: false, breakout: false,
+  q: "", sector: "", yoy: "", acc: "", rev: "",
+  turn: false, high: false, breakout: false, ex: true,
   sk: "yoy", sd: "-1",
 };
 
@@ -29,8 +29,8 @@ export default function Monthly() {
   const [err, setErr] = useState(null);
   const [f, setF] = useUrlState(DEFAULTS);
   const {
-    q, sector: ind, yoy: minYoy,
-    turn: turnPos, high: highOnly, breakout: breakoutOnly,
+    q, sector: ind, yoy: minYoy, acc: minAcc, rev: minRev,
+    turn: turnPos, high: highOnly, breakout: breakoutOnly, ex: exBuild,
   } = f;
   const sort = { k: f.sk, dir: +f.sd };
   const setSort = (k) =>
@@ -60,10 +60,15 @@ export default function Monthly() {
     if (!rows) return [];
     const qq = q.trim();
     const my = minYoy === "" ? null : +minYoy;
+    const ma = minAcc === "" ? null : +minAcc;
+    const mr = minRev === "" ? null : +minRev * 1e5; // 億 → 仟元
     let out = rows.filter((r) => {
+      if (exBuild && isBuild(r)) return false;
       if (ind && r.sector !== ind) return false;
       if (qq && !r.code.includes(qq) && !(r.name || "").includes(qq)) return false;
       if (my != null && !(r.yoy >= my)) return false;
+      if (ma != null && !(r.mrev_yoy_accel >= ma)) return false;
+      if (mr != null && !(r.revenue >= mr)) return false;
       if (turnPos && r.mrev_turn !== 1) return false;
       if (highOnly && !r.mrev_high_36m) return false;
       if (breakoutOnly && r.mrev_breakout !== 1) return false;
@@ -78,7 +83,7 @@ export default function Monthly() {
       return (x - y) * dir;
     });
     return out;
-  }, [rows, q, ind, minYoy, turnPos, highOnly, breakoutOnly, sort]);
+  }, [rows, q, ind, minYoy, minAcc, minRev, turnPos, highOnly, breakoutOnly, exBuild, sort]);
 
   const shown = view.slice(0, 250);
   const th = (k, label, cls) => (
@@ -121,6 +126,14 @@ export default function Monthly() {
           <label>YoY ≥</label>
           <input type="number" value={minYoy} onChange={(e) => setF({ yoy: e.target.value })} placeholder="0" />
         </div>
+        <div className="field range">
+          <label title="近3月YoY均值 − 前3月YoY均值（百分點）">加速度 ≥</label>
+          <input type="number" value={minAcc} onChange={(e) => setF({ acc: e.target.value })} placeholder="0" />
+        </div>
+        <div className="field range">
+          <label>月營收 ≥ (億)</label>
+          <input type="number" value={minRev} onChange={(e) => setF({ rev: e.target.value })} placeholder="1" />
+        </div>
         <label className="toggle">
           <input type="checkbox" checked={turnPos} onChange={(e) => setF({ turn: e.target.checked })} />
           YoY 剛轉正
@@ -132,6 +145,10 @@ export default function Monthly() {
         <label className="toggle">
           <input type="checkbox" checked={breakoutOnly} onChange={(e) => setF({ breakout: e.target.checked })} />
           3m突破12m
+        </label>
+        <label className="toggle">
+          <input type="checkbox" checked={exBuild} onChange={(e) => setF({ ex: e.target.checked })} />
+          排除營建
         </label>
         <div className="count">
           符合 <b>{view.length}</b> 檔{view.length > 250 && <> · 顯示前 250</>}
