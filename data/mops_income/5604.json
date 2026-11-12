@@ -22,5 +22,51 @@
    "pretax_income": 28530.0,
    "revenue": 39606.0
   }
+ },
+ "2026Q3": {
+  "cur": {
+   "cogs": 7187.0,
+   "eps": 0.41,
+   "gross_profit": 34097.0,
+   "net_income": 44489.0,
+   "net_income_parent": 44489.0,
+   "operating_expenses": 5835.0,
+   "operating_income": 28262.0,
+   "pretax_income": 50502.0,
+   "revenue": 41284.0
+  },
+  "ly": {
+   "cogs": 7720.0,
+   "eps": 0.2,
+   "gross_profit": 32277.0,
+   "net_income": 22278.0,
+   "net_income_parent": 22278.0,
+   "operating_expenses": 5851.0,
+   "operating_income": 26426.0,
+   "pretax_income": 27628.0,
+   "revenue": 39997.0
+  },
+  "ytd": {
+   "cogs": 21117.0,
+   "eps": 1.04,
+   "gross_profit": 102017.0,
+   "net_income": 112855.0,
+   "net_income_parent": 112855.0,
+   "operating_expenses": 16362.0,
+   "operating_income": 85655.0,
+   "pretax_income": 130438.0,
+   "revenue": 123134.0
+  },
+  "ytd_ly": {
+   "cogs": 21710.0,
+   "eps": 0.63,
+   "gross_profit": 97298.0,
+   "net_income": 68923.0,
+   "net_income_parent": 68923.0,
+   "operating_expenses": 16496.0,
+   "operating_income": 80802.0,
+   "pretax_income": 85357.0,
+   "revenue": 119008.0
+  }
  }
 }
