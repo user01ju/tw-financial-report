@@ -7,11 +7,11 @@ name: Verify data (Tier B)
 
 on:
   schedule:
-    # 台北 21:30（UTC 13:30），週一~五。
-    # 排在本 repo 的 update（UTC 09:00）與 sector_gainer 的 Daily update 之後，
+    # 台北 21:37（UTC 13:37），週一~五。
+    # 排在本 repo 的 update（UTC 09:17）與 sector_gainer 的 Daily update 之後，
     # 兩邊都更新完才比對，避免「對方還沒跑」造成的無意義 SKIP。
     # 注意 GitHub Actions schedule 常有大幅延遲，這是診斷性排程，不保證準點。
-    - cron: "30 13 * * 1-5"
+    - cron: "37 13 * * 1-5" # 避開整點/半點的排程壅塞
   workflow_dispatch: {}
 
 permissions:

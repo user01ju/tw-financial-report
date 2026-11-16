@@ -18,9 +18,9 @@ exit code：`0` 全過（或只有 SKIP）／`1` 至少一條 FAIL／`2` 沒 FAI
 ## CI 掛法
 
 - **Tier A** → `.github/workflows/update.yml`，位置在 `metrics.py` 之後、commit step 之前。FAIL 擋掉 commit：壞資料不進 repo。
-- **Tier B** → `.github/workflows/verify.yml`，每日台北 21:30（UTC 13:30）獨立排程 + `workflow_dispatch`。排在本 repo 的 update（UTC 09:00）與 sector_gainer 的 daily 之後，兩邊都更新完才比對。FAIL 只讓這個 workflow 紅，不影響資料更新。
+- **Tier B** → `.github/workflows/verify.yml`，每日台北 21:37（UTC 13:37）獨立排程 + `workflow_dispatch`。排在本 repo 的 update（UTC 09:17）與 sector_gainer 的 daily 之後，兩邊都更新完才比對。FAIL 只讓這個 workflow 紅，不影響資料更新。
 
-## Tier A（12 條，零外部呼叫）
+## Tier A（16 條，零外部呼叫）
 
 | check-id | 驗什麼 |
 |---|---|
@@ -36,11 +36,14 @@ exit code：`0` 全過（或只有 SKIP）／`1` 至少一條 FAIL／`2` 沒 FAI
 | `prices-latest-key` | 各檔最新 key = 本月或上月 |
 | `price-return-recompute` | `price_return_1y` 與 prices.json 月序列一致 |
 | `cross-section-size` | `_latest.json` 檔數 vs per-code 檔數 |
+| `eps-sign-vs-net-income` | 單季 EPS 與母公司淨利異號 ≤1%（EPS 去累計回歸） |
+| `mops-ttm-coverage` | 最新季是 MOPS 的檔，TTM 近四季全帶 `src_mops` ≥90%（2026-11-14：MOPS 檔被 commit 進子目錄、metrics 讀不到，一個多月沒人發現） |
+| `valuation-size` | 估值快照檔數 ≥ 橫斷面 80%（單一來源掛掉只剩半個市場） |
 | `field-coverage` | `_latest.json` 的 total_assets / equity / roe_ttm / operating_margin / eps_ttm non-null ≥ 85%（抓上游改欄名） |
 
 `mg-score-median` 的 45–55 是 percentile 加權的數學性質，偏了就是 rank 邏輯壞——這條是 2026-08-01 修的同值 tie bug 的迴歸測試。
 
-## Tier B（5 條，交叉源）
+## Tier B（7 條，交叉源）
 
 | check-id | 驗什麼 |
 |---|---|
@@ -48,6 +51,8 @@ exit code：`0` 全過（或只有 SKIP）／`1` 至少一條 FAIL／`2` 沒 FAI
 | `quarterly-revenue-cumulative-leak` | 季營收超出三個月合計 >25%（多檔或單檔倍數級＝FAIL，孤例＝WARN） |
 | `eps-ttm-consistency` | `eps_ttm` = Σ 近 4 個單季 EPS |
 | `revenue-yoy-recompute` | `revenue_yoy` 從存值重算比對 |
+| `valuation-sanity` | 官方殖利率 >20%、PB 與 本益比×ROE 差 >3 倍（上游錯值，只 WARN） |
+| `eps-vs-official-pe` | `eps_ttm` vs 收盤÷官方本益比差 >30% 的比例。只比已到最新季的檔、本季或上一季 TTM 任一吻合就過（官方本益比換季時點與我方不同步，否則每個財報季都 WARN） |
 | `price-return-vs-sector-gainer` | 抽 3 檔月底收盤與近一年報酬 vs sector_gainer |
 
 前兩條合起來封印 t187ap06 累計 YTD 污染那個 bug class（2026-08-01 用 1232 人工驗出來的那件事）——累計污染再發生時當天就紅。實測 1923 檔 median 偏離 0.00%，超過 3% 的 26 檔集中在金融保險業，那類公司本來就不該用營收比對。

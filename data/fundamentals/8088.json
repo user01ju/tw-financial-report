@@ -2234,7 +2234,7 @@
    "total_liabilities": 119258.0
   },
   "2025Q3": {
-   "cogs": 384669.0,
+   "cogs": 384668.0,
    "core_ratio": 65.27,
    "current_assets": 689842.0,
    "current_liabilities": 106152.0,
@@ -2246,13 +2246,13 @@
    "eps_yoy_turn": "轉盈",
    "equity": 1012812.0,
    "gross_margin": 8.9,
-   "gross_profit": 37581.0,
+   "gross_profit": 37582.0,
    "net_income": 26637.0,
    "net_income_ttm": 77700.0,
    "net_income_yoy": 189.65,
    "net_income_yoy_turn": "轉盈",
    "net_margin": 6.31,
-   "operating_expenses": 17417.0,
+   "operating_expenses": 17418.0,
    "operating_income": 20164.0,
    "operating_income_yoy": 187.93,
    "operating_income_yoy_accel": 74.88,
@@ -2267,6 +2267,7 @@
    "roa_ttm": 6.93,
    "roe_q": 2.63,
    "roe_ttm": 7.67,
+   "src_mops": true,
    "total_assets": 1121537.0,
    "total_liabilities": 108725.0
   },
@@ -2301,6 +2302,7 @@
    "roa_ttm": 7.5,
    "roe_q": 7.8,
    "roe_ttm": 9.37,
+   "src_mops": true,
    "total_assets": 1379474.0,
    "total_liabilities": 274618.0
   },
@@ -2336,6 +2338,7 @@
    "roa_ttm": 10.09,
    "roe_q": 5.34,
    "roe_ttm": 13.41,
+   "src_mops": true,
    "total_assets": 1569781.0,
    "total_liabilities": 388627.0
   },

@@ -2277,9 +2277,8 @@
    "current_ratio": 207.36,
    "debt_ratio": 47.66,
    "eps": 0.26,
-   "eps_basis_adj": true,
    "eps_ttm": 1.09,
-   "eps_yoy": -25.71,
+   "eps_yoy": -46.94,
    "equity": 2283899.0,
    "equity_parent": 2283899.0,
    "gross_margin": 5.38,
@@ -2303,6 +2302,7 @@
    "roa_ttm": 2.84,
    "roe_q": 1.14,
    "roe_ttm": 5.43,
+   "src_mops": true,
    "total_assets": 4363464.0,
    "total_liabilities": 2079565.0
   },
@@ -2339,6 +2339,7 @@
    "roa_ttm": 3.59,
    "roe_q": 2.04,
    "roe_ttm": 6.51,
+   "src_mops": true,
    "total_assets": 4249928.0,
    "total_liabilities": 1908072.0
   },
@@ -2375,6 +2376,7 @@
    "roa_ttm": 3.34,
    "roe_q": 1.28,
    "roe_ttm": 6.13,
+   "src_mops": true,
    "total_assets": 4002157.0,
    "total_liabilities": 1819254.0
   },

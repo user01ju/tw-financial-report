@@ -1877,7 +1877,6 @@
   "2025Q3": {
    "debt_ratio": 94.18,
    "eps": 0.35,
-   "eps_basis_adj": true,
    "eps_ttm": 1.27,
    "eps_yoy": 29.63,
    "equity": 143257654.0,
@@ -1897,6 +1896,7 @@
    "roa_ttm": 0.49,
    "roe_q": 2.35,
    "roe_ttm": 8.49,
+   "src_mops": true,
    "total_assets": 2460352165.0,
    "total_liabilities": 2317094511.0
   },
@@ -1904,7 +1904,7 @@
    "debt_ratio": 94.14,
    "eps": 0.25,
    "eps_ttm": 1.26,
-   "eps_yoy": -3.85,
+   "eps_yoy": 0.0,
    "equity": 146912706.0,
    "equity_parent": 146912706.0,
    "net_income": 2445919.0,
@@ -1922,6 +1922,7 @@
    "roa_ttm": 0.49,
    "roe_q": 1.66,
    "roe_ttm": 8.33,
+   "src_mops": true,
    "total_assets": 2509012785.0,
    "total_liabilities": 2362100079.0
   },
@@ -1929,7 +1930,7 @@
    "debt_ratio": 94.16,
    "eps": 0.35,
    "eps_ttm": 1.29,
-   "eps_yoy": 9.37,
+   "eps_yoy": 16.67,
    "equity": 149109625.0,
    "equity_parent": 149109625.0,
    "net_income": 3437983.0,
@@ -1947,6 +1948,7 @@
    "roa_ttm": 0.5,
    "roe_q": 2.31,
    "roe_ttm": 8.54,
+   "src_mops": true,
    "total_assets": 2555347612.0,
    "total_liabilities": 2406237987.0
   },

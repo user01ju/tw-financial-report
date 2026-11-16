@@ -2357,7 +2357,7 @@
    "total_liabilities": 1874526.0
   },
   "2025Q3": {
-   "cogs": 74948.0,
+   "cogs": 74947.0,
    "current_assets": 531555.0,
    "current_liabilities": 299426.0,
    "current_ratio": 177.52,
@@ -2369,7 +2369,7 @@
    "equity": 1993169.0,
    "equity_parent": 1952691.0,
    "gross_margin": 35.06,
-   "gross_profit": 40460.0,
+   "gross_profit": 40461.0,
    "net_income": -4973.0,
    "net_income_parent": -7351.0,
    "net_income_ttm": 1211.0,
@@ -2377,9 +2377,9 @@
    "net_income_yoy_turn": "虧損縮小",
    "net_margin": -4.31,
    "operating_expenses": 30977.0,
-   "operating_income": 9483.0,
-   "operating_income_yoy": 130.45,
-   "operating_income_yoy_accel": -5.68,
+   "operating_income": 9484.0,
+   "operating_income_yoy": 130.47,
+   "operating_income_yoy_accel": -5.66,
    "operating_margin": 8.22,
    "pretax_income": -4572.0,
    "revenue": 115408.0,
@@ -2390,6 +2390,7 @@
    "roa_ttm": 0.03,
    "roe_q": -0.25,
    "roe_ttm": 0.06,
+   "src_mops": true,
    "total_assets": 3865534.0,
    "total_liabilities": 1872365.0
   },
@@ -2417,7 +2418,7 @@
    "operating_expenses": 26297.0,
    "operating_income": 29631.0,
    "operating_income_yoy": 147.42,
-   "operating_income_yoy_accel": 16.97,
+   "operating_income_yoy_accel": 16.95,
    "operating_margin": 22.84,
    "pretax_income": 15257.0,
    "revenue": 129744.0,
@@ -2428,6 +2429,7 @@
    "roa_ttm": 0.44,
    "roe_q": 0.64,
    "roe_ttm": 0.86,
+   "src_mops": true,
    "total_assets": 3908299.0,
    "total_liabilities": 1902300.0
   },
@@ -2464,6 +2466,7 @@
    "roa_ttm": 0.62,
    "roe_q": 0.74,
    "roe_ttm": 1.2,
+   "src_mops": true,
    "total_assets": 3930020.0,
    "total_liabilities": 1908970.0
   },

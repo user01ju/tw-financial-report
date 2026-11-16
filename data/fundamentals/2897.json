@@ -1815,7 +1815,7 @@
    "eps": 0.21,
    "eps_basis_adj": true,
    "eps_ttm": 0.79,
-   "eps_yoy": -12.5,
+   "eps_yoy": -8.7,
    "equity": 63612300.0,
    "equity_parent": 43527926.0,
    "net_income": 897644.0,
@@ -1833,6 +1833,7 @@
    "roa_ttm": 0.5,
    "roe_q": 1.41,
    "roe_ttm": 5.41,
+   "src_mops": true,
    "total_assets": 687361697.0,
    "total_liabilities": 623749397.0
   },
@@ -1858,6 +1859,7 @@
    "roa_ttm": 0.45,
    "roe_q": 0.8,
    "roe_ttm": 4.86,
+   "src_mops": true,
    "total_assets": 701299097.0,
    "total_liabilities": 636487261.0
   },
@@ -1884,6 +1886,7 @@
    "roa_ttm": 0.5,
    "roe_q": 1.89,
    "roe_ttm": 5.44,
+   "src_mops": true,
    "total_assets": 714942709.0,
    "total_liabilities": 649644985.0
   },

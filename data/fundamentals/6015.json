@@ -2170,6 +2170,7 @@
    "roa_ttm": 0.55,
    "roe_q": 3.87,
    "roe_ttm": 1.62,
+   "src_mops": true,
    "total_assets": 15853873.0,
    "total_liabilities": 10515282.0
   },
@@ -2204,10 +2205,12 @@
    "roa_ttm": 1.81,
    "roe_q": 3.55,
    "roe_ttm": 5.36,
+   "src_mops": true,
    "total_assets": 16560808.0,
    "total_liabilities": 10982074.0
   },
   "2026Q1": {
+   "core_ratio": 83.81,
    "current_assets": 19474099.0,
    "current_liabilities": 15416773.0,
    "current_ratio": 126.32,
@@ -2223,6 +2226,11 @@
    "net_income_yoy": 474.09,
    "net_income_yoy_turn": "轉盈",
    "net_margin": 43.47,
+   "operating_income": 339479.0,
+   "operating_income_yoy": 356.11,
+   "operating_income_yoy_accel": 49.26,
+   "operating_income_yoy_turn": "轉盈",
+   "operating_margin": 42.1,
    "pretax_income": 405058.0,
    "revenue": 806313.0,
    "revenue_ttm": 2158752.0,
@@ -2232,6 +2240,7 @@
    "roa_ttm": 3.5,
    "roe_q": 6.12,
    "roe_ttm": 12.99,
+   "src_mops": true,
    "total_assets": 21251341.0,
    "total_liabilities": 15528378.0
   },
@@ -2254,6 +2263,7 @@
    "net_margin": 60.64,
    "operating_income": 891818.0,
    "operating_income_yoy": 1585.35,
+   "operating_income_yoy_accel": 1229.24,
    "operating_income_yoy_turn": "轉盈",
    "operating_margin": 56.1,
    "pretax_income": 1039800.0,

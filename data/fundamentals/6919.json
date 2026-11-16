@@ -468,7 +468,7 @@
    "debt_ratio": 0.83,
    "eps": -0.01,
    "eps_ttm": -0.58,
-   "eps_yoy": 98.99,
+   "eps_yoy": 90.0,
    "eps_yoy_turn": "虧損縮小",
    "equity": 9377079.0,
    "equity_parent": 9377079.0,
@@ -495,6 +495,7 @@
    "roa_ttm": -5.16,
    "roe_q": -0.08,
    "roe_ttm": -5.21,
+   "src_mops": true,
    "total_assets": 9455395.0,
    "total_liabilities": 78316.0
   },
@@ -507,7 +508,7 @@
    "debt_ratio": 0.67,
    "eps": 0.05,
    "eps_ttm": -0.23,
-   "eps_yoy": 116.67,
+   "eps_yoy": 266.67,
    "eps_yoy_turn": "轉盈",
    "equity": 9410448.0,
    "equity_parent": 9410448.0,
@@ -534,6 +535,7 @@
    "roa_ttm": -3.71,
    "roe_q": 0.85,
    "roe_ttm": -3.74,
+   "src_mops": true,
    "total_assets": 9474106.0,
    "total_liabilities": 63658.0
   },
@@ -570,6 +572,7 @@
    "roa_ttm": -2.98,
    "roe_q": -1.15,
    "roe_ttm": -3.03,
+   "src_mops": true,
    "total_assets": 9536630.0,
    "total_liabilities": 173792.0
   },

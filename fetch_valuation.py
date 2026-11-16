@@ -53,12 +53,16 @@ def pick(rec, key):
 
 
 def main():
-    out = {}
+    path = os.path.join(config.DATA_DIR, "valuation", "_latest.json")
+    out, failed = {}, False
     for url in URLS:
         try:
             rows = requests.get(url, timeout=30).json()
+            if not isinstance(rows, list) or not rows:
+                raise ValueError("回應不是非空 list")
         except Exception as e:
             print(f"! {url}: {e}")
+            failed = True
             continue
         n = 0
         for r in rows:
@@ -73,7 +77,11 @@ def main():
             }
             n += 1
         print(f"{url.split('/')[-1]}: {n} 筆")
-    path = os.path.join(config.DATA_DIR, "valuation", "_latest.json")
+    if failed and os.path.exists(path):
+        # 有來源掛掉：那半邊市場沿用舊值(各筆自帶 date)，別把只剩半個市場的檔寫出去
+        with open(path, encoding="utf-8") as f:
+            out = {**json.load(f), **out}
+        print("  有來源失敗，缺的代號沿用舊快照")
     os.makedirs(os.path.dirname(path), exist_ok=True)
     with open(path, "w", encoding="utf-8") as f:
         json.dump(out, f, ensure_ascii=False, indent=1, sort_keys=True)

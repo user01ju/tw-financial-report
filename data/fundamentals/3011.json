@@ -2387,8 +2387,8 @@
    "net_margin": -56.71,
    "operating_expenses": 93439.0,
    "operating_income": -89821.0,
-   "operating_income_yoy": -27.95,
-   "operating_income_yoy_accel": -2.64,
+   "operating_income_yoy": -23.75,
+   "operating_income_yoy_accel": 1.56,
    "operating_income_yoy_turn": "虧損擴大",
    "operating_margin": -53.79,
    "pretax_income": -96650.0,
@@ -2400,6 +2400,7 @@
    "roa_ttm": -10.66,
    "roe_q": -6.97,
    "roe_ttm": -20.51,
+   "src_mops": true,
    "total_assets": 2616027.0,
    "total_liabilities": 1257052.0
   },
@@ -2426,7 +2427,7 @@
    "operating_expenses": 90910.0,
    "operating_income": -73595.0,
    "operating_income_yoy": 26.48,
-   "operating_income_yoy_accel": 54.43,
+   "operating_income_yoy_accel": 50.23,
    "operating_income_yoy_turn": "虧損縮小",
    "operating_margin": -45.08,
    "pretax_income": -130662.0,
@@ -2438,6 +2439,7 @@
    "roa_ttm": -11.42,
    "roe_q": -9.04,
    "roe_ttm": -22.3,
+   "src_mops": true,
    "total_assets": 2619006.0,
    "total_liabilities": 1278005.0
   },
@@ -2476,6 +2478,7 @@
    "roa_ttm": -12.14,
    "roe_q": -6.68,
    "roe_ttm": -23.23,
+   "src_mops": true,
    "total_assets": 2623526.0,
    "total_liabilities": 1252671.0
   },

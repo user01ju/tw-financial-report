@@ -5,8 +5,9 @@ name: update-financial-data
 
 on:
   schedule:
-    # GitHub cron 是 UTC。台灣(UTC+8)每天 17:00 = UTC 09:00（盤後+月營收已公布）。
-    - cron: "0 9 * * *"
+    # GitHub cron 是 UTC。台灣(UTC+8)每天 17:17 = UTC 09:17（盤後+月營收已公布）。
+    # 刻意避開整點：整點排程最塞，2026-10~11 實測 09:00 的排程都拖到 UTC 13~19 點才跑。
+    - cron: "17 9 * * *"
   workflow_dispatch: # 允許手動觸發
     inputs:
       skip_verify:
@@ -16,6 +17,7 @@ on:
 
 permissions:
   contents: write # 讓 GITHUB_TOKEN 能 push commit 回 repo
+  actions: write # push 後 dispatch deploy-pages（GITHUB_TOKEN 的 push 不會觸發其他 workflow）
 
 concurrency:
   group: update-financial-data
@@ -69,13 +71,25 @@ jobs:
           fi
 
       - name: 有變更才 commit & push
+        id: commit
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add data/
           if git diff --staged --quiet; then
             echo "本次無資料變更，跳過 commit。"
+            echo "changed=false" >> "$GITHUB_OUTPUT"
           else
             git commit -m "data: auto-update $(date -u +%Y-%m-%dT%H:%MZ)"
+            git pull --rebase # 跑的這幾分鐘內有人 push(改程式)也不會讓資料 commit 被拒
             git push
+            echo "changed=true" >> "$GITHUB_OUTPUT"
           fi
+
+      # 以前 deploy-pages 靠 cron 排在 30 分鐘後，MOPS 步驟一長(12~19 分)加上排程抖動，
+      # deploy 會搶在這裡 push 之前跑，網站晚一天(2026-10-19/21/22)。改成 push 完才觸發。
+      - name: 觸發 Pages 重新部署
+        if: steps.commit.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run deploy-pages.yml --ref master

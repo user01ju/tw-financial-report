@@ -67,7 +67,9 @@ raw/                           每次抓取原始備份(稽核/重跑)
 覆蓋後 2026Q2 跟 MOPS 抽樣 203 家：營收、淨利、EPS 全部吻合。CI 每次最多補 400 家（只抓 TWSE 已有該季的公司）。
 MOPS 單執行緒、間隔 0.5 秒；高併發會被封 IP 約 8 小時。
 
-目前 MOPS 涵蓋 2025Q3～2026Q2（TTM 四季全用 MOPS）；更早的季仍是 TWSE 去累計 + FinMind。解析注意：
+目前 MOPS 涵蓋 2025Q3 起（TTM 四季全用 MOPS，verify Tier A `mops-ttm-coverage` 把關）；更早的季仍是 TWSE 去累計 + FinMind。
+`data/mops_income/` 底下只放 `<code>.json`，`metrics.apply_mops()` 不讀子目錄——2025Q3～2026Q1 曾被 commit 到
+`mops_keep/` 子目錄，線上一個多月其實只有最新季是 MOPS（2026-11-14 併回）。解析注意：
 - **欄位順序依季別不同**，一律看 `titles`：Q1 是[累計, 本季…]、Q2/Q3 是[本季, 去年同季, 累計…]、Q4 只有[本年度, 上年度]。
   上櫃 Q1 只列累計區間（累計 = 單季）。
 - **Q4 沒有單季**：`metrics.mops_q4_single()` 用 年度 − Q3 累計；EPS 預設直接相減（官方本益比的算法），
@@ -170,7 +172,7 @@ python metrics.py 2330 2317  # 指定股
 - **月營收動能**：mrev_yoy_3m（短期）、mrev_yoy_12m（長期）、mrev_yoy_ytd（累計YTD，春節失真用這）、mrev_yoy_accel（加速）、mrev_streak（連續正成長月）、mrev_turn（1=YoY剛轉正/-1=轉負）、mrev_high_36m（近36個月新高,至少需12月資料）、mrev_breakout（1=短期3m剛上穿長期12m,動能轉強）、mrev_3m_over_12m（3m是否在12m之上,狀態）
 - **財務結構(%)**：debt_ratio、current_ratio
 - **TTM**：revenue_ttm、net_income_ttm、eps_ttm（近四季連續才算）
-- 估值（PE/PB）**未做**：需另抓股價配 eps_ttm / 每股淨值
+- 估值（PE/PB/殖利率）：`fetch_valuation.py` 抓官方每日快照 → `data/valuation/_latest.json`（無歷史時序）
 
 > **單位**：所有金額統一為**仟元**（TWSE 原生；FinMind 的元已 /1000）。EPS=元/股，ratio=%。
 > 同期 TWSE 官方優先於 FinMind；TWSE 英文 type 碼與中文欄名由 `INCOME_MAP/BALANCE_MAP` 對應。
@@ -206,7 +208,7 @@ hits.sort(key=lambda v: v["roe_ttm"], reverse=True)
 | | 月營收動能加速 | 0.12 | `mrev_yoy_accel`（近3月 YoY 均 − 前3月） |
 | 月營收動能 0.30 | 近3月 YoY 均值 | 0.15 | `mrev_yoy_3m` |
 | | 連續正成長月數 | 0.15 | `mrev_streak`（獎勵持續而非單次暴衝） |
-| 價格動能 0.05 | 近一年報酬 | 0.05 | `price_return_1y`（月底收盤，最新月 / 12月前同月 − 1）；僅參考、避免追高 |
+| 價格動能 0.05 | 近一年報酬 | 0.05 | `price_return_1y`（sector_gainer 還原權息的近 12 個月報酬；還原檔過舊才退回月底收盤算法）；僅參考、避免追高 |
 
 **排除**：認列型類股（`MG_EXCLUDE_SECTORS = {"營建"}`，CMoney 子類股名）營收完工認列、YoY 失真，
 不納入評分宇宙（不佔百分位、不給分）。要排更多（如部分生技/太陽能）就加進該集合。
@@ -215,7 +217,7 @@ hits.sort(key=lambda v: v["roe_ttm"], reverse=True)
 
 ### 股價資料（價格動能用）
 
-- `data/prices/<code>.json`：月底收盤序列 `{"YYYY-MM": close}`
+- `data/prices.json`：月底收盤序列 `{code: {"YYYY-MM": close}}`（單檔）
 - 一年歷史由 `seed_prices.py` 從鄰專案 sector_gainer 日線一次性建立（本機跑，產出 commit）
 - 此後 `fetch_prices.py` 每日抓 TWSE/TPEX 收盤更新當月（進每日排程，免 token），**不依賴 sector_gainer 持續更新**
 
@@ -224,5 +226,5 @@ hits.sort(key=lambda v: v["roe_ttm"], reverse=True)
 - [ ] 產業別表單後綴驗證：`config.INDUSTRY_SUFFIXES` 目前 `ci/fh/basi/bd/ins`，已實測有資料但請對照 https://openapi.twse.com.tw/ 目錄確認無遺漏
 - [x] 歷史回補腳本 `backfill_finmind.py`
 - [x] `metrics.py` 基本面指標（橋接 + ratio/TTM/YoY + 月營收 + 橫斷面）
-- [ ] 排程設定（GitHub Actions 建議）→ fetch_latest + metrics 串成 pipeline
-- [ ] 估值指標（需抓股價）
+- [x] 排程：`update.yml` 每日 fetch → metrics → verify Tier A → commit → dispatch `deploy-pages.yml`
+- [x] 估值指標（官方快照）

@@ -106,6 +106,15 @@ EPS_OFF_DIFF = 0.30
 EPS_OFF_WARN_FRAC = 0.02   # eps_ttm = round(Σ4 單季 EPS, 2)，只留捨入誤差
 YOY_TOL_PP = 0.02    # revenue_yoy 是 round(…, 2) 的百分點
 
+# TTM 用到的近四季應該全部是 MOPS 單季值(src_mops)。2026-10-04 補的 2025Q3～2026Q1 被 commit 進
+# data/mops_income/mops_keep/ 子目錄、頂層沒有，metrics 讀不到，線上一個多月只有最新季是 MOPS，
+# 沒有任何檢查發現(2026-11-14 才抓到)。併回後實測 1943/1943 = 100%。
+# 90% 以下 = 整季 MOPS 檔沒進來或 apply_mops 讀錯路徑。
+MOPS_TTM_MIN_FRAC = 0.90
+
+# 官方估值快照檔數 / 橫斷面檔數。正常 ~99%；fetch_valuation 單一來源掛掉又沒保留舊值時會掉到 ~55%。
+VAL_SIZE_MIN_FRAC = 0.80
+
 # decumulate() 湊不出前季累計時會丟棄該期。目前實測 0 期被丟；開始大量丟就是
 # 來源缺期或 merge 邏輯壞了。
 DROPPED_PERIOD_FAIL_FRAC = 0.01
@@ -191,6 +200,7 @@ def scan():
         "qm": [], "qm_missing": 0,
         "eps_checked": 0, "eps_bad": [],
         "yoy_checked": 0, "yoy_bad": [],
+        "mops_ttm": 0, "mops_ttm_full": 0, "mops_ttm_miss": [], "prev_eps_ttm": {},
     }
     codes = sorted(f[:-5] for f in os.listdir(FUND)
                    if f.endswith(".json") and not f.startswith("_"))
@@ -263,6 +273,24 @@ def scan():
             elif sum(vals) != 0:
                 ind = (latest.get(code) or {}).get("industry") or ""
                 r["qm"].append((code, lp, rev, sum(vals), ind))
+
+        y, nq = q_key(lp)
+        r["prev_eps_ttm"][code] = q.get(f"{y}Q{nq - 1}" if nq > 1 else f"{y - 1}Q4", {}).get("eps_ttm")
+
+        # --- 最新季是 MOPS 且近四季連續 → 四季都該是 MOPS ---
+        if q[lp].get("src_mops") and "eps_ttm" in q[lp]:
+            y, nq = q_key(lp)
+            seq = []
+            for _ in range(4):
+                seq.append(f"{y}Q{nq}")
+                nq -= 1
+                if nq == 0:
+                    nq, y = 4, y - 1
+            r["mops_ttm"] += 1
+            if all(q.get(s, {}).get("src_mops") for s in seq):
+                r["mops_ttm_full"] += 1
+            else:
+                r["mops_ttm_miss"].append(code)
 
         # --- eps_ttm == Σ 近 4 個單季 EPS ---
         # eps_basis_adj：配股/面額變更時舊季 EPS 已換算到本期股數，Σ存值本來就不會相等
@@ -463,16 +491,44 @@ def check_valuation_sanity():
     return "PASS", f"{len(val)} 檔估值無明顯矛盾"
 
 
+def check_mops_ttm_coverage():
+    r = scan()
+    if r["mops_ttm"] == 0:
+        return "FAIL", "沒有任何一檔的最新季帶 src_mops（data/mops_income/ 沒被讀到？）"
+    frac = r["mops_ttm_full"] / r["mops_ttm"]
+    msg = (f"{r['mops_ttm_full']}/{r['mops_ttm']} 檔（{frac:.1%}）TTM 近四季全為 MOPS 單季值"
+           f"（門檻 {MOPS_TTM_MIN_FRAC:.0%}）")
+    if frac < MOPS_TTM_MIN_FRAC:
+        return "FAIL", f"{msg}；缺：{'、'.join(r['mops_ttm_miss'][:8])}（查 data/mops_income/<code>.json 的期別）"
+    return "PASS", msg
+
+
+def check_valuation_size():
+    val = load(os.path.join(DATA, "valuation", "_latest.json")) or {}
+    latest = load(os.path.join(FUND, "_latest.json")) or {}
+    if not latest:
+        return "FAIL", "_latest.json 為空"
+    frac = len(val) / len(latest)
+    msg = f"估值快照 {len(val)} 檔 / 橫斷面 {len(latest)} 檔 = {frac:.1%}（門檻 {VAL_SIZE_MIN_FRAC:.0%}）"
+    return ("FAIL" if frac < VAL_SIZE_MIN_FRAC else "PASS"), msg + (
+        "（fetch_valuation 有一個來源整批沒進來？）" if frac < VAL_SIZE_MIN_FRAC else "")
+
+
 def check_eps_vs_official_pe():
     val = load(os.path.join(DATA, "valuation", "_latest.json")) or {}
     latest = load(os.path.join(FUND, "_latest.json")) or {}
     prices = load(os.path.join(DATA, "prices.json")) or {}
+    # 財報季官方本益比與我方換季不同步(2026-11-14 實測：還停在上一季的檔 8.6% 對不上、已換季的 1.5%，
+    # 其中過半用上一季的 eps_ttm 就吻合)→ 只比已到最新季的檔，且本季或上一季 TTM 任一吻合就算過。
+    prev = scan()["prev_eps_ttm"]
+    top = max((v.get("period") or "" for v in latest.values()), default="")
     rows = []
     for c, v in latest.items():
         pe, e, s = (val.get(c) or {}).get("pe"), v.get("eps_ttm"), prices.get(c) or {}
-        if pe and pe > 0 and e and e > 0 and s:
+        if pe and pe > 0 and e and e > 0 and s and v.get("period") == top:
             off = s[max(s)] / pe
-            rows.append((abs(e / off - 1), c, e, round(off, 2)))
+            d = min(abs(x / off - 1) for x in (e, prev.get(c)) if x)
+            rows.append((d, c, e, round(off, 2)))
     if not rows:
         return "SKIP", "沒有可比對的 eps_ttm / 官方本益比"
     bad = sorted((r for r in rows if r[0] > EPS_OFF_DIFF), reverse=True)
@@ -797,6 +853,8 @@ CHECKS = [
     ("a", "cross-section-size", check_cross_section_size),
     ("a", "field-coverage", check_field_coverage),
     ("a", "eps-sign-vs-net-income", check_eps_sign),
+    ("a", "mops-ttm-coverage", check_mops_ttm_coverage),
+    ("a", "valuation-size", check_valuation_size),
     ("b", "quarterly-vs-monthly-revenue", check_quarterly_vs_monthly),
     ("b", "quarterly-revenue-cumulative-leak", check_quarterly_revenue_leak),
     ("b", "eps-ttm-consistency", check_eps_ttm),

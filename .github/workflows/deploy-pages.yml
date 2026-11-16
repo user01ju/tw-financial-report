@@ -1,8 +1,9 @@
 name: deploy-pages
 
 # 建置 React SPA + 複製 fundamentals JSON → 部署 GitHub Pages。
-# 注意：每日 update 用 GITHUB_TOKEN push 不會觸發其他 workflow，
-# 故這裡用 schedule(資料更新後)確保 Pages 每日刷新；web 程式碼變更則由 push 觸發。
+# 注意：每日 update 用 GITHUB_TOKEN push 不會觸發 push 事件，
+# 所以由 update.yml / refresh-sectors.yml 在 push 完之後 workflow_dispatch 這裡；
+# web 程式碼變更則由 push 觸發。不要加回 schedule：會跟 update 搶跑，部署到前一天的資料。
 
 on:
   push:
@@ -14,8 +15,6 @@ on:
       - "data/companies.json"
       - "data/markets.json"
       - ".github/workflows/deploy-pages.yml"
-  schedule:
-    - cron: "30 9 * * *" # 台灣 17:30，晚於資料更新(17:00)
   workflow_dispatch: {}
 
 permissions:
